@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import {
   Bell,
   CircleHelp,
@@ -14,23 +14,9 @@ import {
   Sparkles
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-import { userProfile } from "../data/userProfile";
-
-const mastery = [
-  { subject: "Chemistry", value: 92 },
-  { subject: "Physics", value: 68 },
-  { subject: "Math", value: 85 },
-  { subject: "Biology", value: 74 },
-  { subject: "Arabic Language", value: 90 }
-];
-
-const lectures = [
-  ["Atomic Structures", "45m", "Oct 12, 2023", "#1656cb"],
-  ["Integration Basics", "1h 12m", "Oct 11, 2023", "#7a3fe9"],
-  ["Cell Division", "52m", "Oct 10, 2023", "#0e7a52"],
-  ["Chemical Equilibrium", "38m", "Oct 09, 2023", "#1656cb"]
-];
+import Sidebar from "../../components/layout/Sidebar";
+import { userProfile } from "../../data/userProfile";
+import { completedLectures, masteryOverview } from "../../data/mockProgress";
 
 export default function Progress() {
   const navigate = useNavigate();
@@ -123,7 +109,7 @@ export default function Progress() {
               <article className="rounded-2xl border border-[#cfd4e2] bg-white p-6">
                 <div className="mb-5 flex items-center justify-between"><h2 className="text-[42px] font-semibold">Topic Mastery Overview</h2><button type="button" className="flex items-center gap-2 rounded-lg border border-[#cfd4e2] px-3 py-2 text-sm">All Subjects <ChevronDown size={14} /></button></div>
                 <div className="space-y-6">
-                  {mastery.map((m) => (
+                  {masteryOverview.map((m) => (
                     <div key={m.subject}>
                       <div className="mb-1 flex justify-between text-[18px]"><span>{m.subject}</span><span className="text-[#1656cb]">{m.value}%</span></div>
                       <div className="h-3 rounded-full bg-[#e1e5f1]"><div className="h-full rounded-full bg-[#1656cb]" style={{ width: `${m.value}%` }} /></div>
@@ -170,7 +156,7 @@ export default function Progress() {
                 <h2 className="text-[42px] font-semibold">Recent Completed Lectures</h2>
                 <div className="mt-4 overflow-hidden rounded-xl border border-[#d8dcea]">
                   <div className="grid grid-cols-[1.5fr_0.8fr_0.8fr] bg-[#f6f7fb] px-4 py-3 text-sm font-semibold tracking-wide text-[#5f667b]"><span>TOPIC</span><span>DURATION</span><span>DATE</span></div>
-                  {lectures.map(([topic, duration, date, color]) => (
+                  {completedLectures.map(([topic, duration, date, color]) => (
                     <div key={topic} className="grid grid-cols-[1.5fr_0.8fr_0.8fr] items-center border-t border-[#e1e5f1] px-4 py-4 text-[18px]">
                       <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />{topic}</span>
                       <span className="text-[#4f566b]">{duration}</span>
@@ -201,7 +187,7 @@ export default function Progress() {
 
           <footer className="border-t border-[#d7dbe8] bg-[#f8f8fc] px-8 py-4">
             <div className="flex flex-wrap items-center justify-between gap-3 text-[#4f556b]">
-              <p className="text-[16px]"><span className="font-semibold text-[#1456c8]">NIPRAS</span> � 2024 NIPRAS AI Learning. All rights reserved.</p>
+              <p className="text-[16px]"><span className="font-semibold text-[#1456c8]">NIPRAS</span> © 2024 NIPRAS AI Learning. All rights reserved.</p>
               <div className="flex flex-wrap items-center gap-8 text-[16px]">
                 <button type="button">About Us</button>
                 <button type="button">Privacy Policy</button>
@@ -215,6 +201,7 @@ export default function Progress() {
     </div>
   );
 }
+
 
 
 

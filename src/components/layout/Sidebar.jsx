@@ -10,7 +10,7 @@ import {
   Settings
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { userProfile } from "../data/userProfile";
+import { userProfile } from "../../data/userProfile";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutGrid, path: "/dashboard" },

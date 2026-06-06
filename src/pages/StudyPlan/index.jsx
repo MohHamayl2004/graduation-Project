@@ -1,47 +1,11 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import { Bell, CircleHelp, Search, Sparkles, RotateCcw, CheckSquare, Square, FlaskConical, Sigma, Clock3, Trophy, CheckCircle2 } from "lucide-react";
-import Sidebar from "../components/Sidebar";
-import { userProfile } from "../data/userProfile";
-
-const initialTasks = [
-  {
-    id: 1,
-    title: "Review Organic Chemistry Fundamentals",
-    priority: "HIGH",
-    subject: "Chemistry",
-    duration: "45m",
-    done: false
-  },
-  {
-    id: 2,
-    title: "Calculus II: AI Tutor Drill",
-    priority: "MEDIUM",
-    subject: "Math",
-    duration: "30m",
-    done: false
-  },
-  {
-    id: 3,
-    title: "Arabic Literature Poem Analysis",
-    priority: "Completed",
-    subject: "Arabic",
-    duration: "25m",
-    done: true
-  }
-];
-
-const weeklyBlocks = {
-  Mon: ["Arabic", "Physics", "AI Drill"],
-  Tue: ["Math Quiz", "History"],
-  Wed: ["AI Bio Review", "Eng"],
-  Thu: ["Chem Quiz", "Math II"],
-  Fri: ["Physics", "AI Lang"],
-  Sat: ["Mock Exam"],
-  Sun: []
-};
+import Sidebar from "../../components/layout/Sidebar";
+import { userProfile } from "../../data/userProfile";
+import { initialStudyTasks, weeklyScheduleBlocks } from "../../data/mockStudyPlan";
 
 export default function StudyPlan() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState(initialStudyTasks);
   const [appliedMsg, setAppliedMsg] = useState("");
   const toggleTask = (id) => {
     setTasks((prev) => prev.map((task) => (task.id === id ? { ...task, done: !task.done } : task)));
@@ -137,12 +101,12 @@ export default function StudyPlan() {
                   </div>
                   <div className="p-4">
                     <div className="grid grid-cols-7 gap-2 text-center text-[16px] text-[#596077]">
-                      {Object.keys(weeklyBlocks).map((day) => (
+                      {Object.keys(weeklyScheduleBlocks).map((day) => (
                         <div key={day}>
                           <p className="mb-2">{day}</p>
                           <div className="space-y-1">
-                            {weeklyBlocks[day].length ? (
-                              weeklyBlocks[day].map((block, idx) => (
+                            {weeklyScheduleBlocks[day].length ? (
+                              weeklyScheduleBlocks[day].map((block, idx) => (
                                 <div key={block} className={`rounded-md border px-2 py-2 text-left text-xs ${idx % 3 === 0 ? "border-[#9cd7a7] bg-[#e8f6ec] text-[#1f7a35]" : idx % 3 === 1 ? "border-[#b7c9ef] bg-[#edf2ff] text-[#1b53c0]" : "border-[#d2bdf4] bg-[#f3ecff] text-[#6f42ef]"}`}>
                                   {block}
                                 </div>
@@ -209,7 +173,7 @@ export default function StudyPlan() {
 
           <footer className="border-t border-[#d7dbe8] bg-[#f8f8fc] px-8 py-4">
             <div className="flex flex-wrap items-center justify-between gap-3 text-[#4f556b]">
-              <p className="text-[16px]"><span className="font-semibold text-[#1456c8]">NIPRAS</span> � 2024 NIPRAS AI Learning. All rights reserved.</p>
+              <p className="text-[16px]"><span className="font-semibold text-[#1456c8]">NIPRAS</span> © 2024 NIPRAS AI Learning. All rights reserved.</p>
               <div className="flex flex-wrap items-center gap-8 text-[16px]">
                 <button type="button">About Us</button>
                 <button type="button">Privacy Policy</button>
@@ -224,6 +188,7 @@ export default function StudyPlan() {
     </div>
   );
 }
+
 
 
 

@@ -1,26 +1,8 @@
-import { useState } from "react";
+ï»¿import { useState } from "react";
 import { Bell, CircleHelp, Search, Clock3, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-react";
-import Sidebar from "../components/Sidebar";
-import { userProfile } from "../data/userProfile";
-
-const options = [
-  {
-    key: "A",
-    text: "The complete transfer of one or more electrons from one atom to another."
-  },
-  {
-    key: "B",
-    text: "The sharing of electron pairs between atoms, typically between non-metals."
-  },
-  {
-    key: "C",
-    text: "An electrostatic attraction between oppositely charged ions in a chemical compound."
-  },
-  {
-    key: "D",
-    text: "The attraction between sea-of-electrons and positively charged metal nuclei."
-  }
-];
+import Sidebar from "../../components/layout/Sidebar";
+import { userProfile } from "../../data/userProfile";
+import { quizOptions } from "../../data/mockQuizzes";
 
 export default function Quizzes() {
   const [selected, setSelected] = useState("B");
@@ -59,7 +41,7 @@ export default function Quizzes() {
             <section className="rounded-3xl border border-[#cfd4e2] bg-white p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-[16px] font-semibold tracking-[0.08em] text-[#4c5368]">ADAPTIVE QUIZ · CHEMISTRY</p>
+                  <p className="text-[16px] font-semibold tracking-[0.08em] text-[#4c5368]">ADAPTIVE QUIZ Â· CHEMISTRY</p>
                   <h1 className="mt-2 text-[46px] font-semibold">Question 3 of 10</h1>
                 </div>
                 <div className="text-right">
@@ -94,7 +76,7 @@ export default function Quizzes() {
             </section>
 
             <div className="mt-4 space-y-3">
-              {options.map((option) => {
+              {quizOptions.map((option) => {
                 const selectedState = selected === option.key;
                 return (
                   <button
@@ -129,7 +111,7 @@ export default function Quizzes() {
 
           <footer className="border-t border-[#d7dbe8] bg-[#f8f8fc] px-8 py-4">
             <div className="flex flex-wrap items-center justify-between gap-3 text-[#4f556b]">
-              <p className="text-[16px]">© 2024 NIPRAS AI Learning. All rights reserved.</p>
+              <p className="text-[16px]">Â© 2024 NIPRAS AI Learning. All rights reserved.</p>
               <div className="flex flex-wrap items-center gap-8 text-[16px]">
                 <button type="button">About Us</button>
                 <button type="button">Privacy Policy</button>
@@ -143,6 +125,7 @@ export default function Quizzes() {
     </div>
   );
 }
+
 
 
 

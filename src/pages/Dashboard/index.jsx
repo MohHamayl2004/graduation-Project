@@ -1,14 +1,9 @@
-import { Bell, CircleHelp, Search, Clock3, CirclePlay, Star, Flame, FlaskConical, Zap, Calculator, ArrowRight, Pencil, CircleCheck, Sparkles } from "lucide-react";
+﻿import { Bell, CircleHelp, Search, CirclePlay, FlaskConical, Zap, Calculator, ArrowRight, Pencil, CircleCheck, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-import { userProfile } from "../data/userProfile";
+import Sidebar from "../../components/layout/Sidebar";
+import { userProfile } from "../../data/userProfile";
+import { dashboardStats } from "../../data/mockDashboard";
 
-const stats = [
-  { title: "Daily Goal", value: "1h 45m", note: "60% complete", icon: Clock3, accent: "#1656cb", bar: 60 },
-  { title: "Lectures", value: "14 / 20", note: "6 more to reach weekly goal", icon: CirclePlay, accent: "#168056" },
-  { title: "Avg. Score", value: "78%", note: "6% trend this week", icon: Star, accent: "#6b42ef" },
-  { title: "Streak", value: "9 Days", note: "Personal record: 12 days", icon: Flame, accent: "#f37021" }
-];
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -42,10 +37,10 @@ export default function Dashboard() {
 
           <main className="min-h-0 flex-1 overflow-y-auto px-8 py-7">
             <h1 className="text-[54px] font-semibold leading-tight text-[#0f1730]">Good morning, Mohammad ??</h1>
-            <p className="mt-1 text-[18px] text-[#4f556b]">October 24, 2024 � Tawjihi Scientific Stream</p>
+            <p className="mt-1 text-[18px] text-[#4f556b]">October 24, 2024 ï؟½ Tawjihi Scientific Stream</p>
 
             <section className="mt-6 grid gap-4 xl:grid-cols-4">
-              {stats.map((item) => {
+              {dashboardStats.map((item) => {
                 const Icon = item.icon;
                 return (
                   <article key={item.title} className="rounded-2xl border border-[#cfd4e2] bg-white p-4 shadow-[0_8px_18px_rgba(22,31,60,0.06)]">
@@ -78,7 +73,7 @@ export default function Dashboard() {
                       <div className="grid h-11 w-11 place-items-center rounded-full bg-[#e8ecfa] text-[#1b58cb]"><FlaskConical size={20} /></div>
                       <div>
                         <p className="text-[18px] font-semibold">Chemistry Lecture</p>
-                        <p className="text-[16px] text-[#4f566b]">Chapter 4: Organic Bases � 45 min</p>
+                        <p className="text-[16px] text-[#4f566b]">Chapter 4: Organic Bases ï؟½ 45 min</p>
                       </div>
                     </div>
                     <CirclePlay size={20} className="text-[#4f566b]" />
@@ -89,7 +84,7 @@ export default function Dashboard() {
                       <div className="grid h-11 w-11 place-items-center rounded-full bg-[#ede7ff] text-[#6c42ef]"><Zap size={20} /></div>
                       <div>
                         <p className="text-[18px] font-semibold">Physics Quiz</p>
-                        <p className="text-[16px] text-[#4f566b]">Electromagnetism Review � 20 Questions</p>
+                        <p className="text-[16px] text-[#4f566b]">Electromagnetism Review ï؟½ 20 Questions</p>
                       </div>
                     </div>
                     <Pencil size={20} className="text-[#4f566b]" />
@@ -100,7 +95,7 @@ export default function Dashboard() {
                       <div className="grid h-11 w-11 place-items-center rounded-full bg-[#e8edf8] text-[#0f8a69]"><Calculator size={20} /></div>
                       <div>
                         <p className="text-[18px] font-semibold">Math Practice</p>
-                        <p className="text-[16px] text-[#4f566b]">Integration Techniques � 10 Problems</p>
+                        <p className="text-[16px] text-[#4f566b]">Integration Techniques ï؟½ 10 Problems</p>
                       </div>
                     </div>
                     <CircleCheck size={20} className="text-[#4f566b]" />
@@ -148,11 +143,11 @@ export default function Dashboard() {
                   <div className="mt-3 space-y-3">
                     <div className="flex items-center gap-3 rounded-xl bg-[#eceff8] p-3">
                       <div className="rounded-lg bg-white px-3 py-2 text-center"><p className="text-xs text-[#666e85]">OCT</p><p className="text-3xl font-semibold">26</p></div>
-                      <div><p className="text-[18px] font-semibold">Biology Midterm</p><p className="text-[15px] text-[#596077]">09:00 AM � Main Hall</p></div>
+                      <div><p className="text-[18px] font-semibold">Biology Midterm</p><p className="text-[15px] text-[#596077]">09:00 AM ï؟½ Main Hall</p></div>
                     </div>
                     <div className="flex items-center gap-3 rounded-xl border border-[#d7dbe8] p-3">
                       <div className="rounded-lg bg-white px-3 py-2 text-center border border-[#cfd4e2]"><p className="text-xs text-[#666e85]">OCT</p><p className="text-3xl font-semibold">28</p></div>
-                      <div><p className="text-[18px] font-semibold">AI Prediction Quiz</p><p className="text-[15px] text-[#596077]">Online � Physics</p></div>
+                      <div><p className="text-[18px] font-semibold">AI Prediction Quiz</p><p className="text-[15px] text-[#596077]">Online ï؟½ Physics</p></div>
                     </div>
                   </div>
                 </div>
@@ -212,7 +207,7 @@ export default function Dashboard() {
 
           <footer className="border-t border-[#d7dbe8] bg-[#f8f8fc] px-8 py-4">
             <div className="flex flex-wrap items-center justify-between gap-3 text-[#4f556b]">
-              <p className="text-[16px]">� 2024 NIPRAS AI Learning. All rights reserved.</p>
+              <p className="text-[16px]">ï؟½ 2024 NIPRAS AI Learning. All rights reserved.</p>
               <div className="flex flex-wrap items-center gap-8 text-[16px]">
                 <button type="button">About Us</button>
                 <button type="button">Privacy Policy</button>
@@ -226,5 +221,8 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+
 
 

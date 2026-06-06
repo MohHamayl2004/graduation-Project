@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { Bell, CircleHelp, Search, FileText, Sparkles, Check, LoaderCircle } from "lucide-react";
+ï»¿import { useEffect, useMemo, useState } from "react";
+import { FileText, Sparkles, Check, LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-import { userProfile } from "../data/userProfile";
+import Sidebar from "../../components/layout/Sidebar";
+import Footer from "../../components/layout/Footer";
+import Navbar from "../../components/layout/Navbar";
 
 const steps = [
   {
@@ -32,44 +33,11 @@ const steps = [
 ];
 
 function AnalysisHeader() {
-  return (
-    <header className="border-b border-[#d7dbe8] bg-[#f8f8fc] px-6 py-3 lg:px-8">
-      <div className="mx-auto flex w-full max-w-[980px] items-center justify-between gap-4">
-        <div className="flex h-12 w-[300px] items-center gap-3 rounded-full border border-[#c9cfde] bg-[#edeff7] px-4 text-[#5e6578] sm:w-[340px]">
-          <Search size={19} />
-          <input
-            type="text"
-            readOnly
-            value=""
-            placeholder="Search your library..."
-            className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#6f7588]"
-          />
-        </div>
-
-        <div className="flex items-center gap-3 text-[#343b50]">
-          <button type="button" className="rounded-full p-2 hover:bg-[#eaedf6]"><Bell size={19} /></button>
-          <button type="button" className="rounded-full p-2 hover:bg-[#eaedf6]"><CircleHelp size={19} /></button>
-          <img src={userProfile.avatar} alt={userProfile.name} className="h-9 w-9 rounded-full object-cover" />
-        </div>
-      </div>
-    </header>
-  );
+  return <Navbar searchPlaceholder="Search your library..." showAvatar compact maxWidth="max-w-[980px]" />;
 }
 
 function AnalysisFooter() {
-  return (
-    <footer className="border-t border-[#d7dbe8] bg-[#f8f8fc] px-6 py-2.5 lg:px-8">
-      <div className="mx-auto flex w-full max-w-[980px] flex-wrap items-center justify-between gap-2 text-[#4f556b]">
-        <p className="text-[13px]">© 2024 NIPRAS AI Learning. All rights reserved.</p>
-        <div className="flex flex-wrap items-center gap-5 text-[13px]">
-          <button type="button">About Us</button>
-          <button type="button">Privacy Policy</button>
-          <button type="button">Terms of Service</button>
-          <button type="button">Support</button>
-        </div>
-      </div>
-    </footer>
-  );
+  return <Footer compact maxWidth="max-w-[980px]" />;
 }
 
 export default function Analysis() {
@@ -203,3 +171,4 @@ export default function Analysis() {
     </div>
   );
 }
+
