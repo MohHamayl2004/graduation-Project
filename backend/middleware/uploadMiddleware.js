@@ -1,11 +1,16 @@
 import multer from "multer";
 import path from "path";
 import crypto from "crypto";
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadDirectory = path.join(__dirname, "..", "uploads");
+
+if (!fs.existsSync(uploadDirectory)) {
+  fs.mkdirSync(uploadDirectory, { recursive: true });
+}
 
 const allowedMimeTypes = new Set([
   "application/pdf",
@@ -13,7 +18,10 @@ const allowedMimeTypes = new Set([
   "image/png",
   "image/webp",
   "text/plain",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/vnd.ms-powerpoint"
 ]);
 
 const storage = multer.diskStorage({

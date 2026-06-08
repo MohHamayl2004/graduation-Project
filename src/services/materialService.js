@@ -1,4 +1,4 @@
-import { API_BASE_URL, apiRequest } from "./api";
+import { apiRequest } from "./api";
 
 export const getMaterials = (token) =>
   apiRequest("/materials", {
@@ -14,8 +14,8 @@ export const getMaterialById = (id, token) =>
     }
   });
 
-export const uploadMaterial = async (formData, token) => {
-  const response = await fetch(`${API_BASE_URL}/materials/upload`, {
+export const uploadMaterial = (formData, token) =>
+  apiRequest("/materials/upload", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`
@@ -23,11 +23,10 @@ export const uploadMaterial = async (formData, token) => {
     body: formData
   });
 
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new Error(data?.message || "Material upload failed");
-  }
-
-  return data;
-};
+export const deleteMaterial = (id, token) =>
+  apiRequest(`/materials/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });

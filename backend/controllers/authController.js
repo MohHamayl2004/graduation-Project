@@ -8,28 +8,33 @@ const toAuthResponse = (user) => ({
   token: signToken(user._id)
 });
 
-export const signup = asyncHandler(async (req, res) => {
-  const { fullName, email, password, stream, grade } = req.body;
+export const register = asyncHandler(async (req, res) => {
+  const { fullName, name, email, password, grade, academicStream } = req.body;
+  const resolvedFullName = (fullName || name || "").trim();
 
-  if (!fullName || !email || !password) {
+  if (!resolvedFullName || !email || !password) {
     return res.status(400).json({ message: "Full name, email, and password are required" });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ message: "Password must be at least 6 characters" });
   }
 
   const normalizedEmail = email.toLowerCase().trim();
   const existingUser = await User.findOne({ email: normalizedEmail });
 
   if (existingUser) {
-    return res.status(409).json({ message: "Email is already registered" });
+    return res.status(409).json({ message: "Email already exists" });
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
 
   const user = await User.create({
-    fullName: fullName.trim(),
+    fullName: resolvedFullName,
     email: normalizedEmail,
     passwordHash,
-    stream,
-    grade
+    grade,
+    academicStream
   });
 
   res.status(201).json(toAuthResponse(user));

@@ -13,13 +13,33 @@ const materialSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
+    subject: {
+      type: String,
+      trim: true,
+      default: "Other"
+    },
+    description: {
+      type: String,
+      trim: true
+    },
     type: {
+      type: String,
+      trim: true
+    },
+    originalName: {
+      type: String,
+      trim: true
+    },
+    fileName: {
       type: String,
       trim: true
     },
     fileUrl: {
       type: String,
       required: true
+    },
+    fileSize: {
+      type: Number
     },
     status: {
       type: String,

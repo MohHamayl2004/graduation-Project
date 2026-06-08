@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
-import { UserPlus, FileUp, Sparkles, GraduationCap, ArrowRight, ChevronDown } from "lucide-react";
+import { UserPlus, FileUp, Sparkles, GraduationCap, ArrowRight, ChevronDown, LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { register as registerRequest } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 const steps = [
   { title: "Create account", desc: "Fast & simple registration.", icon: UserPlus },
@@ -9,14 +11,24 @@ const steps = [
   { title: "Start learning", desc: "Master your curriculum with confidence.", icon: GraduationCap }
 ];
 
+const GRADES = ["Grade 10", "Grade 11", "Grade 12"];
+const ACADEMIC_STREAMS = ["Scientific", "Literary", "Other"];
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function Signup() {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [grade, setGrade] = useState("");
+  const [academicStream, setAcademicStream] = useState("");
   const [agreed, setAgreed] = useState(false);
-  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [formError, setFormError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const strength = useMemo(() => {
     if (password.length < 6) return "Weak";
@@ -24,26 +36,66 @@ export default function Signup() {
     return "Strong";
   }, [password]);
 
-  const handleSubmit = (e) => {
+  const validate = () => {
+    const errors = {};
+
+    if (!fullName.trim()) errors.fullName = "Full name is required.";
+
+    if (!email.trim()) {
+      errors.email = "Email is required.";
+    } else if (!EMAIL_PATTERN.test(email.trim())) {
+      errors.email = "Please enter a valid email address.";
+    }
+
+    if (!password) {
+      errors.password = "Password is required.";
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters.";
+    }
+
+    if (!confirmPassword) {
+      errors.confirmPassword = "Please confirm your password.";
+    } else if (password !== confirmPassword) {
+      errors.confirmPassword = "Confirm Password must match Password.";
+    }
+
+    if (!grade) errors.grade = "Grade is required.";
+    if (!academicStream) errors.academicStream = "Academic stream is required.";
+
+    if (!agreed) errors.agreed = "You must agree to the Terms of Service and Privacy Policy.";
+
+    return errors;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!fullName.trim() || !email.trim() || !password || !confirmPassword) {
-      setError("Please fill in all required fields.");
+    const errors = validate();
+    setFieldErrors(errors);
+    setFormError("");
+
+    if (Object.keys(errors).length > 0) {
       return;
     }
 
-    if (password !== confirmPassword) {
-      setError("Confirm Password must match Password.");
-      return;
-    }
+    setLoading(true);
 
-    if (!agreed) {
-      setError("You must agree to the Terms of Service and Privacy Policy.");
-      return;
-    }
+    try {
+      const data = await registerRequest({
+        fullName: fullName.trim(),
+        email: email.trim(),
+        password,
+        grade,
+        academicStream
+      });
 
-    setError("");
-    navigate("/analysis");
+      register(data.user, data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      setFormError(err.message || "Unable to create account. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -107,7 +159,7 @@ export default function Signup() {
               <button type="button" onClick={() => navigate("/login")} className="text-[#1c57c9]">Log in</button>
             </p>
 
-            <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+            <form className="mt-8 space-y-4" onSubmit={handleSubmit} noValidate>
               <div>
                 <label className="mb-2 block text-[18px] font-medium">Full Name</label>
                 <input
@@ -116,16 +168,19 @@ export default function Signup() {
                   placeholder="Mohammad Hamayl"
                   className="h-14 w-full rounded-xl border border-[#c8ccda] bg-[#f4f5fa] px-4 text-[20px] outline-none focus:border-[#1e56ce]"
                 />
+                {fieldErrors.fullName ? <p className="mt-1.5 text-sm text-red-600">{fieldErrors.fullName}</p> : null}
               </div>
 
               <div>
                 <label className="mb-2 block text-[18px] font-medium">Email</label>
                 <input
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@email.com"
                   className="h-14 w-full rounded-xl border border-[#c8ccda] bg-[#f4f5fa] px-4 text-[20px] outline-none focus:border-[#1e56ce]"
                 />
+                {fieldErrors.email ? <p className="mt-1.5 text-sm text-red-600">{fieldErrors.email}</p> : null}
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
@@ -135,7 +190,7 @@ export default function Signup() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     className="h-14 w-full rounded-xl border border-[#c8ccda] bg-[#f4f5fa] px-4 text-[20px] outline-none focus:border-[#1e56ce]"
                   />
                   <div className="mt-2 flex gap-1.5">
@@ -144,6 +199,7 @@ export default function Signup() {
                     <span className={`h-1.5 flex-1 rounded ${strength === "Strong" ? "bg-[#67a3ff]" : "bg-[#b9c0d4]"}`} />
                   </div>
                   <p className="mt-1 text-sm text-[#61687c]">Strength: {strength}</p>
+                  {fieldErrors.password ? <p className="mt-1.5 text-sm text-red-600">{fieldErrors.password}</p> : null}
                 </div>
 
                 <div>
@@ -152,33 +208,75 @@ export default function Signup() {
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Re-enter your password"
                     className="h-14 w-full rounded-xl border border-[#c8ccda] bg-[#f4f5fa] px-4 text-[20px] outline-none focus:border-[#1e56ce]"
                   />
+                  {fieldErrors.confirmPassword ? <p className="mt-1.5 text-sm text-red-600">{fieldErrors.confirmPassword}</p> : null}
+                </div>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-[18px] font-medium">Grade</label>
+                  <div className="relative">
+                    <select
+                      value={grade}
+                      onChange={(e) => setGrade(e.target.value)}
+                      className="h-14 w-full appearance-none rounded-xl border border-[#c8ccda] bg-[#f4f5fa] px-4 text-[20px] outline-none"
+                    >
+                      <option value="">Select your grade</option>
+                      {GRADES.map((item) => (
+                        <option key={item} value={item}>{item}</option>
+                      ))}
+                    </select>
+                    <ChevronDown size={20} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#5f6578]" />
+                  </div>
+                  {fieldErrors.grade ? <p className="mt-1.5 text-sm text-red-600">{fieldErrors.grade}</p> : null}
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-[18px] font-medium">Academic Stream</label>
+                  <div className="relative">
+                    <select
+                      value={academicStream}
+                      onChange={(e) => setAcademicStream(e.target.value)}
+                      className="h-14 w-full appearance-none rounded-xl border border-[#c8ccda] bg-[#f4f5fa] px-4 text-[20px] outline-none"
+                    >
+                      <option value="">Select your stream</option>
+                      {ACADEMIC_STREAMS.map((item) => (
+                        <option key={item} value={item}>{item}</option>
+                      ))}
+                    </select>
+                    <ChevronDown size={20} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#5f6578]" />
+                  </div>
+                  {fieldErrors.academicStream ? <p className="mt-1.5 text-sm text-red-600">{fieldErrors.academicStream}</p> : null}
                 </div>
               </div>
 
               <div>
-                <label className="mb-2 block text-[18px] font-medium">Grade & Academic Stream</label>
-                <div className="relative">
-                  <select className="h-14 w-full appearance-none rounded-xl border border-[#c8ccda] bg-[#f4f5fa] px-4 text-[20px] outline-none">
-                    <option>Grade 12 — Science Stream</option>
-                  </select>
-                  <ChevronDown size={20} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#5f6578]" />
-                </div>
+                <label className="flex items-center gap-3 text-[17px] text-[#4f566b]">
+                  <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="h-5 w-5 rounded border-[#bac0d3]" />
+                  <span>
+                    I agree to the <button type="button" className="text-[#1d57ca]">Terms of Service</button> and <button type="button" className="text-[#1d57ca]">Privacy Policy</button>.
+                  </span>
+                </label>
+                {fieldErrors.agreed ? <p className="mt-1.5 text-sm text-red-600">{fieldErrors.agreed}</p> : null}
               </div>
 
-              <label className="flex items-center gap-3 text-[17px] text-[#4f566b]">
-                <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="h-5 w-5 rounded border-[#bac0d3]" />
-                <span>
-                  I agree to the <button type="button" className="text-[#1d57ca]">Terms of Service</button> and <button type="button" className="text-[#1d57ca]">Privacy Policy</button>.
-                </span>
-              </label>
+              {formError ? <p className="text-[15px] text-red-600">{formError}</p> : null}
 
-              {error ? <p className="text-[15px] text-red-600">{error}</p> : null}
-
-              <button type="submit" className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#1453c6] text-[20px] font-semibold text-white hover:bg-[#1148ad]">
-                Create Account <ArrowRight size={18} />
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#1453c6] text-[20px] font-semibold text-white hover:bg-[#1148ad] disabled:opacity-70"
+              >
+                {loading ? (
+                  <>
+                    <LoaderCircle size={18} className="animate-spin" /> Creating account...
+                  </>
+                ) : (
+                  <>Create Account <ArrowRight size={18} /></>
+                )}
               </button>
             </form>
 
@@ -193,11 +291,10 @@ export default function Signup() {
               Continue with Google
             </button>
 
-            <p className="mt-12 text-center text-[16px] text-[#8a90a2]">© 2024 NIPRAS AI Learning. All rights reserved.</p>
+            <p className="mt-12 text-center text-[16px] text-[#8a90a2]">Â© 2024 NIPRAS AI Learning. All rights reserved.</p>
           </div>
         </section>
       </div>
     </div>
   );
 }
-

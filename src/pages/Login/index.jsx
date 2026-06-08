@@ -1,23 +1,38 @@
 import { useState } from "react";
-import { Eye, EyeOff, ArrowRight, Check, GraduationCap } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Check, GraduationCap, LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { login as loginRequest } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const handleSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (email === "NIPRAS" && password === "123") {
-      setError("");
-      navigate("/analysis");
+    if (!email.trim() || !password) {
+      setError("Please enter your email and password.");
       return;
     }
 
-    setError("Invalid email or password");
+    setError("");
+    setLoading(true);
+
+    try {
+      const data = await loginRequest({ email: email.trim(), password });
+      login(data.user, data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message || "Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,7 +102,7 @@ export default function Login() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     className="h-14 w-full rounded-xl border border-[#c8ccda] bg-white px-4 pr-12 text-[20px] outline-none transition focus:border-[#1e56ce] focus:ring-2 focus:ring-[#1e56ce]/20"
                   />
                   <button
@@ -105,9 +120,10 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#1453c6] text-[20px] font-semibold text-white transition hover:bg-[#0f46ac]"
+                disabled={loading}
+                className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#1453c6] text-[20px] font-semibold text-white transition hover:bg-[#0f46ac] disabled:opacity-70"
               >
-                Sign In <ArrowRight size={18} />
+                {loading ? <LoaderCircle size={18} className="animate-spin" /> : <>Sign In <ArrowRight size={18} /></>}
               </button>
             </form>
 
@@ -130,7 +146,7 @@ export default function Login() {
             </p>
 
             <div className="mt-20 text-center text-[#767b8f]">
-              <p className="text-[16px]">© 2024 NIPRAS AI Learning. All rights reserved.</p>
+              <p className="text-[16px]">Â© 2024 NIPRAS AI Learning. All rights reserved.</p>
               <div className="mt-2 flex items-center justify-center gap-6 text-[16px]">
                 <button type="button">Privacy Policy</button>
                 <button type="button">Terms of Service</button>

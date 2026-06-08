@@ -25,9 +25,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-    stream: {
+    academicStream: {
       type: String,
       trim: true
+    },
+    role: {
+      type: String,
+      enum: ["student", "admin"],
+      default: "student"
     },
     language: {
       type: String,

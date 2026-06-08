@@ -9,6 +9,8 @@ import StudyPlan from "../pages/StudyPlan";
 import Progress from "../pages/Progress";
 import Quizzes from "../pages/Quizzes";
 import AITutor from "../pages/AITutor";
+import Materials from "../pages/Materials";
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
   return (
@@ -16,13 +18,14 @@ export default function AppRoutes() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/analysis" element={<Analysis />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/lectures" element={<Lectures />} />
-      <Route path="/study-plan" element={<StudyPlan />} />
-      <Route path="/progress" element={<Progress />} />
-      <Route path="/quizzes" element={<Quizzes />} />
-      <Route path="/ai-tutor" element={<AITutor />} />
+      <Route path="/analysis" element={<ProtectedRoute><Analysis /></ProtectedRoute>} />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/lectures" element={<ProtectedRoute><Lectures /></ProtectedRoute>} />
+      <Route path="/materials" element={<ProtectedRoute><Materials /></ProtectedRoute>} />
+      <Route path="/study-plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
+      <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+      <Route path="/quizzes" element={<ProtectedRoute><Quizzes /></ProtectedRoute>} />
+      <Route path="/ai-tutor" element={<ProtectedRoute><AITutor /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -1,7 +1,7 @@
 import { apiRequest } from "./api";
 
-export const signup = (payload) =>
-  apiRequest("/auth/signup", {
+export const register = (payload) =>
+  apiRequest("/auth/register", {
     method: "POST",
     body: JSON.stringify(payload)
   });

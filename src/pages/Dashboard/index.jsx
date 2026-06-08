@@ -1,17 +1,24 @@
 ﻿import { Bell, CircleHelp, Search, CirclePlay, FlaskConical, Zap, Calculator, ArrowRight, Pencil, CircleCheck, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/layout/Sidebar";
+import { useAuth } from "../../context/AuthContext";
 import { userProfile } from "../../data/userProfile";
 import { dashboardStats } from "../../data/mockDashboard";
 
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { auth } = useAuth();
+
+  const firstName = (auth?.user?.fullName || userProfile.name || "").split(" ")[0] || "Student";
+  const track = auth?.user?.academicStream
+    ? `${auth.user.grade ? `${auth.user.grade} • ` : ""}${auth.user.academicStream} Stream`
+    : userProfile.stream;
 
   return (
     <div className="h-screen bg-[#f1f2f7] text-[#1d2436]">
       <div className="mx-auto flex h-full max-w-[1600px]">
-        <Sidebar activeItem="Dashboard" userName={userProfile.name} userTrack={userProfile.stream} />
+        <Sidebar activeItem="Dashboard" />
 
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="border-b border-[#d7dbe8] bg-[#f8f8fc] px-8 py-6">
@@ -36,8 +43,8 @@ export default function Dashboard() {
           </header>
 
           <main className="min-h-0 flex-1 overflow-y-auto px-8 py-7">
-            <h1 className="text-[54px] font-semibold leading-tight text-[#0f1730]">Good morning, Mohammad ??</h1>
-            <p className="mt-1 text-[18px] text-[#4f556b]">October 24, 2024 ï؟½ Tawjihi Scientific Stream</p>
+            <h1 className="text-[54px] font-semibold leading-tight text-[#0f1730]">Good morning, {firstName}</h1>
+            <p className="mt-1 text-[18px] text-[#4f556b]">October 24, 2024 • {track}</p>
 
             <section className="mt-6 grid gap-4 xl:grid-cols-4">
               {dashboardStats.map((item) => {
