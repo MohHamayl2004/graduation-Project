@@ -14,11 +14,50 @@ body,
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f1f2f7;
-  color: #1b2131;
+  font-family: "Lexend", system-ui, sans-serif;
+  background: #fafaf9;
+  color: #1b2136;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: "Fraunces", Georgia, serif;
+}
+
+html[dir="rtl"] body {
+  font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  line-height: 1.85;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] .font-display {
+  font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 button {
   cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px #152a63;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
