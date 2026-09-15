@@ -1,0 +1,209 @@
+{
+  "verification": {
+    "status": "verified_against_source_pdf",
+    "source_file": "5d8569b75bb03(2).pdf",
+    "textbook_pages": [37, 38, 39, 40, 41],
+    "pdf_pages": [41, 42, 43, 44, 45],
+    "complete_lesson": true,
+    "checks": [
+      "Lesson boundaries verified from adjacent lesson headings.",
+      "All five pages were rendered and visually inspected.",
+      "Composition order, derivative notation, exponents, radicals, tables, and limits were checked.",
+      "Machine-readable forms are provided for right-to-left mathematical expressions."
+    ]
+  },
+  "unit": {"number": 1, "title_ar": "حساب التفاضل", "title_en": "Differentiation"},
+  "lesson": {
+    "number": 6,
+    "code": "1-6",
+    "title_ar": "قاعدة السلسلة",
+    "title_en": "Chain Rule",
+    "page_range": "37-41",
+    "pages": [
+      {
+        "page_number": 37,
+        "activity": {
+          "id": "نشاط 1",
+          "context": "يعرض النشاط ثلاثة تروس بعدد أسنان 20 و15 و30 لتوضيح سلسلة انتقال الحركة.",
+          "questions": [
+            "حدد اتجاه حركة الترسين الأحمر والأصفر إذا كانت حركة الأزرق باتجاه عقارب الساعة.",
+            "إذا دار الترس الأزرق س مرة، فإن الأحمر ح يدور (4/3)س مرة، والأصفر ص يدور (1/2)ح مرة، أي ص = (2/3)س. هل يمكن إيجاد دص/دس؟"
+          ],
+          "machine_readable": "h=(4/3)*x; y=(1/2)*h=(2/3)*x; dy/dx=(dy/dh)*(dh/dx)"
+        },
+        "motivation": "تظهر الحاجة إلى قاعدة السلسلة عند اشتقاق اقترانات مركبة مثل ق(س) = (س² + 1)³ دون فك المقدار أو تكرار قاعدة الضرب.",
+        "recall": "(ق ∘ هـ)(س) = ق(هـ(س)) هو الاقتران المركب من ق، هـ.",
+        "rule": {
+          "name": "قاعدة السلسلة",
+          "conditions": "إذا كانت ص = ق(ع)، ع = هـ(س)، وكان هـ قابلاً للاشتقاق عند س، وق قابلاً للاشتقاق عند هـ(س)، ومدى هـ ⊆ مجال ق.",
+          "formula_ar": "دص/دس = (دص/دع)(دع/دس)، أي (ق ∘ هـ)′(س) = ق′(هـ(س)) × هـ′(س).",
+          "machine_readable": "If y=f(u), u=g(x), then dy/dx=(dy/du)*(du/dx)=f'(g(x))*g'(x)."
+        }
+      },
+      {
+        "page_number": 38,
+        "examples": [
+          {
+            "id": "مثال 1",
+            "given": "ق(س) = س³ + س، هـ(س) = س²",
+            "questions": ["جد (ق ∘ هـ)′(س).", "جد (هـ ∘ هـ)′(2)."],
+            "solution": [
+              "ق′(س) = 3س² + 1، هـ′(س) = 2س.",
+              "(ق ∘ هـ)′(س) = ق′(هـ(س))هـ′(س) = (3س⁴ + 1)(2س) = 6س⁵ + 2س.",
+              "(هـ ∘ هـ)′(2) = هـ′(هـ(2))هـ′(2) = هـ′(4) × هـ′(2) = 8 × 4 = 32."
+            ],
+            "machine_readable": "f(x)=x^3+x; g(x)=x^2; (f∘g)'=6*x^5+2*x; (g∘g)'(2)=32"
+          },
+          {
+            "id": "مثال 2",
+            "given": "ص = ع² - 5ع، ع = 1/(س + 1)",
+            "problem": "جد دص/دس عندما س = 0.",
+            "solution": "دص/دس = (2ع - 5)[-1/(س + 1)²]. عندما س = 0 يكون ع = 1، ومنه دص/دس = (-3)(-1) = 3.",
+            "final_answer": 3,
+            "machine_readable": "y=u^2-5*u; u=1/(x+1); dy/dx at x=0 equals 3"
+          },
+          {
+            "id": "مثال 3",
+            "problem": "جد معادلة المماس لمنحنى العلاقة ص = س ق(س² + 1) عندما س = 2، علماً بأن ق قابل للاشتقاق، ق′(5) = 3، ق(5) = -1.",
+            "solution": [
+              "دص/دس = ق(س² + 1) + 2س² ق′(س² + 1).",
+              "عند س = 2: ميل المماس = ق(5) + 8ق′(5) = -1 + 24 = 23.",
+              "نقطة التماس هي (2، -2).",
+              "ص + 2 = 23(س - 2)، ومنها ص = 23س - 48."
+            ],
+            "final_answer": "ص = 23س - 48",
+            "machine_readable": "y=x*f(x^2+1); f'(5)=3,f(5)=-1; tangent at x=2 is y=23*x-48"
+          }
+        ]
+      },
+      {
+        "page_number": 39,
+        "result": {
+          "name": "قاعدة القوة المعممة",
+          "text": "إذا كانت ص = [هـ(س)]ⁿ، وكان هـ(س) قابلاً للاشتقاق، ن ∈ ص، فإن دص/دس = ن[هـ(س)]^(ن-1)هـ′(س).",
+          "machine_readable": "d/dx [g(x)]^n = n*[g(x)]^(n-1)*g'(x)"
+        },
+        "examples": [
+          {
+            "id": "مثال 4",
+            "function": "ق(س) = [(س + 1)/(س - 1)]⁵",
+            "problem": "جد ق′(2).",
+            "solution": "ق′(س) = 5[(س + 1)/(س - 1)]⁴ × [-2/(س - 1)²]؛ ومنه ق′(2) = 5 × 3⁴ × (-2) = -810.",
+            "final_answer": -810,
+            "machine_readable": "f(x)=((x+1)/(x-1))^5; f'(2)=-810"
+          },
+          {
+            "id": "مثال 5",
+            "given": "ص = ع² + 64/ع، ع = س³، س = أ م + 4",
+            "problem": "جد أ بحيث (دص/دم) عند س = 2 يساوي 90.",
+            "solution": [
+              "دص/دم = (دص/دع)(دع/دس)(دس/دم).",
+              "دص/دم = (2ع - 64/ع²)(3س²)(أ).",
+              "عندما س = 2 فإن ع = 8، فيكون 90 = (16 - 1) × 12 × أ، ومنه أ = 1/2."
+            ],
+            "final_answer": "أ = 1/2",
+            "machine_readable": "y=u^2+64/u; u=x^3; x=a*m+4; dy/dm=90 at x=2 => a=1/2"
+          }
+        ],
+        "activity": {
+          "id": "نشاط 2",
+          "problem": "إذا كانت ص = (قا س + ظا س)ⁿ، أكمل اشتقاقها باستخدام قاعدة السلسلة.",
+          "result": "دص/دس = ن(قا س + ظا س)^(ن-1)(قا س ظا س + قا² س) = ن قا س(قا س + ظا س)ⁿ."
+        },
+        "note": "يمكن تعميم قاعدة السلسلة لتشمل أكثر من اقترانين."
+      },
+      {
+        "page_number": 40,
+        "rules": [
+          {
+            "name": "مشتقة الأُسّي المركب",
+            "text": "إذا كان ك(س) اقتراناً قابلاً للاشتقاق، فإن ق(س) = هـ^[ك(س)] قابل للاشتقاق، وتكون ق′(س) = ك′(س) هـ^[ك(س)].",
+            "machine_readable": "d/dx e^(k(x))=k'(x)*e^(k(x))"
+          },
+          {
+            "name": "مشتقة اللوغاريتم الطبيعي المركب",
+            "text": "م(س) = لو_هـ ك(س)، ك(س) > 0، قابل للاشتقاق وتكون م′(س) = ك′(س)/ك(س).",
+            "machine_readable": "d/dx ln(k(x))=k'(x)/k(x), k(x)>0"
+          }
+        ],
+        "examples": [
+          {
+            "id": "مثال 6",
+            "parts": [
+              {
+                "problem": "إذا كانت ص = هـ^(جتا س)، فجد دص/دس عندما س = π/2.",
+                "solution": "دص/دس = -جا س هـ^(جتا س)، ومنه عند س = π/2 تكون القيمة -1.",
+                "final_answer": -1,
+                "machine_readable": "y=e^(cos(x)); y'(pi/2)=-1"
+              },
+              {
+                "problem": "إذا كانت ص = لو_هـ س²، فبيّن أن ص′ × هـ^(ص/2) = 2.",
+                "solution": "ص = 2لو_هـ س، ومنه ص′ = 2/س = 2/هـ^(ص/2)، أي ص′ × هـ^(ص/2) = 2.",
+                "machine_readable": "If y=ln(x^2), then y'*e^(y/2)=2."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "page_number": 41,
+        "section_title": "تمارين 1-6",
+        "exercises": [
+          {
+            "number": 1,
+            "question": "جد دص/دس عندما س = 1 لكل مما يأتي:",
+            "sub_questions": [
+              {"label": "أ", "expression": "ص = (س² + س + 1)^(-3)", "machine_readable": "y=(x^2+x+1)^(-3)"},
+              {"label": "ب", "expression": "ص = س² قا(π/س)، س ≠ 0", "machine_readable": "y=x^2*sec(pi/x), x!=0"},
+              {"label": "ج", "expression": "ص = 5ع² - 7، ع = 1/(س² + 1)", "machine_readable": "y=5*u^2-7; u=1/(x^2+1)"},
+              {"label": "د", "expression": "ص = ظا(π/س) + جا(πس)، س ≠ 0", "machine_readable": "y=tan(pi/x)+sin(pi*x), x!=0"},
+              {"label": "هـ", "expression": "ص = (لو_هـ س)³، س > 0", "machine_readable": "y=(ln(x))^3, x>0"}
+            ]
+          },
+          {
+            "number": 2,
+            "question": "إذا كان ق(س) = لو_هـ(م(س))/(2س)، وكان م(1) = هـ²، م′(1) = 2هـ²، فجد ق′(1).",
+            "machine_readable": "f(x)=ln(m(x))/(2*x); m(1)=e^2,m'(1)=2*e^2; find f'(1)"
+          },
+          {
+            "number": 3,
+            "question": "جد مشتقة كل من الاقترانات الآتية:",
+            "sub_questions": [
+              {"label": "أ", "expression": "ق(س) = هـ^(س² + س)", "machine_readable": "f(x)=e^(x^2+x)"},
+              {"label": "ب", "expression": "ع(س) = لو_هـ(س³ - 3س²)، س > 3", "machine_readable": "g(x)=ln(x^3-3*x^2), x>3"}
+            ]
+          },
+          {
+            "number": 4,
+            "question": "إذا كان ق(س) = س² م(س² + 1)، اعتمد على الجدول في إيجاد ق′(1).",
+            "table": {"م(2)": 5, "م′(2)": -1, "م″(2)": 1},
+            "machine_readable": "f(x)=x^2*m(x^2+1); m(2)=5,m'(2)=-1,m''(2)=1; find f'(1)"
+          },
+          {
+            "number": 5,
+            "question": "إذا كانت ص = [ق(س)]² - ق(س³)، جد دص/دس عندما س = 2، علماً بأن ق(2) = 1، ق′(2) = -2، ق′(8) = 2.",
+            "machine_readable": "y=f(x)^2-f(x^3); f(2)=1,f'(2)=-2,f'(8)=2; find y' at x=2"
+          },
+          {
+            "number": 6,
+            "question": "إذا كانت ص = ن² + 5ن، وكانت د ن/د س عند ن = 1 تساوي 2، جد دص/دس عند ن = 1.",
+            "machine_readable": "y=t^2+5*t; dt/dx=2 at t=1; find dy/dx"
+          },
+          {
+            "number": 7,
+            "question": "إذا كان ق(س) = س + 1/س، هـ(س) = جتا س، س ≠ 0، أثبت أن (ق ∘ هـ)′(س) = جا³ س قا² س.",
+            "machine_readable": "f(x)=x+1/x; g(x)=cos(x); prove (f∘g)'(x)=sin^3(x)*sec^2(x)"
+          },
+          {
+            "number": 8,
+            "question": "جد النهايتين:",
+            "sub_questions": [
+              {"label": "أ", "expression": "نها عندما هـ ← 0 لـ [ظا(2س + هـ) - ظا(2س)]/هـ", "machine_readable": "lim_(h->0)[tan(2*x+h)-tan(2*x)]/h"},
+              {"label": "ب", "expression": "نها عندما هـ ← 0 لـ [ق(1 + 3هـ) - ق(1 - 3هـ)]/(10هـ)، علماً بأن ق′(1) = -2", "machine_readable": "Given f'(1)=-2, find lim_(h->0)[f(1+3h)-f(1-3h)]/(10h)"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

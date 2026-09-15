@@ -1,0 +1,267 @@
+{
+  "verification": {
+    "status": "verified_against_source_pdf",
+    "source_file": "5d8569b75bb03(2).pdf",
+    "textbook_pages": [22, 23, 24, 25, 26, 27, 28, 29],
+    "pdf_pages": [26, 27, 28, 29, 30, 31, 32, 33],
+    "complete_lesson": true,
+    "checks": [
+      "Lesson boundaries verified: Lesson 1-4 starts on textbook page 22 and Lesson 1-5 starts on page 30.",
+      "Every page was rendered and visually inspected.",
+      "Limits, derivatives, exponents, logarithm bases, and exercise conditions were checked against the rendered pages.",
+      "Machine-readable forms accompany expressions that can be ambiguous in right-to-left display."
+    ]
+  },
+  "unit": {"number": 1, "title_ar": "حساب التفاضل", "title_en": "Differentiation"},
+  "lesson": {
+    "number": 4,
+    "code": "1-4",
+    "title_ar": "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+    "title_en": "L'Hôpital's Rule and Derivatives of Exponential and Logarithmic Functions",
+    "page_range": "22-29",
+    "sections": [
+      {
+        "title_ar": "أولاً: قاعدة لوبيتال",
+        "pages": [
+          {
+            "page_number": 22,
+            "activity": {
+              "id": "نشاط 1",
+              "summary": "يناقش النشاط اقترانين كثيري حدود ق(س)، هـ(س) يمران بالنقطة (أ، 0). تكون نهايتا مجموعهما أو فرقهما وحاصل ضربهما عند س ← أ مساويتين للصفر، بينما يعطي التعويض المباشر في ق(س)/هـ(س) الصورة غير المعينة 0/0."
+            },
+            "introduction": "تعرض الصفحة قاعدة لوبيتال بوصفها طريقة جديدة لحساب بعض النهايات التي تكون على الصورة غير المعينة 0/0.",
+            "rule": {
+              "name": "قاعدة لوبيتال",
+              "conditions": [
+                "ق(س)، هـ(س) قابلان للاشتقاق عند النقطة س = أ، أ، ل ∈ ح.",
+                "ق(أ) = 0 و هـ(أ) = 0.",
+                "نها عندما س ← أ لـ ق′(س)/هـ′(س) = ل."
+              ],
+              "result": "نها عندما س ← أ لـ ق(س)/هـ(س) = ل.",
+              "machine_readable": "If f(a)=g(a)=0 and lim_(x->a) f'(x)/g'(x)=L, then lim_(x->a) f(x)/g(x)=L."
+            },
+            "proof_status": "للمعرفة فقط"
+          },
+          {
+            "page_number": 23,
+            "note": "سوف لا نتعرض لحالات لوبيتال الأخرى.",
+            "examples": [
+              {
+                "id": "مثال 1",
+                "problem": "جد نها عندما س ← 0 لـ جا س/س باستخدام قاعدة لوبيتال.",
+                "solution": "نها جا س/س = نها جتا س/1 = جتا 0 = 1.",
+                "final_answer": 1,
+                "machine_readable": "lim_(x->0) sin(x)/x = 1"
+              },
+              {
+                "id": "مثال 2",
+                "problem": "جد نها عندما س ← 2 لـ (س² - 4)/(س - 2) باستخدام قاعدة لوبيتال.",
+                "solution": "نها (س² - 4)/(س - 2) = نها 2س/1 = 4.",
+                "final_answer": 4,
+                "machine_readable": "lim_(x->2) (x^2-4)/(x-2) = 4"
+              }
+            ],
+            "activity": {
+              "id": "نشاط 2",
+              "problem": "تقارن الصفحة بين استخدام تعريف المشتقة الأولى وقاعدة لوبيتال لإيجاد نها عندما س ← 0 لـ (جتا س - 1)/س.",
+              "result": 0,
+              "machine_readable": "lim_(x->0) (cos(x)-1)/x = 0"
+            }
+          },
+          {
+            "page_number": 24,
+            "note": "عند استخدام قاعدة لوبيتال، إذا بقيت النسبة ق′(أ)/هـ′(أ) على الصورة 0/0 فإننا نستمر بتطبيق القاعدة حتى نحصل على عدد حقيقي.",
+            "examples": [
+              {
+                "id": "مثال 3",
+                "problem": "جد نها عندما س ← 0 لـ (جتا س - 1)/س² باستخدام قاعدة لوبيتال.",
+                "solution": [
+                  "بعد التطبيق الأول: نها (-جا س)/(2س)، وهي ما زالت على الصورة 0/0.",
+                  "بعد التطبيق الثاني: نها (-جتا س)/2 = -1/2."
+                ],
+                "final_answer": "-1/2",
+                "machine_readable": "lim_(x->0) (cos(x)-1)/x^2 = -1/2"
+              },
+              {
+                "id": "مثال 4",
+                "given": "ق′(2) = 5",
+                "problem": "جد نها عندما هـ ← 0 لـ [ق(2 - 5هـ) - ق(2)]/هـ.",
+                "solution_summary": "بوضع و = 2 - 5هـ، فإن هـ = (2 - و)/5، وعندما هـ ← 0 فإن و ← 2. تتحول النهاية إلى -5ق′(2).",
+                "final_answer": -25,
+                "machine_readable": "Given f'(2)=5, lim_(h->0) [f(2-5h)-f(2)]/h = -25"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title_ar": "ثانياً: مشتقة الاقتران الأُسّي واللوغاريتمي",
+        "pages": [
+          {
+            "page_number": 25,
+            "activity": {
+              "id": "نشاط 3",
+              "context": "بعض أنواع البكتيريا تنشطر فيها الخلية الواحدة كل 20 دقيقة إلى خليتين، وتوصل العلماء إلى أن عدد البكتيريا في الساعة ن يساوي 2^(3ن).",
+              "question": "بعد كم دقيقة سيكون عدد خلايا البكتيريا 1073741824 خلية؟",
+              "machine_readable": "N(t)=2^(3*t); solve N(t)=1073741824"
+            },
+            "prior_knowledge": [
+              "الاقتران الأُسّي: ق(س) = أ^س، حيث أ > 0، أ ≠ 1.",
+              "الاقتران اللوغاريتمي: ل(س) = لو_أ س، حيث س > 0، أ > 0، أ ≠ 1.",
+              "يقتصر الدرس على الاقتران الأُسّي الطبيعي هـ^س واللوغاريتمي الطبيعي لو_هـ س."
+            ],
+            "definition": {
+              "term": "العدد النيبيري",
+              "text": "العدد النيبيري هو عدد حقيقي غير نسبي، قيمته التقريبية هـ ≈ 2.7182818.",
+              "defining_limit": "نها عندما س ← 0 لـ (هـ^س - 1)/س = 1.",
+              "machine_readable": "e≈2.7182818; lim_(x->0) (e^x-1)/x=1"
+            }
+          },
+          {
+            "page_number": 26,
+            "properties": {
+              "natural_exponential": [
+                "هـ^س × هـ^ص = هـ^(س+ص)",
+                "هـ^س/هـ^ص = هـ^(س-ص)",
+                "(هـ^س)^ص = هـ^(سص)",
+                "هـ^0 = 1",
+                "هـ^(لو_هـ س) = س، س > 0"
+              ],
+              "natural_logarithm": [
+                "لو_هـ(سص) = لو_هـ س + لو_هـ ص",
+                "لو_هـ(س/ص) = لو_هـ س - لو_هـ ص",
+                "لو_هـ(س^ن) = ن لو_هـ س، س > 0",
+                "لو_هـ(هـ^س) = س"
+              ]
+            },
+            "rules": [
+              {
+                "number": 1,
+                "text": "إذا كان ص = هـ^س، فإن لو_هـ ص = س، ص > 0.",
+                "machine_readable": "If y=e^x, then ln(y)=x, y>0."
+              },
+              {
+                "number": 2,
+                "text": "إذا كان ق(س) = هـ^س فإن ق′(س) = هـ^س.",
+                "machine_readable": "d/dx e^x=e^x"
+              }
+            ],
+            "proof_status": "برهان القاعدة الثانية للمعرفة فقط"
+          },
+          {
+            "page_number": 27,
+            "rules": [
+              {
+                "number": 3,
+                "text": "إذا كان ق(س) = لو_هـ س، س > 0، فإن ق′(س) = 1/س.",
+                "machine_readable": "d/dx ln(x)=1/x, x>0"
+              }
+            ],
+            "examples": [
+              {
+                "id": "مثال 4",
+                "problem": "إذا كان ق(س) = س³هـ^س + قتا س، فجد ق′(س).",
+                "solution": "ق′(س) = س³هـ^س + 3س²هـ^س - قتا س ظتا س.",
+                "machine_readable": "f(x)=x^3*e^x+csc(x); f'(x)=x^3*e^x+3*x^2*e^x-csc(x)*cot(x)"
+              },
+              {
+                "id": "مثال 5",
+                "problem": "إذا كان ص = لو_هـ س^10، فجد دص/دس عندما س = 5.",
+                "solution": "ص = 10 لو_هـ س، ومنه دص/دس = 10/س، وعند س = 5 تكون دص/دس = 2.",
+                "final_answer": 2,
+                "machine_readable": "y=ln(x^10); y'=10/x; y'(5)=2"
+              },
+              {
+                "id": "مثال 6",
+                "problem": "بيّن باستخدام قاعدة لوبيتال ما يأتي.",
+                "parts": [
+                  {"expression": "نها عندما س ← 0 لـ (هـ^س - 1)/س", "answer": 1, "machine_readable": "lim_(x->0)(e^x-1)/x=1"},
+                  {"expression": "نها عندما س ← 1 لـ لو_هـ س/(س² - 1)", "answer": "1/2", "machine_readable": "lim_(x->1)ln(x)/(x^2-1)=1/2"}
+                ]
+              }
+            ]
+          },
+          {
+            "page_number": 28,
+            "examples": [
+              {
+                "id": "مثال 7",
+                "problem": "جد مشتقة كل من الاقترانات الآتية.",
+                "parts": [
+                  {
+                    "function_ar": "ق(س) = س هـ^س",
+                    "derivative_ar": "ق′(س) = س هـ^س + هـ^س",
+                    "machine_readable": "f(x)=x*e^x; f'(x)=x*e^x+e^x"
+                  },
+                  {
+                    "function_ar": "ع(س) = هـ^س لو_هـ س، حيث س > 0",
+                    "derivative_ar": "ع′(س) = هـ^س(1/س + لو_هـ س)",
+                    "machine_readable": "g(x)=e^x*ln(x); g'(x)=e^x*(1/x+ln(x)), x>0"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title_ar": "تمارين 1-4",
+        "pages": [
+          {
+            "page_number": 29,
+            "exercises": [
+              {
+                "number": 1,
+                "question": "احسب النهايات الآتية باستخدام قاعدة لوبيتال:",
+                "sub_questions": [
+                  {"label": "أ", "expression": "نها عندما س ← 1 لـ (هـ^(س-1) - 1)/(لو_هـ س)", "machine_readable": "lim_(x->1)(e^(x-1)-1)/ln(x)"},
+                  {"label": "ب", "expression": "نها عندما س ← 0 لـ 4س/ظا س", "machine_readable": "lim_(x->0)4*x/tan(x)"},
+                  {"label": "ج", "expression": "نها عندما س ← 0 لـ (س - جا س)/س³", "machine_readable": "lim_(x->0)(x-sin(x))/x^3"}
+                ]
+              },
+              {
+                "number": 2,
+                "question": "جد دص/دس في كل مما يأتي:",
+                "sub_questions": [
+                  {"label": "أ", "expression": "ص = هـ^س جتا س", "machine_readable": "y=e^x*cos(x)"},
+                  {"label": "ب", "expression": "ص = لو_هـ √س، س > 0", "machine_readable": "y=ln(sqrt(x)), x>0"},
+                  {"label": "ج", "expression": "ص = لو_هـ √(س³/س⁸)، س > 0", "machine_readable": "y=ln(sqrt(x^3/x^8)), x>0"},
+                  {"label": "د", "expression": "ص = (هـ^س - 2)(هـ^س + 2)", "machine_readable": "y=(e^x-2)*(e^x+2)"}
+                ]
+              },
+              {
+                "number": 3,
+                "given": "ق′(1) = -2، ق(3) = -2، ق′(3) = 4",
+                "question": "جد قيمة النهايات الآتية:",
+                "sub_questions": [
+                  {"label": "أ", "expression": "نها عندما هـ ← 0 لـ [ق(3 + 5هـ) - ق(3)]/(10هـ)", "machine_readable": "lim_(h->0)[f(3+5h)-f(3)]/(10h)"},
+                  {"label": "ب", "expression": "نها عندما س ← 1 لـ (س² - 1)/[ق(1) - ق(س)]", "machine_readable": "lim_(x->1)(x^2-1)/(f(1)-f(x))"}
+                ]
+              },
+              {
+                "number": 4,
+                "question": "إذا كانت ص = س² + هـ^(س+1)، فجد قيمة/قيم س التي تجعل ص′ = ص.",
+                "machine_readable": "y=x^2+e^(x+1); solve y'=y"
+              },
+              {
+                "number": 5,
+                "question": "أثبت باستخدام قاعدة لوبيتال أن نها عندما س ← أ لـ (س^ن - أ^ن)/(س^م - أ^م) = (ن/م)أ^(ن-م)، أ ≠ 0.",
+                "machine_readable": "prove lim_(x->a)(x^n-a^n)/(x^m-a^m)=(n/m)*a^(n-m), a!=0"
+              },
+              {
+                "number": 6,
+                "question": "جد نها عندما س ← 1 لـ [ق(س) - ق(1)]/(س² - 1) باستخدام قاعدة لوبيتال، علماً بأن ق′(1) = 3، ق(1) = 6.",
+                "machine_readable": "Given f'(1)=3,f(1)=6, find lim_(x->1)(f(x)-f(1))/(x^2-1)"
+              },
+              {
+                "number": 7,
+                "question": "إذا كان ق′(2) = 3، ق″(2) = 5، جد نها عندما س ← 1 لـ [ق′(2س) - ق′(2)]/(س - 1).",
+                "machine_readable": "Given f'(2)=3,f''(2)=5, find lim_(x->1)(f'(2*x)-f'(2))/(x-1)"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

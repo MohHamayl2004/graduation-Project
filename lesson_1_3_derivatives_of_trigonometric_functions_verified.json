@@ -1,0 +1,163 @@
+{
+  "verification": {
+    "status": "verified_against_source_pdf",
+    "source_file": "5d8569b75bb03(2).pdf",
+    "textbook_pages": [19, 20, 21],
+    "pdf_pages": [23, 24, 25],
+    "complete_lesson": true,
+    "checks": [
+      "Lesson boundaries verified from the table of contents and adjacent lesson heading.",
+      "Arabic trigonometric symbols and derivative signs checked visually against rendered PDF pages.",
+      "All rules, worked examples, and exercises on pages 19-21 are included.",
+      "Machine-readable formulas are included to prevent ambiguity caused by right-to-left mathematical display."
+    ]
+  },
+  "unit": {
+    "number": 1,
+    "title_ar": "حساب التفاضل",
+    "title_en": "Differentiation"
+  },
+  "lesson": {
+    "number": 3,
+    "code": "1-3",
+    "title_ar": "مشتقات الاقترانات المثلثية",
+    "title_en": "The Derivative of Trigonometric Functions",
+    "page_range": "19-21",
+    "pages": [
+      {
+        "page_number": 19,
+        "activity": {
+          "id": "نشاط 1",
+          "context": "أظهر التقرير الصحي السنوي لفلسطين للعام 2014 أن أمراض القلب والأوعية الدموية السبب الأول لوفيات الفلسطينيين، وبنسبة بلغت 29.5% من مجموع الوفيات المبلغ عنها.",
+          "questions": [
+            "هل سبق أن سمعت بحاجة مريض لتخطيط قلب؟ وهل شاهدت تخطيط قلب؟",
+            "سبق ودرست الاقترانات المثلثية، ما وجه الشبه بين تخطيط القلب ومنحنى بعض الاقترانات المثلثية؟"
+          ]
+        },
+        "introduction": "لقد تعرفت في الدروس السابقة اشتقاق الاقترانات كثيرة الحدود، والاقترانات النسبية، وستتعرف في هذا الدرس على قواعد خاصة لإيجاد مشتقة الاقترانات المثلثية.",
+        "rules": [
+          {
+            "number": 1,
+            "text": "إذا كان ق(س) = جا س، س بالتقدير الدائري، فإن ق′(س) = جتا س.",
+            "machine_readable": "If f(x)=sin(x), then f'(x)=cos(x), with x measured in radians."
+          },
+          {
+            "number": 2,
+            "text": "إذا كان ق(س) = جتا س، س بالتقدير الدائري، فإن ق′(س) = -جا س.",
+            "machine_readable": "If f(x)=cos(x), then f'(x)=-sin(x), with x measured in radians."
+          }
+        ],
+        "examples": [
+          {
+            "id": "مثال 1",
+            "problem": "إذا كان ق(س) = س جا س، جد ق′(π/2).",
+            "machine_readable_function": "f(x)=x*sin(x)",
+            "solution": [
+              "ق′(س) = س جتا س + جا س.",
+              "ق′(π/2) = (π/2)جتا(π/2) + جا(π/2) = 1."
+            ],
+            "final_answer": "ق′(π/2) = 1"
+          }
+        ]
+      },
+      {
+        "page_number": 20,
+        "examples": [
+          {
+            "id": "مثال 2",
+            "problem": "إذا كان ق(س) = س²/جتا س، جد ق′(س).",
+            "machine_readable_function": "f(x)=x^2/cos(x)",
+            "solution": [
+              "ق′(س) = [جتا س × 2س - س² × (-جا س)]/جتا² س.",
+              "ق′(س) = [2س جتا س + س² جا س]/جتا² س."
+            ],
+            "final_answer": "ق′(س) = (2س جتا س + س² جا س)/جتا² س"
+          },
+          {
+            "id": "مثال 3",
+            "problem": "إذا كان ق(س) = قا س + ظا س، جد ق′(س)، ق′(π/4).",
+            "machine_readable_function": "f(x)=sec(x)+tan(x)",
+            "solution": [
+              "ق′(س) = قا س ظا س + قا² س = قا س(ظا س + قا س).",
+              "ق′(π/4) = قا(π/4)[ظا(π/4) + قا(π/4)] = 2 + √2."
+            ],
+            "final_answers": {
+              "derivative": "ق′(س) = قا س(ظا س + قا س)",
+              "value_at_pi_over_4": "2 + √2"
+            }
+          },
+          {
+            "id": "مثال 4",
+            "problem": "إذا كانت ص = قا س ظا س، أثبت أن دص/دس = 2قا³ س - قا س.",
+            "machine_readable_function": "y=sec(x)*tan(x)",
+            "solution": [
+              "دص/دس = قا س ظا² س + قا³ س.",
+              "باستخدام ظا² س = قا² س - 1: دص/دس = قا س(قا² س - 1) + قا³ س.",
+              "دص/دس = 2قا³ س - قا س."
+            ],
+            "final_answer": "دص/دس = 2قا³ س - قا س"
+          }
+        ],
+        "rules": [
+          {
+            "number": 3,
+            "derivatives": [
+              {"function_ar": "ق(س) = ظا س", "derivative_ar": "ق′(س) = قا² س", "machine_readable": "d/dx tan(x)=sec^2(x)"},
+              {"function_ar": "ق(س) = ظتا س", "derivative_ar": "ق′(س) = -قتا² س", "machine_readable": "d/dx cot(x)=-csc^2(x)"},
+              {"function_ar": "ق(س) = قا س", "derivative_ar": "ق′(س) = قا س ظا س", "machine_readable": "d/dx sec(x)=sec(x)*tan(x)"},
+              {"function_ar": "ق(س) = قتا س", "derivative_ar": "ق′(س) = -قتا س ظتا س", "machine_readable": "d/dx csc(x)=-csc(x)*cot(x)"}
+            ]
+          }
+        ],
+        "think_and_discuss": "تحقق من صحة القواعد السابقة بالتعويض بدلالة جا س، جتا س، ثم باستخدام قواعد الاشتقاق."
+      },
+      {
+        "page_number": 21,
+        "section_title": "تمارين 1-3",
+        "exercises": [
+          {
+            "number": 1,
+            "question": "جد دص/دس لكل مما يأتي:",
+            "sub_questions": [
+              {
+                "label": "أ",
+                "expression_ar": "ص = 2جتا س - 2ظا س",
+                "machine_readable": "y=2*cos(x)-2*tan(x)"
+              },
+              {
+                "label": "ب",
+                "expression_ar": "ص = (1 - قا س)/(1 + قا س)",
+                "machine_readable": "y=(1-sec(x))/(1+sec(x))"
+              },
+              {
+                "label": "ج",
+                "expression_ar": "ص = س/(قتا س + ظتا س)",
+                "machine_readable": "y=x/(csc(x)+cot(x))"
+              },
+              {
+                "label": "د",
+                "expression_ar": "ص = س² قا س",
+                "machine_readable": "y=x^2*sec(x)"
+              }
+            ]
+          },
+          {
+            "number": 2,
+            "question": "إذا كانت ص = ظا س، س زاوية حادة، أثبت أن د²ص/دس² = 2ص(1 + ص²).",
+            "machine_readable": "If y=tan(x), prove y''=2*y*(1+y^2)."
+          },
+          {
+            "number": 3,
+            "question": "إذا كانت ص = جا س/س، س ≠ 0، أثبت أن: ص″ + (2/س)ص′ + ص = 0.",
+            "machine_readable": "If y=sin(x)/x, x!=0, prove y''+(2/x)*y'+y=0."
+          },
+          {
+            "number": 4,
+            "question": "إذا كان ق(س) = (1/2)س² - جتا س، س ∈ [-2π، 2π]، جد مجموعة قيم س التي تجعل ق″(س) = 0.",
+            "machine_readable": "f(x)=0.5*x^2-cos(x), x in [-2*pi,2*pi]; find x such that f''(x)=0."
+          }
+        ]
+      }
+    ]
+  }
+}
