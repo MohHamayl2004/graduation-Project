@@ -1,0 +1,31 @@
+{
+  "brand": {
+    "name": "NIPRAS",
+    "tagline": "تعلّم أذكى، مستقبل أفضل"
+  },
+  "actions": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "continueWithGoogle": "المتابعة باستخدام Google",
+    "orContinueWith": "أو تابع باستخدام",
+    "orSignUpWith": "أو سجّل باستخدام"
+  },
+  "search": {
+    "genericPlaceholder": "بحث..."
+  },
+  "nav": {
+    "notifications": "الإشعارات",
+    "help": "المساعدة",
+    "openMenu": "فتح قائمة التنقل",
+    "closeMenu": "إغلاق قائمة التنقل",
+    "language": "اللغة"
+  },
+  "footer": {
+    "copyright": "© 2024 NIPRAS للتعلم بالذكاء الاصطناعي. جميع الحقوق محفوظة.",
+    "aboutUs": "من نحن",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة",
+    "support": "الدعم",
+    "cookiePolicy": "سياسة ملفات تعريف الارتباط"
+  }
+}

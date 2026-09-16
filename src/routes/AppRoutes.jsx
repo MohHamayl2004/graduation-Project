@@ -9,6 +9,7 @@ import StudyPlan from "../pages/StudyPlan";
 import Progress from "../pages/Progress";
 import Quizzes from "../pages/Quizzes";
 import AITutor from "../pages/AITutor";
+import Lesson from "../pages/Lesson";
 
 export default function AppRoutes() {
   return (
@@ -19,6 +20,8 @@ export default function AppRoutes() {
       <Route path="/analysis" element={<Analysis />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/lectures" element={<Lectures />} />
+      <Route path="/lesson/:code" element={<Lesson />} />
+      <Route path="/lesson" element={<Lesson />} />
       <Route path="/study-plan" element={<StudyPlan />} />
       <Route path="/progress" element={<Progress />} />
       <Route path="/quizzes" element={<Quizzes />} />

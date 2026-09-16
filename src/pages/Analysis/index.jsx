@@ -1,35 +1,19 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FileText, Sparkles, Check, LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/layout/Sidebar";
 import Footer from "../../components/layout/Footer";
 import Navbar from "../../components/layout/Navbar";
+import Logo from "../../components/common/Logo";
+import ProgressBar from "../../components/common/ProgressBar";
 
 const steps = [
-  {
-    title: "Upload Received",
-    detail: "File successfully stored in your cloud library"
-  },
-  {
-    title: "Document Chunking",
-    detail: "Parsing semantic sections for better analysis"
-  },
-  {
-    title: "Embedding Generation",
-    detail: "Translating text into vector knowledge maps..."
-  },
-  {
-    title: "Knowledge Retrieval",
-    detail: "Contextualizing with Tawjihi syllabus"
-  },
-  {
-    title: "Lecture Generation",
-    detail: "Creating adaptive learning scripts"
-  },
-  {
-    title: "Quiz Generation",
-    detail: "Preparing mastery assessment questions"
-  }
+  { title: "Upload Received", detail: "File successfully stored in your cloud library" },
+  { title: "Document Chunking", detail: "Parsing semantic sections for better analysis" },
+  { title: "Embedding Generation", detail: "Translating text into vector knowledge maps..." },
+  { title: "Knowledge Retrieval", detail: "Contextualizing with Tawjihi syllabus" },
+  { title: "Lecture Generation", detail: "Creating adaptive learning scripts" },
+  { title: "Quiz Generation", detail: "Preparing mastery assessment questions" }
 ];
 
 function AnalysisHeader() {
@@ -77,38 +61,35 @@ export default function Analysis() {
   const estimatedSeconds = Math.max(0, Math.ceil((100 - progress) * 0.12));
 
   return (
-    <div className="h-screen overflow-hidden bg-[#f1f2f7] text-[#1d2436]">
+    <div className="h-screen overflow-hidden bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
-        <Sidebar activeItem="Upload Material" />
+        <Sidebar activeItem="uploadMaterial" />
 
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <AnalysisHeader />
 
-          <main className="flex flex-1 flex-col overflow-hidden px-4 py-2 sm:px-6 lg:px-8">
+          <main className="flex flex-1 flex-col overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">
             <div className="mx-auto flex h-full w-full max-w-[980px] items-center justify-center">
               <div className="flex w-full max-w-[760px] flex-col items-center gap-3">
-                <div className="rounded-full bg-[#e9ddff] px-4 py-1.5 text-[15px] text-[#5a2dd2]">
-                  <span className="inline-flex items-center gap-2"><Sparkles size={14} /> AI is analyzing your material</span>
+                <Logo showWordmark={false} height={30} />
+
+                <div className="mt-1 rounded-full bg-accent-tint px-4 py-1.5 text-sm text-accent">
+                  <span className="inline-flex items-center gap-2">
+                    <Sparkles size={14} /> AI is analyzing your material
+                  </span>
                 </div>
 
-                <div className="inline-flex items-center gap-2 rounded-xl border border-[#c6cede] bg-white px-3 py-1.5 text-[14px] text-[#2f384f]">
-                  <FileText size={16} className="text-[#1d5dd4]" /> Chemistry_Chapter3.pdf
+                <div className="inline-flex items-center gap-2 rounded-md border border-border bg-surface-raised px-3 py-1.5 text-sm text-ink">
+                  <FileText size={16} className="text-primary" /> Chemistry_Chapter3.pdf
                 </div>
 
-                <div className="grid h-[160px] w-[160px] place-items-center rounded-full bg-[radial-gradient(circle,_#909ff0_0%,_#7f97e8_42%,_#9db6ef_100%)] sm:h-[190px] sm:w-[190px] lg:h-[220px] lg:w-[220px]">
-                  <div className="grid h-[84px] w-[84px] place-items-center rounded-full bg-[radial-gradient(circle,_#8f89f0_0%,_#8396ef_100%)] sm:h-[98px] sm:w-[98px] lg:h-[110px] lg:w-[110px]">
-                    <div className="relative h-[58px] w-[58px] sm:h-[66px] sm:w-[66px] lg:h-[76px] lg:w-[76px]">
-                      <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80" />
-                      <div className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full bg-white/80" />
-                      <div className="absolute bottom-0 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-white/80" />
-                      <div className="absolute left-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white/80" />
-                      <div className="absolute right-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white/80" />
-                      <div className="absolute inset-3 border-2 border-dashed border-white/70" style={{ transform: "rotate(45deg)" }} />
-                    </div>
+                <div className="grid h-[150px] w-[150px] place-items-center rounded-full bg-primary-tint sm:h-[180px] sm:w-[180px] lg:h-[200px] lg:w-[200px]">
+                  <div className="grid h-[84px] w-[84px] place-items-center rounded-full bg-primary sm:h-[98px] sm:w-[98px] lg:h-[110px] lg:w-[110px]">
+                    <LoaderCircle size={36} className="animate-spin text-white" />
                   </div>
                 </div>
 
-                <div className="w-full max-w-[440px] rounded-2xl border border-[#cfd4e2] bg-white px-4 py-3 shadow-[0_10px_24px_rgba(27,36,64,0.06)]">
+                <div className="w-full max-w-[440px] rounded-lg border border-border bg-surface-raised px-4 py-3 shadow-sm">
                   <ul className="space-y-2.5">
                     {steps.map((step, index) => {
                       const done = index < activeIndex;
@@ -118,19 +99,25 @@ export default function Analysis() {
                           <div
                             className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border ${
                               done
-                                ? "border-[#0d8a64] bg-[#0d8a64] text-white"
+                                ? "border-accent bg-accent text-white"
                                 : active
-                                  ? "border-[#1956ca] bg-[#1956ca] text-white"
-                                  : "border-[#c7cedd] bg-[#e9edf6] text-[#8b94a8]"
+                                  ? "border-primary bg-primary text-white"
+                                  : "border-border bg-surface-alt text-ink-faint"
                             }`}
                           >
-                            {done ? <Check size={12} /> : active ? <LoaderCircle size={12} className="animate-spin" /> : <span className="h-1.5 w-1.5 rounded-full bg-current" />}
+                            {done ? (
+                              <Check size={12} />
+                            ) : active ? (
+                              <LoaderCircle size={12} className="animate-spin" />
+                            ) : (
+                              <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                            )}
                           </div>
                           <div>
-                            <p className={`text-[16px] leading-tight ${done || active ? "text-[#1f273b]" : "text-[#8c93a6]"}${active ? " font-semibold text-[#1254c8]" : ""}`}>
+                            <p className={`text-sm leading-tight ${done || active ? "text-ink" : "text-ink-faint"} ${active ? "font-semibold text-primary" : ""}`}>
                               {step.title}
                             </p>
-                            <p className={`text-[12px] leading-5 ${done || active ? "text-[#5b6276]" : "text-[#a1a7b7]"}`}>{step.detail}</p>
+                            <p className={`text-xs leading-5 ${done || active ? "text-ink-muted" : "text-ink-faint"}`}>{step.detail}</p>
                           </div>
                         </li>
                       );
@@ -140,15 +127,10 @@ export default function Analysis() {
 
                 <div className="w-full max-w-[440px]">
                   <div className="mb-1 flex items-center justify-between">
-                    <p className="text-[24px] font-medium text-[#1353c6]">{progress}% Analyzed</p>
-                    <p className="text-[12px] text-[#5d647a]">~{estimatedSeconds}s remaining</p>
+                    <p className="text-lg font-medium text-primary">{progress}% Analyzed</p>
+                    <p className="text-xs text-ink-muted">~{estimatedSeconds}s remaining</p>
                   </div>
-                  <div className="h-2.5 rounded-full bg-[#d7dcee]">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#1558cf] via-[#2b72e3] to-[#1452bf] transition-all duration-100"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
+                  <ProgressBar value={progress} />
                 </div>
 
                 <button
@@ -157,7 +139,7 @@ export default function Analysis() {
                     setCanceled(true);
                     navigate("/login");
                   }}
-                  className="rounded-full border border-[#8a90a5] px-7 py-2 text-[16px] text-[#434a5f] transition hover:bg-[#eceff7]"
+                  className="rounded-full border border-border-strong px-6 py-2 text-sm font-medium text-ink-muted transition-colors duration-base hover:bg-surface-alt"
                 >
                   Cancel Processing
                 </button>
@@ -171,4 +153,3 @@ export default function Analysis() {
     </div>
   );
 }
-
