@@ -1,0 +1,33 @@
+# Dependencies - never committed. `npm install` rebuilds them.
+node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Archives of the project itself
+*.zip
+
+# Logs and temp
+*.log
+npm-debug.log*
+tmp/
+temp/
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
