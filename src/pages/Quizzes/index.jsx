@@ -16,10 +16,10 @@ const DOT_TONE = {
 };
 
 export default function Quizzes() {
-  const [selected, setSelected] = useState("B");
+  const [selected, setSelected] = useState("ب");
   const [submittedMsg, setSubmittedMsg] = useState("");
   const submit = () => {
-    setSubmittedMsg("Answer submitted successfully!");
+    setSubmittedMsg("تم تثبيت إجابتك!");
     setTimeout(() => setSubmittedMsg(""), 1800);
   };
 
@@ -29,16 +29,16 @@ export default function Quizzes() {
         <Sidebar activeItem="quizzes" />
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <Navbar searchPlaceholder="Search for topics, questions, or notes..." showAvatar />
+          <Navbar searchPlaceholder="ابحث عن موضوع أو سؤال أو ملاحظة..." showAvatar />
 
           <main className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
             <Card padding="lg">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold tracking-[0.08em] text-ink-muted">ADAPTIVE QUIZ · CHEMISTRY</p>
-                  <h1 className="mt-2 font-display text-3xl font-semibold text-ink">Question 3 of 10</h1>
+                  <p className="text-xs font-semibold tracking-[0.08em] text-ink-muted">اختبار تكيّفي · الكيمياء</p>
+                  <h1 className="mt-2 font-display text-3xl font-semibold text-ink">السؤال 3 من 10</h1>
                 </div>
-                <div className="text-right">
+                <div className="text-end">
                   <span className="inline-flex items-center gap-2 rounded-full bg-warning-tint px-3 py-1 text-sm font-semibold text-warning">
                     <Clock3 size={15} />
                     12:34
@@ -54,15 +54,15 @@ export default function Quizzes() {
 
             <div className="mt-4 flex flex-wrap gap-2 text-sm">
               <span className="rounded-md border border-border bg-surface-alt px-3 py-1 text-ink-muted">
-                Difficulty: <b className="text-primary">Medium</b>
+                الصعوبة: <b className="text-primary">متوسطة</b>
               </span>
-              <span className="rounded-md border border-border bg-surface-alt px-3 py-1 text-ink-muted">Topic: Covalent Bonds</span>
-              <span className="rounded-md border border-accent/30 bg-accent-tint px-3 py-1 font-semibold text-accent">Adaptive</span>
+              <span className="rounded-md border border-border bg-surface-alt px-3 py-1 text-ink-muted">الموضوع: الروابط التساهمية</span>
+              <span className="rounded-md border border-accent/30 bg-accent-tint px-3 py-1 font-semibold text-accent">متكيّف</span>
             </div>
 
             <Card padding="lg" className="mt-4">
               <h2 className="font-display text-2xl font-semibold leading-tight text-ink sm:text-3xl">
-                Question 3: Which of the following best describes a covalent bond?
+                السؤال 3: أي من العبارات التالية بيوصف الرابطة التساهمية بشكل أدق؟
               </h2>
               <div className="mt-5 h-48 rounded-lg bg-gradient-to-br from-primary to-ink sm:h-56" />
             </Card>
@@ -76,7 +76,7 @@ export default function Quizzes() {
                     type="button"
                     onClick={() => setSelected(option.key)}
                     aria-pressed={selectedState}
-                    className={`flex w-full items-center justify-between rounded-lg border bg-surface-raised px-5 py-4 text-left transition-colors duration-base ${
+                    className={`flex w-full items-center justify-between rounded-lg border bg-surface-raised px-5 py-4 text-start transition-colors duration-base ${
                       selectedState ? "border-primary" : "border-border hover:bg-surface-alt"
                     }`}
                   >
@@ -98,14 +98,14 @@ export default function Quizzes() {
 
             <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
               <button type="button" className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted hover:text-ink">
-                <ArrowLeft size={16} />
-                Previous
+                <ArrowRight size={16} />
+                السابق
               </button>
               <div className="flex items-center gap-4">
                 <button type="button" className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted hover:text-ink">
-                  Skip <ArrowRight size={16} />
+                  تخطّي <ArrowLeft size={16} />
                 </button>
-                <Button onClick={submit}>Submit Answer</Button>
+                <Button onClick={submit}>ثبّت إجابتك</Button>
               </div>
             </div>
             {submittedMsg ? (

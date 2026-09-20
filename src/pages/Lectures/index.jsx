@@ -9,11 +9,11 @@ import Button from "../../components/common/Button";
 import ProgressBar from "../../components/common/ProgressBar";
 import { lectureContent, lectureTopics } from "../../data/mockLectures";
 
-const relatedTopics = ["Periodic Trends", "Atomic Structure", "Organic Bases"];
+const relatedTopics = ["الاتجاهات الدورية", "تركيب الذرة", "القواعد العضوية"];
 
 export default function Lectures() {
   const navigate = useNavigate();
-  const [selectedTopic, setSelectedTopic] = useState("Introduction");
+  const [selectedTopic, setSelectedTopic] = useState("مقدمة");
 
   const section = useMemo(() => lectureContent[selectedTopic], [selectedTopic]);
 
@@ -22,33 +22,33 @@ export default function Lectures() {
       <div className="mx-auto flex h-full max-w-[1600px]">
         <Sidebar activeItem="lectures" />
 
-        <div className="flex min-w-0 flex-1 flex-col border-r border-border">
-          <Navbar searchPlaceholder="Search in Chemistry..." showAvatar />
+        <div className="flex min-w-0 flex-1 flex-col border-e border-border">
+          <Navbar searchPlaceholder="ابحث في الكيمياء..." showAvatar />
 
           <main className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
             <Card padding="lg">
               <div className="flex flex-wrap items-center gap-2 text-sm text-ink-muted">
-                <span>My Materials</span>
-                <ChevronRight size={14} />
-                <span>Chemistry</span>
-                <ChevronRight size={14} />
-                <span>Chapter 3</span>
+                <span>المواد التعليمية</span>
+                <ChevronRight size={14} className="rtl:-scale-x-100" />
+                <span>الكيمياء</span>
+                <ChevronRight size={14} className="rtl:-scale-x-100" />
+                <span>الفصل الثالث</span>
               </div>
               <div className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-accent-tint px-3 py-1 text-xs font-semibold tracking-wide text-accent">
                 <Sparkles size={12} />
-                AI GENERATED
+                منشأ بالذكاء الاصطناعي
               </div>
               <h1 className="mt-3 font-display text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-                {selectedTopic === "Introduction" ? "Chemical Bonds and Molecular Structure" : selectedTopic}
+                {selectedTopic === "مقدمة" ? "الروابط الكيميائية وبنية الجزيئات" : selectedTopic}
               </h1>
               <div className="mt-5 flex items-center gap-4">
                 <ProgressBar value={35} className="flex-1" />
-                <span className="shrink-0 text-lg font-semibold text-primary">35% complete</span>
+                <span className="shrink-0 text-lg font-semibold text-primary">مكتمل 35%</span>
               </div>
             </Card>
 
             <Card padding="lg" className="mt-5">
-              <h2 className="font-display text-2xl font-semibold text-ink">Table of Contents</h2>
+              <h2 className="font-display text-2xl font-semibold text-ink">محتويات الدرس</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {lectureTopics.map((topic) => {
                   const selected = selectedTopic === topic;
@@ -58,7 +58,7 @@ export default function Lectures() {
                       type="button"
                       onClick={() => setSelectedTopic(topic)}
                       aria-pressed={selected}
-                      className={`flex min-h-11 items-center gap-2 rounded-md border px-4 py-3 text-left text-sm transition-colors duration-base ${
+                      className={`flex min-h-11 items-center gap-2 rounded-md border px-4 py-3 text-start text-sm transition-colors duration-base ${
                         selected
                           ? "border-primary bg-primary-tint text-primary"
                           : "border-border bg-surface text-ink hover:bg-surface-alt"
@@ -74,7 +74,7 @@ export default function Lectures() {
 
             <Card padding="lg" className="mt-5">
               <h3 className="font-display text-2xl font-semibold text-primary">{section.title}</h3>
-              <div className="mt-4 max-h-[340px] space-y-5 overflow-y-auto pr-3 text-base leading-8 text-ink">
+              <div className="mt-4 max-h-[340px] space-y-5 overflow-y-auto pe-3 text-base leading-8 text-ink">
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -86,30 +86,30 @@ export default function Lectures() {
         </div>
 
         <aside className="hidden w-[300px] shrink-0 overflow-y-auto bg-surface-alt px-6 py-6 xl:block">
-          <h4 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">ACTIONS</h4>
+          <h4 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">الإجراءات</h4>
           <div className="mt-4 space-y-3">
             <Button variant="accent" fullWidth className="bg-accent-tint text-accent hover:bg-accent hover:text-white" onClick={() => navigate("/ai-tutor")}>
-              <Brain size={18} /> Ask AI Tutor
+              <Brain size={18} /> اسأل المعلّم الذكي
             </Button>
             <Button variant="outline" fullWidth>
-              <FileQuestion size={18} /> Generate Quiz
+              <FileQuestion size={18} /> إنشاء اختبار
             </Button>
             <Button variant="secondary" fullWidth>
-              <Download size={18} /> Download Lecture
+              <Download size={18} /> تنزيل الدرس
             </Button>
           </div>
 
           <div className="mt-6 rounded-lg border border-warning/30 bg-warning-tint p-4">
-            <p className="text-base font-semibold text-warning">Weak Areas</p>
-            <p className="mt-2 text-sm text-ink">AI detected difficulty with:</p>
-            <p className="mt-1 text-sm font-semibold text-warning">Covalent bonds &amp; Electron Sharing</p>
+            <p className="text-base font-semibold text-warning">مواضيع بدها مراجعة</p>
+            <p className="mt-2 text-sm text-ink">لاحظ نبراس إنك بتحتاج تراجع:</p>
+            <p className="mt-1 text-sm font-semibold text-warning">الروابط التساهمية ومشاركة الإلكترونات</p>
             <Button variant="primary" size="sm" fullWidth className="mt-3 bg-warning hover:bg-warning/90">
-              Quick Remedial Exercise
+              تدريب علاجي سريع
             </Button>
           </div>
 
           <div className="mt-6">
-            <p className="text-xs font-semibold tracking-[0.14em] text-ink-muted">RELATED TOPICS</p>
+            <p className="text-xs font-semibold tracking-[0.14em] text-ink-muted">مواضيع مرتبطة</p>
             <div className="mt-3 flex flex-wrap gap-2.5">
               {relatedTopics.map((item) => (
                 <button
@@ -124,12 +124,12 @@ export default function Lectures() {
           </div>
 
           <div className="mt-10 rounded-lg bg-primary p-5 text-white">
-            <p className="font-display text-lg font-semibold">Next Up</p>
+            <p className="font-display text-lg font-semibold">الدور الجاي</p>
             <p className="mt-2 text-sm leading-7 text-white/85">
-              Based on your progress, I recommend the &ldquo;VSEPR Lab Simulation&rdquo; next.
+              حسب تقدّمك، بنصحك تجرّب محاكاة مختبر نظرية تنافر أزواج الإلكترونات.
             </p>
             <Button variant="secondary" fullWidth size="sm" className="mt-4 border-none bg-white text-primary hover:bg-white/90">
-              <PlayCircle size={16} /> Start Simulation
+              <PlayCircle size={16} /> ابدأ المحاكاة
             </Button>
           </div>
         </aside>

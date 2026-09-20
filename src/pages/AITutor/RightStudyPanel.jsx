@@ -5,37 +5,37 @@ import ProgressBar from "../../components/common/ProgressBar";
 import Button from "../../components/common/Button";
 
 const weakAreas = [
-  { title: "VSEPR Theory", subtitle: "Last Quiz: 45%", tone: "bg-error" },
-  { title: "Metallic Bonding", subtitle: "Low interaction", tone: "bg-warning" }
+  { title: "نظرية تنافر أزواج الإلكترونات", subtitle: "آخر اختبار: 45%", tone: "bg-error" },
+  { title: "الروابط الفلزية", subtitle: "تفاعل قليل مع الموضوع", tone: "bg-warning" }
 ];
 
 const contextItems = [
-  { icon: FlaskConical, label: "Chemistry", detail: "Tawjihi Curriculum" },
-  { icon: Clock3, label: "Exam Date", detail: "June 20, 2024" }
+  { icon: FlaskConical, label: "الكيمياء", detail: "منهاج التوجيهي" },
+  { icon: Clock3, label: "موعد الامتحان", detail: "20 حزيران 2024" }
 ];
 
 export default function RightStudyPanel() {
   const [flashcardMsg, setFlashcardMsg] = useState("");
 
   const createNow = () => {
-    setFlashcardMsg("Flashcards generated for Chapter 3.");
+    setFlashcardMsg("تم إنشاء بطاقات الفصل الثالث.");
     setTimeout(() => setFlashcardMsg(""), 1800);
   };
 
   return (
     <aside className="hidden w-[300px] shrink-0 overflow-y-auto bg-surface-alt px-6 py-8 xl:block">
-      <h3 className="font-display text-xl font-semibold text-ink">Study Insights</h3>
+      <h3 className="font-display text-xl font-semibold text-ink">ملخّص دراستك</h3>
 
       <Card className="mt-6">
         <div className="mb-2 flex items-center justify-between text-sm">
-          <span className="text-ink">Chapter 3 Progress</span>
+          <span className="text-ink">تقدّم الفصل الثالث</span>
           <span className="font-semibold text-primary">68%</span>
         </div>
         <ProgressBar value={68} />
-        <p className="mt-3 text-sm leading-6 text-ink-muted">2 topics remaining to master this chapter.</p>
+        <p className="mt-3 text-sm leading-6 text-ink-muted">باقي موضوعان لإتقان هذا الفصل.</p>
       </Card>
 
-      <h4 className="mt-8 text-xs font-semibold uppercase tracking-wide text-ink-muted">Current Context</h4>
+      <h4 className="mt-8 text-xs font-semibold tracking-wide text-ink-muted">السياق الحالي</h4>
       <div className="mt-4 space-y-3">
         {contextItems.map((item) => {
           const Icon = item.icon;
@@ -53,7 +53,7 @@ export default function RightStudyPanel() {
         })}
       </div>
 
-      <h4 className="mt-8 text-xs font-semibold uppercase tracking-wide text-ink-muted">Weak Areas Identified</h4>
+      <h4 className="mt-8 text-xs font-semibold tracking-wide text-ink-muted">مواضيع بدها مراجعة</h4>
       <div className="mt-3 space-y-3">
         {weakAreas.map((item) => (
           <div key={item.title} className="rounded-lg border border-border bg-surface-raised p-3">
@@ -65,7 +65,7 @@ export default function RightStudyPanel() {
                   <p className="text-xs text-ink-muted">{item.subtitle}</p>
                 </div>
               </div>
-              <button type="button" aria-label={`Review ${item.title}`} className="text-primary hover:text-primary-hover">
+              <button type="button" aria-label={`راجع ${item.title}`} className="text-primary hover:text-primary-hover">
                 <PlayCircle size={21} />
               </button>
             </div>
@@ -75,15 +75,11 @@ export default function RightStudyPanel() {
 
       <div className="mt-7 rounded-lg bg-gradient-to-br from-accent to-accent-hover px-5 py-5 text-white shadow-sm">
         <p className="flex items-center gap-2 text-base font-semibold">
-          <Sparkles size={16} /> Generate Flashcards
+          <Sparkles size={16} /> إنشاء بطاقات مراجعة
         </p>
-        <p className="mt-1 text-sm leading-6 text-white/95">Master Chapter 3 keywords with AI-powered cards.</p>
-        <Button
-          size="sm"
-          onClick={createNow}
-          className="mt-4 border-none bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
-        >
-          Create Now
+        <p className="mt-1 text-sm leading-6 text-white/95">أتقن كلمات الفصل الثالث ببطاقات ذكية.</p>
+        <Button size="sm" onClick={createNow} className="mt-4 border-none bg-white/20 text-white backdrop-blur-sm hover:bg-white/30">
+          أنشئها الآن
         </Button>
         {flashcardMsg && (
           <p role="status" className="mt-2 rounded-md bg-white/20 px-2 py-1 text-xs">

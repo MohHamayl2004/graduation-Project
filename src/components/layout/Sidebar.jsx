@@ -74,7 +74,7 @@ export default function Sidebar({ activeItem = "aiTutor", userName = userProfile
 
       <aside
         id="app-sidebar"
-        aria-label="Primary"
+        aria-label="التنقّل الرئيسي"
         className={`fixed inset-y-0 start-0 z-50 flex w-[272px] shrink-0 flex-col border-e border-border bg-surface-raised transition-transform duration-base ease-out lg:static lg:z-auto lg:flex lg:w-[248px] ${
           mobileOpen ? "translate-x-0" : "max-lg:-translate-x-full max-lg:rtl:translate-x-full"
         }`}

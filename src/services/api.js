@@ -12,7 +12,7 @@ export async function apiRequest(path, options = {}) {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(data?.message || "API request failed");
+    throw new Error(data?.message || "تعذّر إكمال الطلب، حاول مرة ثانية");
   }
 
   return data;

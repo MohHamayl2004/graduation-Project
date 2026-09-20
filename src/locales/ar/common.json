@@ -1,7 +1,7 @@
 {
   "brand": {
-    "name": "NIPRAS",
-    "tagline": "تعلّم أذكى، مستقبل أفضل"
+    "name": "نبراس",
+    "tagline": "تعلّم أذكى، لمستقبل أفضل"
   },
   "actions": {
     "save": "حفظ",
@@ -11,20 +11,19 @@
     "orSignUpWith": "أو سجّل باستخدام"
   },
   "search": {
-    "genericPlaceholder": "بحث..."
+    "genericPlaceholder": "ابحث..."
   },
   "nav": {
     "notifications": "الإشعارات",
     "help": "المساعدة",
-    "openMenu": "فتح قائمة التنقل",
-    "closeMenu": "إغلاق قائمة التنقل",
-    "language": "اللغة"
+    "openMenu": "فتح قائمة التنقّل",
+    "closeMenu": "إغلاق قائمة التنقّل"
   },
   "footer": {
-    "copyright": "© 2024 NIPRAS للتعلم بالذكاء الاصطناعي. جميع الحقوق محفوظة.",
+    "copyright": "© 2024 نبراس للتعلّم الذكي. جميع الحقوق محفوظة.",
     "aboutUs": "من نحن",
     "privacyPolicy": "سياسة الخصوصية",
-    "termsOfService": "شروط الخدمة",
+    "termsOfService": "شروط الاستخدام",
     "support": "الدعم",
     "cookiePolicy": "سياسة ملفات تعريف الارتباط"
   }

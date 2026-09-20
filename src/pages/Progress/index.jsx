@@ -20,9 +20,9 @@ export default function Progress() {
   const navigate = useNavigate();
   const [toast, setToast] = useState("");
   const [showGoal, setShowGoal] = useState(false);
-  const [goalText, setGoalText] = useState("Complete 3 lectures this week");
+  const [goalText, setGoalText] = useState("أنجز 3 دروس هذا الأسبوع");
   const exportReport = () => {
-    setToast("Report exported successfully!");
+    setToast("تم تصدير التقرير بنجاح!");
     setTimeout(() => setToast(""), 1800);
   };
 
@@ -32,21 +32,21 @@ export default function Progress() {
         <Sidebar activeItem="progress" userName={userProfile.name} userTrack={userProfile.stream} />
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <Navbar searchPlaceholder="Search analytics..." showNotificationDot />
+          <Navbar searchPlaceholder="ابحث في تقارير التقدّم..." showNotificationDot />
 
           <main className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">Your Learning Journey</h1>
-                <p className="mt-1 text-base text-ink-muted">Real-time insights into your Tawjihi preparation</p>
+                <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">رحلتك التعليمية</h1>
+                <p className="mt-1 text-base text-ink-muted">صورة مباشرة عن استعدادك للتوجيهي</p>
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
                 <Button variant="secondary" onClick={exportReport}>
-                  <Download size={17} /> Export Report
+                  <Download size={17} /> تصدير التقرير
                 </Button>
                 <Button onClick={() => setShowGoal((v) => !v)}>
-                  <Plus size={17} /> Set New Goal
+                  <Plus size={17} /> إضافة هدف
                 </Button>
               </div>
             </div>
@@ -60,7 +60,7 @@ export default function Progress() {
             {showGoal ? (
               <Card padding="sm" className="mt-3">
                 <label htmlFor="goalText" className="text-sm font-medium text-ink-muted">
-                  New Goal
+                  الهدف الجديد
                 </label>
                 <div className="mt-2 flex gap-2">
                   <input
@@ -70,7 +70,7 @@ export default function Progress() {
                     className="h-10 flex-1 rounded-md border border-border-strong px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/15"
                   />
                   <Button size="sm" onClick={() => setShowGoal(false)}>
-                    Save
+                    حفظ
                   </Button>
                 </div>
               </Card>
@@ -80,9 +80,9 @@ export default function Progress() {
               <Card>
                 <div className="flex items-center justify-between">
                   <BookOpen size={18} className="text-primary" />
-                  <p className="text-sm text-accent">+2 this week</p>
+                  <p className="text-sm text-accent">+2 هذا الأسبوع</p>
                 </div>
-                <p className="mt-3 text-sm text-ink-muted">Lectures Completed</p>
+                <p className="mt-3 text-sm text-ink-muted">الدروس المكتملة</p>
                 <p className="text-3xl font-semibold text-ink">
                   14<span className="text-lg text-ink-faint">/20</span>
                 </p>
@@ -93,34 +93,34 @@ export default function Progress() {
               <Card>
                 <div className="flex items-center justify-between">
                   <BarChart3 size={18} className="text-accent" />
-                  <p className="text-sm text-accent">+5% increase</p>
+                  <p className="text-sm text-accent">زيادة 5%</p>
                 </div>
-                <p className="mt-3 text-sm text-ink-muted">Average Quiz Score</p>
+                <p className="mt-3 text-sm text-ink-muted">متوسط علامات الاختبارات</p>
                 <p className="text-3xl font-semibold text-ink">78%</p>
               </Card>
               <Card>
                 <Clock3 size={18} className="text-primary" />
-                <p className="mt-3 text-sm text-ink-muted">Total Study Time</p>
+                <p className="mt-3 text-sm text-ink-muted">إجمالي وقت الدراسة</p>
                 <p className="text-3xl font-semibold text-ink">
-                  42h <span className="text-lg text-ink-faint">15m</span>
+                  42 س <span className="text-lg text-ink-faint">15 د</span>
                 </p>
               </Card>
               <Card>
                 <Flame size={18} className="text-warning" />
-                <p className="mt-3 text-sm text-ink-muted">Study Streak</p>
-                <p className="text-3xl font-semibold text-ink">9 Days</p>
+                <p className="mt-3 text-sm text-ink-muted">أيام الالتزام</p>
+                <p className="text-3xl font-semibold text-ink">9 أيام</p>
               </Card>
             </section>
 
             <section className="mt-5 grid gap-4 xl:grid-cols-[1.4fr_1fr]">
               <Card padding="lg">
                 <div className="mb-5 flex items-center justify-between">
-                  <h2 className="font-display text-2xl font-semibold text-ink">Topic Mastery Overview</h2>
+                  <h2 className="font-display text-2xl font-semibold text-ink">مستوى إتقان المواضيع</h2>
                   <button
                     type="button"
                     className="flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm text-ink-muted hover:bg-surface-alt"
                   >
-                    All Subjects <ChevronDown size={14} />
+                    كل المواد <ChevronDown size={14} />
                   </button>
                 </div>
                 <div className="space-y-5">
@@ -138,7 +138,7 @@ export default function Progress() {
 
               <div className="space-y-4">
                 <Card padding="lg">
-                  <h3 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">WEEKLY ACTIVITY (HOURS)</h3>
+                  <h3 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">النشاط الأسبوعي (بالساعات)</h3>
                   <div className="mt-8 flex h-28 items-end gap-2">
                     {weeklyHours.map((h, i) => (
                       <div
@@ -149,14 +149,14 @@ export default function Progress() {
                     ))}
                   </div>
                   <div className="mt-3 flex justify-between text-xs text-ink-muted">
-                    <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                    <span>ن</span><span>ث</span><span>ر</span><span>خ</span><span>ج</span><span>س</span><span>ح</span>
                   </div>
                 </Card>
 
                 <Card padding="lg">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">LEARNING STREAK</h3>
-                    <p className="text-sm font-medium text-accent">Great consistency!</p>
+                    <h3 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">الالتزام بالدراسة</h3>
+                    <p className="text-sm font-medium text-accent">التزام ممتاز!</p>
                   </div>
                   <div className="mt-4 grid grid-cols-7 gap-1.5">
                     {streakIntensity.map((v, i) => (
@@ -170,10 +170,10 @@ export default function Progress() {
             <section className="mt-5 grid gap-4 xl:grid-cols-2">
               <Card padding="lg">
                 <div className="mb-1 flex items-center justify-between">
-                  <h2 className="font-display text-2xl font-semibold text-ink">Quiz Performance History</h2>
+                  <h2 className="font-display text-2xl font-semibold text-ink">سجل أداء الاختبارات</h2>
                   <TrendingUp size={18} className="text-primary" />
                 </div>
-                <p className="text-sm text-ink-muted">Last 10 sessions</p>
+                <p className="text-sm text-ink-muted">آخر 10 محاولات</p>
                 <div className="mt-6 h-48 rounded-md border border-dashed border-border bg-gradient-to-t from-primary-tint to-surface-raised p-3 sm:h-56">
                   <svg viewBox="0 0 400 170" className="h-full w-full text-primary">
                     <polyline
@@ -187,15 +187,15 @@ export default function Progress() {
                   </svg>
                 </div>
                 <div className="mt-2 grid grid-cols-10 text-center text-xs text-ink-muted">
-                  <span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Q5</span><span>Q6</span><span>Q7</span><span>Q8</span><span>Q9</span><span>Q10</span>
+                  <span>١</span><span>٢</span><span>٣</span><span>٤</span><span>٥</span><span>٦</span><span>٧</span><span>٨</span><span>٩</span><span>١٠</span>
                 </div>
               </Card>
 
               <Card padding="lg">
-                <h2 className="font-display text-2xl font-semibold text-ink">Recent Completed Lectures</h2>
+                <h2 className="font-display text-2xl font-semibold text-ink">آخر الدروس المكتملة</h2>
                 <div className="mt-4 overflow-hidden rounded-md border border-border">
                   <div className="grid grid-cols-[1.5fr_0.8fr_0.8fr] bg-surface-alt px-4 py-3 text-xs font-semibold tracking-wide text-ink-muted">
-                    <span>TOPIC</span><span>DURATION</span><span>DATE</span>
+                    <span>الموضوع</span><span>المدة</span><span>التاريخ</span>
                   </div>
                   {completedLectures.map(([topic, duration, date, color]) => (
                     <div key={topic} className="grid grid-cols-[1.5fr_0.8fr_0.8fr] items-center border-t border-border px-4 py-4 text-sm">
@@ -212,30 +212,29 @@ export default function Progress() {
             </section>
 
             <section className="mt-5 rounded-lg bg-primary p-6 text-white">
-              <p className="inline-flex items-center rounded-full bg-accent px-3 py-1 text-xs font-semibold">AI POWERED</p>
+              <p className="inline-flex items-center rounded-full bg-accent px-3 py-1 text-xs font-semibold">مدعوم بالذكاء الاصطناعي</p>
               <div className="mt-3 grid gap-4 xl:grid-cols-[1.5fr_1fr]">
                 <div className="flex gap-3">
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/15">
                     <Sparkles size={20} />
                   </div>
                   <div>
-                    <h3 className="font-display text-2xl font-semibold">Study Strategy Update</h3>
+                    <h3 className="font-display text-2xl font-semibold">تحديث استراتيجية الدراسة</h3>
                     <p className="mt-1 text-sm leading-7 text-white/80">
-                      Based on your recent Physics performance, I recommend focusing on &ldquo;Electromagnetic
-                      Induction&rdquo; for 30 minutes tomorrow. Your mastery in Organic Chemistry is exceptional,
-                      perhaps you can take a mock exam?
+                      حسب أدائك الأخير بالفيزياء، بنصحك تركّز على &ldquo;الحث الكهرومغناطيسي&rdquo; لمدة 30 دقيقة بكرة.
+                      إتقانك للكيمياء العضوية ممتاز؛ ممكن تجرّب امتحان تجريبي.
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 xl:justify-end">
                   <Button variant="accent" onClick={() => navigate("/lectures")} className="rounded-full">
-                    Start Suggested Lesson <ArrowRight size={16} />
+                    ابدأ الدرس المقترح <ArrowRight size={16} className="rtl:-scale-x-100" />
                   </Button>
                   <Button
                     variant="secondary"
                     className="rounded-full border-white/25 bg-transparent text-white hover:bg-white/10"
                   >
-                    Take Physics Quiz
+                    ابدأ اختبار الفيزياء
                   </Button>
                 </div>
               </div>

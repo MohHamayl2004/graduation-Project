@@ -82,16 +82,16 @@ export default function TutorHelper({ step, onEvent, onClose }) {
             <p className="text-sm leading-relaxed text-ink">{gap.lead}</p>
 
             <div className="rounded-md bg-surface-raised px-4 py-3">
-              <p className="font-arabic text-base text-ink">{gap.subject}</p>
+              <p className="font-arabic text-base text-ink" dir="ltr">{gap.subject}</p>
               <div className="mt-2 flex flex-col gap-1.5">
                 {gap.work.map(([math, why]) => (
                   <div key={math} className="flex flex-wrap items-baseline gap-2">
-                    <span className="font-arabic text-base text-ink">{math}</span>
+                    <span className="font-arabic text-base text-ink" dir="ltr">{math}</span>
                     <span className="text-xs text-ink-faint">{why}</span>
                   </div>
                 ))}
               </div>
-              <p className="mt-2 font-arabic text-base font-semibold text-ink">{gap.result}</p>
+              <p className="mt-2 font-arabic text-base font-semibold text-ink" dir="ltr">{gap.result}</p>
             </div>
 
             <div className="rounded-md bg-warning-tint px-4 py-3 text-sm leading-relaxed text-ink">

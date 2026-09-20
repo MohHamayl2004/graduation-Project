@@ -1,14 +1,14 @@
 export const masteryOverview = [
-  { subject: "Chemistry", value: 92 },
-  { subject: "Physics", value: 68 },
-  { subject: "Math", value: 85 },
-  { subject: "Biology", value: 74 },
-  { subject: "Arabic Language", value: 90 }
+  { subject: "الكيمياء", value: 92 },
+  { subject: "الفيزياء", value: 68 },
+  { subject: "الرياضيات", value: 85 },
+  { subject: "الأحياء", value: 74 },
+  { subject: "اللغة العربية", value: 90 }
 ];
 
 export const completedLectures = [
-  ["Atomic Structures", "45m", "Oct 12, 2023", "#152A63"],
-  ["Integration Basics", "1h 12m", "Oct 11, 2023", "#1E7A3C"],
-  ["Cell Division", "52m", "Oct 10, 2023", "#B45309"],
-  ["Chemical Equilibrium", "38m", "Oct 09, 2023", "#152A63"]
+  ["تركيب الذرة", "45 دقيقة", "12 تشرين الأول 2023", "#152A63"],
+  ["أساسيات التكامل", "ساعة و12 دقيقة", "11 تشرين الأول 2023", "#1E7A3C"],
+  ["انقسام الخلية", "52 دقيقة", "10 تشرين الأول 2023", "#B45309"],
+  ["الاتزان الكيميائي", "38 دقيقة", "9 تشرين الأول 2023", "#152A63"]
 ];

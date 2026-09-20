@@ -11,6 +11,16 @@ import Reveal from "./Reveal";
 import { buildSlides, lesson } from "./slides";
 
 const MODE_ICONS = { BookOpen, LineChart, Volume2, MousePointerClick };
+const EVENT_LABELS = {
+  mode_changed: "تغيير نمط العرض",
+  help_requested: "طلب مساعدة",
+  checkpoint_correct: "إجابة صحيحة",
+  checkpoint_wrong: "الإجابة مش صحيحة",
+  gap_selected: "تحديد نقطة التعثّر",
+  gap_freeform: "سؤال إضافي",
+  resolved: "تم توضيح الفكرة",
+  escalated: "طلب شرح بديل"
+};
 
 export default function Lesson() {
   const navigate = useNavigate();
@@ -207,8 +217,7 @@ export default function Lesson() {
                 <div className="text-center">
                   <Reveal as="p" step={1} className="text-sm text-ink-muted">{lesson.subject} · الوحدة {lesson.unit}</Reveal>
                   <Reveal as="h2" step={2} className="mt-3 font-display text-5xl font-semibold text-ink">{lesson.title}</Reveal>
-                  <Reveal as="p" step={3} className="mt-2 text-lg text-ink-faint">{lesson.titleEn}</Reveal>
-                  <Reveal as="p" step={5} className="mt-8 text-sm text-ink-muted">
+                  <Reveal as="p" step={4} className="mt-8 text-sm text-ink-muted">
                     استعمل <kbd className="rounded border border-border px-1.5 py-0.5 text-xs">←</kbd> و
                     <kbd className="ms-1 rounded border border-border px-1.5 py-0.5 text-xs">→</kbd> للتنقل،
                     و<kbd className="mx-1 rounded border border-border px-1.5 py-0.5 text-xs">مسافة</kbd> للتشغيل
@@ -226,7 +235,7 @@ export default function Lesson() {
                   </div>
                   <Reveal step={slide.definition.body.length + 1}
                     className="mt-6 overflow-x-auto rounded-lg bg-surface-alt px-6 py-6 text-center">
-                    <p className="font-arabic text-2xl leading-loose text-ink">
+                    <p className="font-arabic text-2xl leading-loose text-ink" dir="ltr">
                       {slide.definition.formula}
                     </p>
                   </Reveal>
@@ -273,7 +282,7 @@ export default function Lesson() {
                           {i + 1}
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="overflow-x-auto font-arabic text-xl leading-loose text-ink">
+                          <p className="overflow-x-auto font-arabic text-xl leading-loose text-ink" dir="ltr">
                             {step.math}
                           </p>
                           {step.gaps?.length > 0 && helpStep !== step.id && (
@@ -363,7 +372,7 @@ export default function Lesson() {
                     <X size={16} />
                   </button>
                 </div>
-                <p className="mb-3 overflow-x-auto rounded-md bg-surface-alt px-3 py-2 font-arabic text-base text-ink">
+                <p className="mb-3 overflow-x-auto rounded-md bg-surface-alt px-3 py-2 font-arabic text-base text-ink" dir="ltr">
                   {step.math}
                 </p>
                 <TutorHelper step={step} onEvent={record} onClose={() => setHelpStep(null)} />
@@ -381,7 +390,7 @@ export default function Lesson() {
                   ? <p className="rounded-md bg-surface-raised px-3 py-3 text-center text-xs text-ink-faint">لا أحداث بعد</p>
                   : events.map((e, i) => (
                       <div key={i} className="rounded-md bg-surface-raised px-3 py-2 text-xs text-ink-muted">
-                        <span className="font-semibold text-ink">{e.type}</span>
+                        <span className="font-semibold text-ink">{EVENT_LABELS[e.type] || e.type}</span>
                         {e.step && <> · <code>{e.step}</code></>}
                         {e.gap && <> · <code>{e.gap}</code></>}
                         {e.mode && <> · <code>{e.mode}</code></>}

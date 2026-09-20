@@ -8,16 +8,16 @@ import Logo from "../../components/common/Logo";
 import ProgressBar from "../../components/common/ProgressBar";
 
 const steps = [
-  { title: "Upload Received", detail: "File successfully stored in your cloud library" },
-  { title: "Document Chunking", detail: "Parsing semantic sections for better analysis" },
-  { title: "Embedding Generation", detail: "Translating text into vector knowledge maps..." },
-  { title: "Knowledge Retrieval", detail: "Contextualizing with Tawjihi syllabus" },
-  { title: "Lecture Generation", detail: "Creating adaptive learning scripts" },
-  { title: "Quiz Generation", detail: "Preparing mastery assessment questions" }
+  { title: "تم استلام الملف", detail: "حفظنا الملف بنجاح في مكتبتك" },
+  { title: "تقسيم المحتوى", detail: "بنقسّم الملف لأجزاء مترابطة عشان نفهمه بدقة" },
+  { title: "بناء خريطة المعرفة", detail: "بنحوّل النص لخريطة معرفة منظّمة..." },
+  { title: "ربط المعلومات", detail: "بنربط المحتوى مع منهاج التوجيهي" },
+  { title: "إنشاء الدرس", detail: "بنجهّز شرحًا مناسبًا لمستواك" },
+  { title: "إنشاء الاختبار", detail: "بنحضّر أسئلة عشان تقيس فهمك" }
 ];
 
 function AnalysisHeader() {
-  return <Navbar searchPlaceholder="Search your library..." showAvatar compact maxWidth="max-w-[980px]" />;
+  return <Navbar searchPlaceholder="ابحث في مكتبتك..." showAvatar compact maxWidth="max-w-[980px]" />;
 }
 
 function AnalysisFooter() {
@@ -75,7 +75,7 @@ export default function Analysis() {
 
                 <div className="mt-1 rounded-full bg-accent-tint px-4 py-1.5 text-sm text-accent">
                   <span className="inline-flex items-center gap-2">
-                    <Sparkles size={14} /> AI is analyzing your material
+                    <Sparkles size={14} /> جاري تحليل مادتك
                   </span>
                 </div>
 
@@ -127,8 +127,8 @@ export default function Analysis() {
 
                 <div className="w-full max-w-[440px]">
                   <div className="mb-1 flex items-center justify-between">
-                    <p className="text-lg font-medium text-primary">{progress}% Analyzed</p>
-                    <p className="text-xs text-ink-muted">~{estimatedSeconds}s remaining</p>
+                    <p className="text-lg font-medium text-primary" dir="ltr">{progress}% <span dir="rtl">تم تحليله</span></p>
+                    <p className="text-xs text-ink-muted">باقي تقريبًا {estimatedSeconds} ثانية</p>
                   </div>
                   <ProgressBar value={progress} />
                 </div>
@@ -141,7 +141,7 @@ export default function Analysis() {
                   }}
                   className="rounded-full border border-border-strong px-6 py-2 text-sm font-medium text-ink-muted transition-colors duration-base hover:bg-surface-alt"
                 >
-                  Cancel Processing
+                  إلغاء التحليل
                 </button>
               </div>
             </div>

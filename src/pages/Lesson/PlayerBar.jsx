@@ -49,7 +49,7 @@ export default function PlayerBar({ slides, index, playing, onPlay, onPrev, onNe
       </span>
 
       {atEnd && (
-        <button type="button" onClick={onRestart} aria-label="من البداية"
+        <button type="button" onClick={onRestart} aria-label="شغّل مرة ثانية"
           className="grid h-9 w-9 shrink-0 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink">
           <Repeat size={17} />
         </button>

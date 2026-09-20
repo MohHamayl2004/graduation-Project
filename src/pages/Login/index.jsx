@@ -4,7 +4,6 @@ import { Eye, EyeOff, ArrowRight, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import Button from "../../components/common/Button";
-import LanguageSwitcher from "../../components/layout/LanguageSwitcher";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -61,11 +60,10 @@ export default function Login() {
 
         <section className="flex items-center justify-center px-6 py-10 sm:px-10 lg:px-16">
           <div className="w-full max-w-[440px]">
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-start">
               <div className="lg:hidden">
                 <Logo height={30} />
               </div>
-              <LanguageSwitcher className="ms-auto" />
             </div>
 
             <h2 className="font-display text-4xl font-semibold tracking-tight">{t("login.signInTitle")}</h2>
@@ -79,6 +77,7 @@ export default function Login() {
                 <input
                   id="email"
                   type="text"
+                  dir="ltr"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("login.emailPlaceholder")}
@@ -101,6 +100,7 @@ export default function Login() {
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}
+                    dir="ltr"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t("login.passwordPlaceholder")}

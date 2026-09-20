@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
 
 const fileFilter = (_req, file, cb) => {
   if (!allowedMimeTypes.has(file.mimetype)) {
-    cb(new Error("Unsupported file type"));
+    cb(new Error("نوع الملف غير مدعوم"));
     return;
   }
 

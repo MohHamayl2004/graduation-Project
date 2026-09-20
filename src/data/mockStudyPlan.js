@@ -1,36 +1,15 @@
 export const initialStudyTasks = [
-  {
-    id: 1,
-    title: "Review Organic Chemistry Fundamentals",
-    priority: "HIGH",
-    subject: "Chemistry",
-    duration: "45m",
-    done: false
-  },
-  {
-    id: 2,
-    title: "Calculus II: AI Tutor Drill",
-    priority: "MEDIUM",
-    subject: "Math",
-    duration: "30m",
-    done: false
-  },
-  {
-    id: 3,
-    title: "Arabic Literature Poem Analysis",
-    priority: "Completed",
-    subject: "Arabic",
-    duration: "25m",
-    done: true
-  }
+  { id: 1, title: "مراجعة أساسيات الكيمياء العضوية", priority: "عالية", subject: "الكيمياء", duration: "45 دقيقة", done: false },
+  { id: 2, title: "تدريب التفاضل والتكامل مع المعلّم الذكي", priority: "متوسطة", subject: "الرياضيات", duration: "30 دقيقة", done: false },
+  { id: 3, title: "تحليل قصيدة في الأدب العربي", priority: "مكتملة", subject: "اللغة العربية", duration: "25 دقيقة", done: true }
 ];
 
 export const weeklyScheduleBlocks = {
-  Mon: ["Arabic", "Physics", "AI Drill"],
-  Tue: ["Math Quiz", "History"],
-  Wed: ["AI Bio Review", "Eng"],
-  Thu: ["Chem Quiz", "Math II"],
-  Fri: ["Physics", "AI Lang"],
-  Sat: ["Mock Exam"],
-  Sun: []
+  "الاثنين": ["العربية", "الفيزياء", "تدريب ذكي"],
+  "الثلاثاء": ["اختبار الرياضيات", "التاريخ"],
+  "الأربعاء": ["مراجعة الأحياء", "الإنجليزية"],
+  "الخميس": ["اختبار الكيمياء", "رياضيات 2"],
+  "الجمعة": ["الفيزياء", "تدريب اللغة"],
+  "السبت": ["امتحان تجريبي"],
+  "الأحد": []
 };

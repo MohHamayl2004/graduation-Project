@@ -1,18 +1,6 @@
 export const quizOptions = [
-  {
-    key: "A",
-    text: "The complete transfer of one or more electrons from one atom to another."
-  },
-  {
-    key: "B",
-    text: "The sharing of electron pairs between atoms, typically between non-metals."
-  },
-  {
-    key: "C",
-    text: "An electrostatic attraction between oppositely charged ions in a chemical compound."
-  },
-  {
-    key: "D",
-    text: "The attraction between sea-of-electrons and positively charged metal nuclei."
-  }
+  { key: "أ", text: "الانتقال الكامل لإلكترون واحد أو أكثر من ذرة إلى ذرة ثانية." },
+  { key: "ب", text: "مشاركة أزواج من الإلكترونات بين الذرات، وغالبًا بين اللافلزات." },
+  { key: "ج", text: "قوة تجاذب كهربائي بين أيونات مختلفة الشحنة في مركّب كيميائي." },
+  { key: "د", text: "التجاذب بين بحر الإلكترونات وأنوية الفلزات موجبة الشحنة." }
 ];

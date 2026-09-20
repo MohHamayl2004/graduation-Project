@@ -18,12 +18,12 @@ export default function Logo({ variant = "color", height = 36, showWordmark = tr
           }`}
           style={{ height, width: height }}
         >
-          N
+          ن
         </span>
       ) : (
         <img
           src={SOURCES[variant]}
-          alt="NIPRAS"
+          alt="شعار نبراس"
           style={{ height }}
           className="w-auto shrink-0"
           onError={() => setFailed(true)}
@@ -31,7 +31,7 @@ export default function Logo({ variant = "color", height = 36, showWordmark = tr
       )}
       {showWordmark ? (
         <span className={`font-display text-2xl font-semibold tracking-tight ${isWhite ? "text-white" : "text-primary"}`}>
-          NIPRAS
+          نبراس
         </span>
       ) : null}
     </div>

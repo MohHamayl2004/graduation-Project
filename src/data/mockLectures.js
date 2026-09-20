@@ -1,70 +1,70 @@
 export const lectureTopics = [
-  "Introduction",
-  "Ionic Bonds",
-  "Covalent Bonds",
-  "Metallic Bonds",
-  "VSEPR Theory",
-  "Molecular Polarity",
-  "Hybridization",
-  "Intermolecular Forces"
+  "مقدمة",
+  "الروابط الأيونية",
+  "الروابط التساهمية",
+  "الروابط الفلزية",
+  "نظرية تنافر أزواج الإلكترونات",
+  "قطبية الجزيئات",
+  "التهجين",
+  "القوى بين الجزيئات"
 ];
 
 export const lectureContent = {
-  Introduction: {
-    title: "1. Introduction to Chemical Bonds",
+  "مقدمة": {
+    title: "1. مقدمة في الروابط الكيميائية",
     paragraphs: [
-      "Chemical bonding is a foundational concept in chemistry that explains how atoms interact to form stable structures known as molecules or crystal lattices. At its core, bonding is driven by the quest for thermodynamic stability, where atoms seek lower-energy configurations by rearranging their valence electrons. This often leads to a full outer shell, a configuration commonly associated with noble gases.",
-      "Understanding these interactions is practical as well as theoretical. Bond type strongly influences melting point, conductivity, hardness, and reactivity. In this chapter, we establish a framework for ionic, covalent, and metallic bonding, then connect these models to molecular shape and polarity so you can predict behavior from structure with confidence.",
-      "As you continue, pay attention to how electronegativity, electron sharing, and geometry work together. These three ideas appear repeatedly in Tawjihi questions, especially in mixed conceptual-calculation problems that compare multiple compounds."
+      "الترابط الكيميائي مفهوم أساسي بيفسّر كيف بتتفاعل الذرات لتشكّل تراكيب مستقرة مثل الجزيئات أو الشبكات البلورية. بتسعى الذرات عادةً لحالة أقل طاقة من خلال إعادة ترتيب إلكترونات التكافؤ، وغالبًا بوصل غلافها الخارجي لحالة مستقرة تشبه الغازات النبيلة.",
+      "فهم الروابط مهم نظريًا وعمليًا؛ فنوع الرابطة بأثر في درجة الانصهار والتوصيل والصلابة والتفاعلية. في هذا الفصل رح ندرس الروابط الأيونية والتساهمية والفلزية، ونربطها بشكل الجزيء وقطبيته.",
+      "وأنت بتكمل، ركّز على الكهروسالبية ومشاركة الإلكترونات والشكل الهندسي. هاي الأفكار بتتكرر كثير بأسئلة التوجيهي، خصوصًا الأسئلة اللي بتجمع بين الفهم والحساب."
     ]
   },
-  "Ionic Bonds": {
-    title: "2. Ionic Bonds",
+  "الروابط الأيونية": {
+    title: "2. الروابط الأيونية",
     paragraphs: [
-      "Ionic bonds form when electrons are transferred from one atom to another, creating positively and negatively charged ions that attract each other electrostatically.",
-      "These compounds usually have high melting points and conduct electricity when molten or dissolved."
+      "بتتكوّن الرابطة الأيونية لما تنتقل إلكترونات من ذرة لذرة ثانية، فتتشكّل أيونات موجبة وسالبة بتتجاذب كهربائيًا.",
+      "مركّباتها غالبًا إلها درجات انصهار عالية وبتوصل الكهرباء لما تكون منصهرة أو مذابة."
     ]
   },
-  "Covalent Bonds": {
-    title: "3. Covalent Bonds",
+  "الروابط التساهمية": {
+    title: "3. الروابط التساهمية",
     paragraphs: [
-      "Covalent bonds involve sharing electron pairs between atoms. Equal sharing leads to nonpolar bonds, while unequal sharing creates polar covalent bonds.",
-      "This model is central to understanding molecular geometry, polarity, and intermolecular forces."
+      "الرابطة التساهمية بتعتمد على مشاركة أزواج الإلكترونات بين الذرات. المشاركة المتساوية بتنتج رابطة غير قطبية، والمشاركة غير المتساوية بتنتج رابطة تساهمية قطبية.",
+      "هذا النموذج أساسي لفهم شكل الجزيئات وقطبيتها والقوى بينها."
     ]
   },
-  "Metallic Bonds": {
-    title: "4. Metallic Bonds",
+  "الروابط الفلزية": {
+    title: "4. الروابط الفلزية",
     paragraphs: [
-      "In metals, valence electrons are delocalized into an electron sea around positive metal ions.",
-      "This explains key properties such as conductivity, malleability, and luster."
+      "في الفلزات، بتكون إلكترونات التكافؤ حرة الحركة ضمن بحر إلكتروني يحيط بأيونات الفلز الموجبة.",
+      "هذا بيفسّر خصائص مثل التوصيل وقابلية الطرق واللمعان."
     ]
   },
-  "VSEPR Theory": {
-    title: "5. VSEPR Theory",
+  "نظرية تنافر أزواج الإلكترونات": {
+    title: "5. نظرية تنافر أزواج إلكترونات غلاف التكافؤ",
     paragraphs: [
-      "VSEPR predicts molecular shape by minimizing repulsion between electron domains around the central atom.",
-      "Shapes like linear, trigonal planar, tetrahedral, and bent directly affect polarity and reactivity."
+      "بتتنبأ النظرية بشكل الجزيء من خلال تقليل التنافر بين مناطق الإلكترونات حول الذرة المركزية.",
+      "الأشكال الخطية والمثلثية المستوية ورباعية السطوح والمنحنية بتأثر مباشرة في القطبية والتفاعلية."
     ]
   },
-  "Molecular Polarity": {
-    title: "6. Molecular Polarity",
+  "قطبية الجزيئات": {
+    title: "6. قطبية الجزيئات",
     paragraphs: [
-      "Polarity depends on both bond dipoles and molecular geometry. Symmetric molecules can cancel dipoles even when individual bonds are polar.",
-      "Polarity influences solubility, boiling point, and intermolecular attraction."
+      "بتعتمد القطبية على قطبية الروابط والشكل الهندسي معًا. ممكن تتلاشى عزوم الروابط في الجزيئات المتماثلة حتى لو كانت الروابط نفسها قطبية.",
+      "القطبية بتأثر في الذائبية ودرجة الغليان وقوى التجاذب بين الجزيئات."
     ]
   },
-  Hybridization: {
-    title: "7. Hybridization",
+  "التهجين": {
+    title: "7. التهجين",
     paragraphs: [
-      "Hybridization explains equivalent bonding orbitals such as sp, sp2, and sp3.",
-      "It helps bridge orbital theory with observed molecular shapes and bond angles."
+      "التهجين بيفسّر تكوّن أفلاك ترابط متكافئة مثل sp وsp² وsp³.",
+      "وبيربط بين نظرية الأفلاك وأشكال الجزيئات وزوايا الروابط اللي بنشوفها عمليًا."
     ]
   },
-  "Intermolecular Forces": {
-    title: "8. Intermolecular Forces",
+  "القوى بين الجزيئات": {
+    title: "8. القوى بين الجزيئات",
     paragraphs: [
-      "Intermolecular forces include London dispersion, dipole-dipole interactions, and hydrogen bonding.",
-      "These forces are weaker than bonds but crucial for physical properties like phase and boiling point."
+      "بتشمل القوى بين الجزيئات قوى تشتت لندن، وتجاذب ثنائي القطب، والروابط الهيدروجينية.",
+      "هاي القوى أضعف من الروابط الكيميائية، لكنها أساسية لفهم الحالة الفيزيائية ودرجة الغليان."
     ]
   }
 };

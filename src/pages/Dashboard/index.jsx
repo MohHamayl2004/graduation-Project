@@ -10,35 +10,35 @@ import { userProfile } from "../../data/userProfile";
 import { dashboardStats } from "../../data/mockDashboard";
 
 const weeklyActivity = [
-  { day: "Mon", minutes: 42 },
-  { day: "Tue", minutes: 68 },
-  { day: "Wed", minutes: 35 },
-  { day: "Thu", minutes: 74 },
-  { day: "Fri", minutes: 50 },
-  { day: "Sat", minutes: 20 },
-  { day: "Sun", minutes: 58 }
+  { day: "ن", minutes: 42 },
+  { day: "ث", minutes: 68 },
+  { day: "ر", minutes: 35 },
+  { day: "خ", minutes: 74 },
+  { day: "ج", minutes: 50 },
+  { day: "س", minutes: 20 },
+  { day: "ح", minutes: 58 }
 ];
 const dailyGoalMinutes = 60;
 const weeklyMax = Math.max(dailyGoalMinutes, ...weeklyActivity.map((d) => d.minutes));
 
 const studyPlanItems = [
   {
-    title: "Chemistry Lecture",
-    detail: "Chapter 4: Organic Bases — 45 min",
+    title: "درس الكيمياء",
+    detail: "الفصل الرابع: القواعد العضوية — 45 دقيقة",
     icon: FlaskConical,
     tone: "bg-primary-tint text-primary",
     action: CirclePlay
   },
   {
-    title: "Physics Quiz",
-    detail: "Electromagnetism Review — 20 Questions",
+    title: "اختبار الفيزياء",
+    detail: "مراجعة الكهرومغناطيسية — 20 سؤالًا",
     icon: Zap,
     tone: "bg-accent-tint text-accent",
     action: Pencil
   },
   {
-    title: "Math Practice",
-    detail: "Integration Techniques — 10 Problems",
+    title: "تدريب الرياضيات",
+    detail: "أساليب التكامل — 10 مسائل",
     icon: Calculator,
     tone: "bg-warning-tint text-warning",
     action: CircleCheck
@@ -52,30 +52,30 @@ const TOPIC_TEXT_TONE = {
 };
 
 const focusTopics = [
-  { label: "Calculus: Integrals", mastery: 42, tone: "error" },
-  { label: "Organic Chemistry", mastery: 58, tone: "warning" },
-  { label: "Thermodynamics", mastery: 65, tone: "accent" }
+  { label: "التفاضل والتكامل: التكاملات", mastery: 42, tone: "error" },
+  { label: "الكيمياء العضوية", mastery: 58, tone: "warning" },
+  { label: "الديناميكا الحرارية", mastery: 65, tone: "accent" }
 ];
 
 const upcomingAssessments = [
-  { date: { month: "OCT", day: "26" }, title: "Biology Midterm", detail: "09:00 AM — Main Hall", filled: true },
-  { date: { month: "OCT", day: "28" }, title: "AI Prediction Quiz", detail: "Online — Physics", filled: false }
+  { date: { month: "تشرين أول", day: "26" }, title: "امتحان الأحياء النصفي", detail: "09:00 صباحًا — القاعة الرئيسية", filled: true },
+  { date: { month: "تشرين أول", day: "28" }, title: "اختبار توقّعي ذكي", detail: "عبر الإنترنت — الفيزياء", filled: false }
 ];
 
 const continueLearning = [
   {
-    subject: "Physics",
-    title: "Lesson 7: Magnetic Flux & Induction",
+    subject: "الفيزياء",
+    title: "الدرس 7: التدفق والحث المغناطيسي",
     progress: 45,
-    timeLeft: "12:45 Left",
+    timeLeft: "باقي 12:45",
     from: "from-primary",
     to: "to-[#2A4C9E]"
   },
   {
-    subject: "Chemistry",
-    title: "Atomic Structure: Bohr's Model",
+    subject: "الكيمياء",
+    title: "تركيب الذرة: نموذج بور",
     progress: 60,
-    timeLeft: "08:20 Left",
+    timeLeft: "باقي 08:20",
     from: "from-accent",
     to: "to-[#2E9C52]"
   }
@@ -90,13 +90,13 @@ export default function Dashboard() {
         <Sidebar activeItem="dashboard" userName={userProfile.name} userTrack={userProfile.stream} />
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <Navbar searchPlaceholder="Search lessons, quizzes, or AI help..." showNotificationDot />
+          <Navbar searchPlaceholder="ابحث عن درس أو اختبار أو مساعدة..." showNotificationDot />
 
           <main className="min-h-0 flex-1 overflow-y-auto px-5 py-7 sm:px-8">
             <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">
-              Good morning, {userProfile.name.split(" ")[0]}
+              صباح الخير، {userProfile.name.split(" ")[0]}
             </h1>
-            <p className="mt-1 text-base text-ink-muted">October 24, 2024 — Tawjihi Scientific Stream</p>
+            <p className="mt-1 text-base text-ink-muted">24 تشرين الأول 2024 — الفرع العلمي</p>
 
             <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {dashboardStats.map((item) => {
@@ -108,7 +108,7 @@ export default function Dashboard() {
                       <p className="text-sm text-ink-muted">{item.title}</p>
                     </div>
                     <p className="mt-2 text-3xl font-semibold text-ink">{item.value}</p>
-                    <p className={`text-sm ${item.title === "Avg. Score" ? "text-accent" : "text-ink-muted"}`}>{item.note}</p>
+                    <p className={`text-sm ${item.title === "متوسط العلامات" ? "text-accent" : "text-ink-muted"}`}>{item.note}</p>
                     {item.bar ? (
                       <div className="mt-3">
                         <ProgressBar value={item.bar} size="sm" />
@@ -122,9 +122,9 @@ export default function Dashboard() {
             <section className="mt-6 grid gap-4 xl:grid-cols-[2fr_1fr]">
               <Card>
                 <div className="mb-4 flex items-center justify-between">
-                  <h2 className="font-display text-2xl font-semibold text-ink">Today&apos;s Study Plan</h2>
+                  <h2 className="font-display text-2xl font-semibold text-ink">خطّة دراسة اليوم</h2>
                   <button type="button" className="text-sm font-semibold text-primary hover:underline">
-                    View Calendar
+                    عرض التقويم
                   </button>
                 </div>
 
@@ -156,12 +156,12 @@ export default function Dashboard() {
               <div className="space-y-4">
                 <div className="rounded-lg bg-primary p-5 text-white shadow-md">
                   <h3 className="flex items-center gap-2 font-display text-xl font-semibold">
-                    <Sparkles size={18} /> AI Tutor Support
+                    <Sparkles size={18} /> مساعدة المعلّم الذكي
                   </h3>
-                  <p className="mt-2 text-sm text-white/80">Stuck on a problem? Ask NIPRAS for a hint or a breakdown.</p>
+                  <p className="mt-2 text-sm text-white/80">واقف معك سؤال؟ اسأل نبراس وخذ تلميح أو شرح خطوة خطوة.</p>
                   <textarea
-                    placeholder="Paste your question here..."
-                    aria-label="Ask the AI tutor a question"
+                    placeholder="اكتب سؤالك هون..."
+                    aria-label="اسأل المعلّم الذكي"
                     className="mt-4 h-24 w-full resize-none rounded-md border border-white/20 bg-white/10 p-3 text-sm text-white outline-none placeholder:text-white/60 focus:border-white/40"
                   />
                   <Button
@@ -170,18 +170,18 @@ export default function Dashboard() {
                     className="mt-4 border-none bg-white text-primary hover:bg-white/90"
                     onClick={() => navigate("/ai-tutor")}
                   >
-                    Ask AI <ArrowRight size={17} />
+                    اسأل نبراس <ArrowRight size={17} className="rtl:-scale-x-100" />
                   </Button>
                 </div>
 
                 <Card>
-                  <h3 className="font-display text-xl font-semibold text-ink">Topics to Focus On</h3>
+                  <h3 className="font-display text-xl font-semibold text-ink">مواضيع بدها تركيز</h3>
                   <div className="mt-3 space-y-3 text-sm">
                     {focusTopics.map((topic) => (
                       <div key={topic.label}>
                         <div className="mb-1 flex items-center justify-between">
                           <span className="text-ink">{topic.label}</span>
-                          <span className={`font-semibold ${TOPIC_TEXT_TONE[topic.tone]}`}>{topic.mastery}% Mastery</span>
+                          <span className={`font-semibold ${TOPIC_TEXT_TONE[topic.tone]}`}>إتقان {topic.mastery}%</span>
                         </div>
                         <ProgressBar value={topic.mastery} tone={topic.tone} size="sm" />
                       </div>
@@ -190,7 +190,7 @@ export default function Dashboard() {
                 </Card>
 
                 <Card>
-                  <h3 className="font-display text-xl font-semibold text-ink">Upcoming Assessments</h3>
+                  <h3 className="font-display text-xl font-semibold text-ink">الاختبارات القادمة</h3>
                   <div className="mt-3 space-y-3">
                     {upcomingAssessments.map((item) => (
                       <div
@@ -218,12 +218,12 @@ export default function Dashboard() {
 
             <section className="mt-6 grid gap-4 xl:grid-cols-[2fr_1fr]">
               <div>
-                <h2 className="font-display text-2xl font-semibold text-ink">Continue Learning</h2>
+                <h2 className="font-display text-2xl font-semibold text-ink">كمّل تعلّمك</h2>
                 <div className="mt-3 grid gap-4 md:grid-cols-2">
                   {continueLearning.map((item) => (
                     <article key={item.title} className="overflow-hidden rounded-lg border border-border bg-surface-raised shadow-sm">
                       <div className={`relative h-36 bg-gradient-to-br ${item.from} ${item.to}`}>
-                        <span className="absolute bottom-2 right-2 rounded bg-ink/60 px-2 py-1 text-xs text-white">
+                        <span className="absolute bottom-2 end-2 rounded bg-ink/60 px-2 py-1 text-xs text-white">
                           {item.timeLeft}
                         </span>
                       </div>
@@ -245,17 +245,17 @@ export default function Dashboard() {
             <Card className="mt-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h2 className="font-display text-2xl font-semibold text-ink">Weekly Study Activity</h2>
-                  <p className="text-sm text-ink-muted">Tracking your focus time across the week</p>
+                  <h2 className="font-display text-2xl font-semibold text-ink">نشاطك الدراسي الأسبوعي</h2>
+                  <p className="text-sm text-ink-muted">متابعة وقت تركيزك خلال الأسبوع</p>
                 </div>
                 <div className="flex items-center gap-4 rounded-full bg-surface-alt px-4 py-2 text-xs text-ink-muted">
                   <span className="inline-flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full bg-primary" />
-                    Study Time
+                    وقت الدراسة
                   </span>
                   <span className="inline-flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-                    Daily Goal ({dailyGoalMinutes}m)
+                    هدف اليوم ({dailyGoalMinutes} دقيقة)
                   </span>
                 </div>
               </div>
