@@ -1,18 +1,23 @@
 export const notFound = (req, res, next) => {
-  const error = new Error(`Route not found: ${req.originalUrl}`);
+  const error = new Error(`المسار المطلوب غير موجود: ${req.originalUrl}`);
   res.status(404);
   next(error);
 };
 
 export const errorHandler = (error, _req, res, _next) => {
-  if (error.name === "MulterError" || error.message === "Unsupported file type") {
+  if (error.name === "MulterError") {
+    const message = error.code === "LIMIT_FILE_SIZE" ? "حجم الملف أكبر من الحد المسموح" : "تعذّر رفع الملف";
+    return res.status(400).json({ message });
+  }
+
+  if (error.message === "نوع الملف غير مدعوم") {
     return res.status(400).json({ message: error.message });
   }
 
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
 
   return res.status(statusCode).json({
-    message: error.message || "Server error",
+    message: error.message || "صار خطأ، حاول مرة ثانية",
     stack: process.env.NODE_ENV === "production" ? undefined : error.stack
   });
 };

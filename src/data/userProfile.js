@@ -1,7 +1,7 @@
 import avatarImage from "../assets/images/mohammad-hamayl.png";
 
 export const userProfile = {
-  name: "Mohammad Hamayl",
-  stream: "Tawjihi Science",
+  name: "محمد حمايل",
+  stream: "التوجيهي العلمي",
   avatar: avatarImage
 };

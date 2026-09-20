@@ -26,7 +26,7 @@ export const uploadMaterial = async (formData, token) => {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(data?.message || "Material upload failed");
+    throw new Error(data?.message || "تعذّر رفع المادة، حاول مرة ثانية");
   }
 
   return data;

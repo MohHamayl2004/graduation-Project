@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Bell, CircleHelp, Search } from "lucide-react";
 import { userProfile } from "../../data/userProfile";
-import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar({
   searchPlaceholder,
@@ -34,7 +33,6 @@ export default function Navbar({
 
         <div className={`flex shrink-0 items-center ${actionGap} text-ink-muted`}>
           {children}
-          <LanguageSwitcher className="hidden sm:inline-flex" />
           <button
             type="button"
             aria-label={t("nav.notifications")}

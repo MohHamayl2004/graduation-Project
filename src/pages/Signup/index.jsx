@@ -4,7 +4,6 @@ import { UserPlus, FileUp, Sparkles, GraduationCap, ArrowRight, ChevronDown, Eye
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import Button from "../../components/common/Button";
-import LanguageSwitcher from "../../components/layout/LanguageSwitcher";
 
 const STRENGTH_TONE = {
   weak: "bg-error",
@@ -110,11 +109,10 @@ export default function Signup() {
 
         <section className="flex items-center justify-center px-6 py-10 sm:px-10 lg:px-16">
           <div className="w-full max-w-[480px]">
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-start">
               <div className="lg:hidden">
                 <Logo height={30} />
               </div>
-              <LanguageSwitcher className="ms-auto" />
             </div>
 
             <h2 className="font-display text-4xl font-semibold tracking-tight">{t("signup.title")}</h2>
@@ -145,6 +143,8 @@ export default function Signup() {
                 </label>
                 <input
                   id="signupEmail"
+                  type="email"
+                  dir="ltr"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("signup.emailPlaceholder")}
@@ -161,6 +161,7 @@ export default function Signup() {
                     <input
                       id="signupPassword"
                       type={showPassword ? "text" : "password"}
+                      dir="ltr"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder={t("signup.passwordPlaceholder")}
@@ -200,6 +201,7 @@ export default function Signup() {
                   <input
                     id="confirmPassword"
                     type={showPassword ? "text" : "password"}
+                    dir="ltr"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder={t("signup.confirmPasswordPlaceholder")}

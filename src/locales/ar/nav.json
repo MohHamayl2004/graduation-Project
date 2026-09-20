@@ -1,11 +1,11 @@
 {
-  "dashboard": "لوحة التحكم",
-  "uploadMaterial": "رفع المواد",
-  "myMaterials": "موادي",
+  "dashboard": "الصفحة الرئيسية",
+  "uploadMaterial": "ارفع مادتك",
+  "myMaterials": "المواد التعليمية",
   "aiTutor": "المعلّم الذكي",
-  "lectures": "المحاضرات",
+  "lectures": "الدروس",
   "quizzes": "الاختبارات",
-  "progress": "التقدّم",
-  "studyPlan": "خطة الدراسة",
+  "progress": "متابعة التقدّم",
+  "studyPlan": "الخطة الدراسية",
   "settings": "الإعدادات"
 }

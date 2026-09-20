@@ -3,7 +3,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 
 export const uploadMaterial = asyncHandler(async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ message: "Material file is required" });
+    return res.status(400).json({ message: "ملف المادة مطلوب" });
   }
 
   const { title, type } = req.body;
@@ -31,7 +31,7 @@ export const getMaterialById = asyncHandler(async (req, res) => {
   });
 
   if (!material) {
-    return res.status(404).json({ message: "Material not found" });
+    return res.status(404).json({ message: "المادة المطلوبة غير موجودة" });
   }
 
   res.json({ material });

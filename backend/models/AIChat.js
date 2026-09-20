@@ -43,7 +43,7 @@ const aiChatSchema = new mongoose.Schema(
     title: {
       type: String,
       trim: true,
-      default: "AI Tutor Chat"
+      default: "محادثة مع معلّم نبراس"
     },
     messages: [aiChatMessageSchema]
   },

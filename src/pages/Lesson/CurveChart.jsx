@@ -100,7 +100,7 @@ export default function CurveChart({ curve }) {
         </label>
       </div>
 
-      <div className="mt-4 rounded-md bg-accent-tint px-4 py-3 text-center">
+      <div className="mt-4 rounded-md bg-accent-tint px-4 py-3 text-center" dir="ltr">
         <span className="text-sm text-ink-muted">متوسط التغير = </span>
         <span className="font-semibold text-ink">Δص / Δس = {dy.toFixed(1)} / {dx.toFixed(1)} = </span>
         <span className="text-lg font-semibold text-accent">{rate?.toFixed(2)}</span>

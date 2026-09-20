@@ -7,14 +7,14 @@ export const protect = asyncHandler(async (req, res, next) => {
   const [scheme, token] = authHeader.split(" ");
 
   if (scheme !== "Bearer" || !token) {
-    return res.status(401).json({ message: "Not authorized, token missing" });
+    return res.status(401).json({ message: "غير مصرح بالدخول، رمز الدخول مفقود" });
   }
 
   const decoded = verifyToken(token);
   const user = await User.findById(decoded.sub).select("-passwordHash");
 
   if (!user) {
-    return res.status(401).json({ message: "Not authorized, user not found" });
+    return res.status(401).json({ message: "غير مصرح بالدخول، المستخدم غير موجود" });
   }
 
   req.user = user;
