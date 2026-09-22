@@ -1,23 +1,11 @@
-export const notFound = (req, res, next) => {
-  const error = new Error(`المسار المطلوب غير موجود: ${req.originalUrl}`);
-  res.status(404);
-  next(error);
-};
+import { ApiError } from "../errors/ApiError.js";
+
+export const notFound = (req, _res, next) => next(new ApiError(404, "NOT_FOUND", `المسار غير موجود: ${req.originalUrl}`));
 
 export const errorHandler = (error, _req, res, _next) => {
-  if (error.name === "MulterError") {
-    const message = error.code === "LIMIT_FILE_SIZE" ? "حجم الملف أكبر من الحد المسموح" : "تعذّر رفع الملف";
-    return res.status(400).json({ message });
-  }
-
-  if (error.message === "نوع الملف غير مدعوم") {
-    return res.status(400).json({ message: error.message });
-  }
-
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-
-  return res.status(statusCode).json({
-    message: error.message || "صار خطأ، حاول مرة ثانية",
-    stack: process.env.NODE_ENV === "production" ? undefined : error.stack
-  });
+  if (error instanceof ApiError) return res.status(error.status).json({ code: error.code, message: error.message });
+  if (error.name === "MulterError") return res.status(400).json({ code: "VALIDATION_ERROR", message: "تعذر رفع الملف" });
+  if (error?.code === 11000) return res.status(409).json({ code: "CONFLICT", message: "البيانات مسجلة مسبقاً" });
+  if (error?.name === "CastError") return res.status(400).json({ code: "VALIDATION_ERROR", message: "المعرف غير صالح" });
+  return res.status(res.statusCode === 200 ? 500 : res.statusCode).json({ code: "INTERNAL_ERROR", message: "صار خطأ، حاول مرة ثانية" });
 };
