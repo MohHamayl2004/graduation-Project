@@ -1,0 +1,7 @@
+{"type": "meta", "model": "qwen3.5:9b"}
+{"type": "sources", "items": [{"order": 1, "lesson": "1-2", "lessonTitle": "قواعد الاشتقاق", "document": "math", "pages": [16, 17], "label": "الدرس 1-2 — صفحة 16", "via": "method"}, {"order": 2, "lesson": "1-2", "lessonTitle": "قواعد الاشتقاق", "document": "math", "pages": [17], "label": "الدرس 1-2 — صفحة 17", "via": "search"}]}
+{"type": "calculation", "answer": "٨", "facts": ["ق(س) = (٣س − ٢) × (س^٢ + ١)", "بقاعدة الضرب: ق′(س) = (س^٢ + ١) × (٣) + (٣س − ٢) × (٢س)", "ق′(س) = ٩س^٢ − ٤س + ٣", "ق′(١) = ٨"], "methods": ["product", "power"]}
+{"type": "delta", "text": "نستخدم قاعدة الضرب: "}
+{"type": "delta", "text": "ق′(س) = (س^٢ + ١) × ٣ + (٣س − ٢) × ٢س"}
+{"type": "delta", "text": "\nوبالتعويض عند س = ١ نحصل على ٨.\n\nالجواب: ٨"}
+{"type": "done", "answer": "نستخدم قاعدة الضرب: ق′(س) = (س^٢ + ١) × ٣ + (٣س − ٢) × ٢س\nوبالتعويض عند س = ١ نحصل على ٨.\n\nالجواب: ٨", "found": true, "refused": false, "warnings": [], "checks": {"grounded": true, "invented": [], "notationOk": true, "arabic": true, "calculationMatches": true}, "seconds": 41.2}
