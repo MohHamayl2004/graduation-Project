@@ -1,0 +1,19 @@
+.nipras-intro { position:relative; isolation:isolate; width:100%; height:calc(100vh - var(--showcase-nav-height,77px)); height:calc(100svh - var(--showcase-nav-height,77px)); min-height:85vh; min-height:85svh; margin:0; padding:0; overflow:hidden; background:#102b3e; color:#fff; scroll-margin-top:0; }
+.intro-poster,.intro-video { position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:var(--intro-desktop,50% 50%); border:0; margin:0; padding:0; }
+.intro-video { opacity:0; pointer-events:none; }.intro-video.is-ready { opacity:1; }
+.showcase-placeholder { position:absolute; inset:0; display:grid; place-items:center; background:radial-gradient(ellipse at 50% 45%,#214b5d,#102b3e 65%,#0a1d30); }
+.showcase-placeholder span { color:#d8eeea; font-size:clamp(32px,5vw,64px); font-weight:700; opacity:.7; }
+/* School artwork remains its own full-size section after the video. */
+.school-showcase { position:relative; isolation:isolate; width:100%; height:100vh; height:100svh; min-height:560px; overflow:hidden; background:#102b3e; color:white; }
+.school-showcase-shade { position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,#091a3020 15%,transparent 45%,#081727e8 100%); }
+.school-showcase-heading { position:absolute; inset-inline:7%; bottom:16%; max-width:680px; }
+.school-showcase-heading h2 { font-size:clamp(36px,5vw,72px); margin:0; color:white; }
+.school-showcase-heading p { margin:10px 0 0; font-size:clamp(16px,1.5vw,22px); color:#d0e4e6; }
+.intro-fallback { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; background:radial-gradient(ellipse at 50% 35%,#638e99 0%,#28495e 45%,#0b1e32 85%); }
+.intro-fallback svg { width:100%; height:100%; }
+.intro-halo { position:absolute; width:70%; height:65%; left:15%; top:0; background:radial-gradient(ellipse,#89c2ba55,transparent 65%); }
+.journey-eyebrow { display:block; font-size:12px; font-weight:500; letter-spacing:.04em; margin-bottom:12px; color:#b6e7d7; }
+#journey-after { scroll-margin-top:90px; }
+@media(max-width:1000px){.intro-video,.intro-poster{object-position:var(--intro-tablet,50% 50%)}}
+@media(max-width:600px){.intro-video,.intro-poster{object-position:var(--intro-mobile,50% 50%)}.intro-fallback svg{width:165%;margin-left:-32.5%}}
+@media(max-width:600px){.school-showcase{min-height:540px}.school-showcase-heading{bottom:20%}}

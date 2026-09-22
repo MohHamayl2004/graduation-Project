@@ -18,3 +18,11 @@ export const getMe = (token) =>
       Authorization: `Bearer ${token}`
     }
   });
+
+export const getWorkspaces = (token) => apiRequest("/workspaces", { headers: { Authorization: `Bearer ${token}` } });
+
+export const joinSchool = (schoolCode, token) => apiRequest("/schools/join", {
+  method: "POST",
+  headers: { Authorization: `Bearer ${token}` },
+  body: JSON.stringify({ schoolCode })
+});

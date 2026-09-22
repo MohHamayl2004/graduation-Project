@@ -4,6 +4,8 @@ import { UserPlus, FileUp, Sparkles, GraduationCap, ArrowRight, ChevronDown, Eye
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import Button from "../../components/common/Button";
+import { signup } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 const STRENGTH_TONE = {
   weak: "bg-error",
@@ -13,6 +15,7 @@ const STRENGTH_TONE = {
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
   const { t } = useTranslation(["auth", "common"]);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,6 +24,8 @@ export default function Signup() {
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [schoolCode, setSchoolCode] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const errorId = useId();
 
   const steps = [
@@ -36,7 +41,7 @@ export default function Signup() {
     return "strong";
   }, [password]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!fullName.trim() || !email.trim() || !password || !confirmPassword) {
@@ -55,7 +60,16 @@ export default function Signup() {
     }
 
     setError("");
-    navigate("/analysis");
+    setSubmitting(true);
+    try {
+      const response = await signup({ fullName, email, password, stream: "scientific", grade: "12", ...(schoolCode.trim() ? { schoolCode } : {}) });
+      signIn(response);
+      navigate("/dashboard");
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const fieldClass =
@@ -222,6 +236,11 @@ export default function Signup() {
                 </div>
               </div>
 
+              <div>
+                <label htmlFor="schoolCode" className="mb-2 block text-sm font-medium text-ink">{t("signup.schoolCodeLabel")}</label>
+                <input id="schoolCode" value={schoolCode} onChange={(e) => setSchoolCode(e.target.value)} placeholder="ENS-123" className={fieldClass} dir="ltr" />
+              </div>
+
               <label className="flex items-start gap-3 text-sm text-ink-muted">
                 <input
                   type="checkbox"
@@ -242,8 +261,8 @@ export default function Signup() {
                 </p>
               ) : null}
 
-              <Button type="submit" fullWidth size="lg">
-                {t("signup.createAccountButton")} <ArrowRight size={18} className="rtl:-scale-x-100" />
+              <Button type="submit" fullWidth size="lg" disabled={submitting}>
+                {submitting ? t("signup.registrationInProgress") : t("signup.createAccountButton")} <ArrowRight size={18} className="rtl:-scale-x-100" />
               </Button>
             </form>
 

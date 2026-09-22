@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SOURCES = {
   color: "/nipras-logo.png",
@@ -10,7 +11,11 @@ export default function Logo({ variant = "color", height = 36, showWordmark = tr
   const isWhite = variant === "white";
 
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <Link
+      to="/"
+      aria-label="الانتقال إلى الصفحة الرئيسية"
+      className={`flex cursor-pointer items-center gap-2.5 ${className}`}
+    >
       {failed ? (
         <span
           className={`grid shrink-0 place-items-center rounded-md font-display text-lg font-semibold ${
@@ -34,6 +39,6 @@ export default function Logo({ variant = "color", height = 36, showWordmark = tr
           نبراس
         </span>
       ) : null}
-    </div>
+    </Link>
   );
 }

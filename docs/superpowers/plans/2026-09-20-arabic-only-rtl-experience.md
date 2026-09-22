@@ -10,6 +10,8 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-20-arabic-only-rtl-experience-design.md`
 
+> **Full application logic and remaining work:** The Arabic/RTL conversion in this plan is complete. The current prototype's frontend/backend logic, confirmed defects, missing APIs, required additions, and file-by-file implementation sequence are documented in `docs/superpowers/plans/2026-09-21-nipras-full-stack-correctness.md`.
+
 ## Global Constraints
 
 - Arabic is the only runtime interface language; `lng` and `fallbackLng` are both exactly `ar`.

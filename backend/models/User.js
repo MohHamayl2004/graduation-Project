@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
+    niprasId: { type: String, trim: true, uppercase: true, immutable: true, sparse: true, unique: true, match: [/^NIP-\d{7}$/, "Invalid NIPRAS ID"] },
+    status: { type: String, enum: ["ACTIVE", "INACTIVE"], default: "ACTIVE" },
     fullName: {
       type: String,
       required: true,

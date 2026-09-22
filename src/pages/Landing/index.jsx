@@ -16,6 +16,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import Button from "../../components/common/Button";
+import Nipras3DIntro from "../../components/journey/Nipras3DIntro";
+import SchoolShowcase from "../../components/journey/SchoolShowcase";
 
 const features = [
   {
@@ -118,71 +120,10 @@ export default function Landing() {
       </header>
 
       <main>
-        <section className="relative overflow-hidden">
-          <div className="absolute -left-24 top-20 h-[420px] w-[420px] rounded-full bg-primary-tint blur-3xl" />
-          <div className="absolute right-6 top-16 h-[440px] w-[440px] rounded-full bg-accent-tint blur-3xl" />
+        <Nipras3DIntro />
+        <SchoolShowcase />
 
-          <div className="relative mx-auto grid w-full max-w-[1280px] gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-20">
-            <div>
-              <span className="inline-flex items-center rounded-full bg-accent-tint px-3 py-1 text-sm font-semibold text-accent">
-                تعلّم مدعوم بالذكاء الاصطناعي
-              </span>
-              <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.08] text-ink sm:text-6xl">
-                معلّمك الذكي لنجاحك في <span className="text-primary">التوجيهي</span>
-              </h1>
-              <p className="mt-5 max-w-[600px] text-lg leading-8 text-ink-muted">
-                ارفع موادك الدراسية، ونبراس بحوّلها لدروس واختبارات وخطة دراسية مخصّصة إلك،
-                عشان تتعلّم بوضوح وتوصل لهدفك.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button size="lg" onClick={() => navigate("/signup")}>
-                  خلّينا نبلّش <ArrowRight size={16} className="rtl:-scale-x-100" />
-                </Button>
-                <Button size="lg" variant="secondary">
-                  <PlayCircle size={16} /> شاهد العرض
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-[420px] rounded-xl border border-border bg-surface-raised p-5 shadow-lg">
-                <div className="mb-3 flex items-center justify-between">
-                  <h3 className="font-display text-xl font-semibold text-ink">تقدّمك اليوم</h3>
-                  <span className="text-ink-faint">···</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-sm">
-                  <div className="rounded-md bg-primary-tint p-2">
-                    <p className="text-2xl font-semibold text-primary">12</p>
-                    <p className="text-ink-muted">وحدة</p>
-                  </div>
-                  <div className="rounded-md bg-accent-tint p-2">
-                    <p className="text-2xl font-semibold text-accent">85%</p>
-                    <p className="text-ink-muted">المعدّل</p>
-                  </div>
-                  <div className="rounded-md bg-warning-tint p-2">
-                    <p className="text-2xl font-semibold text-warning" dir="ltr">4.2 س</p>
-                    <p className="text-ink-muted">الوقت</p>
-                  </div>
-                </div>
-                <div className="my-5 flex justify-center">
-                  <div className="grid h-32 w-32 place-items-center rounded-full border-[7px] border-primary">
-                    <div className="text-center">
-                      <p className="text-3xl font-semibold text-ink">72%</p>
-                      <p className="text-xs text-ink-muted">هدف اليوم</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="rounded-md bg-accent-tint p-3 text-sm text-accent">
-                  <p className="font-semibold">معلّم نبراس الذكي</p>
-                  <p>&ldquo;تقدّمك اليوم ممتاز! بتحب نراجع نتائج اختبار التفاضل والتكامل؟&rdquo;</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-[1280px] px-5 py-14 sm:px-6 lg:px-8">
+        <section id="journey-after" className="mx-auto w-full max-w-[1280px] px-5 py-14 sm:px-6 lg:px-8">
           <h2 className="text-center font-display text-4xl font-semibold text-ink sm:text-5xl">
             كل اللي بتحتاجه عشان تتفوّق بالتوجيهي
           </h2>
