@@ -1,0 +1,51 @@
+{
+  "code": "1-عام",
+  "unit": 1,
+  "number": null,
+  "title": "تمارين عامة",
+  "subject": "الرياضيات",
+  "generated": true,
+  "source": {
+    "document": "math",
+    "pages": [
+      52,
+      55
+    ]
+  },
+  "needs_review": [
+    "options"
+  ],
+  "definitions": [],
+  "examples": [],
+  "checkpoint": {
+    "prompt": "١. ضع دائرة حول رمز الإجابة الصحيحة في كلٍ مما يأتي:",
+    "speech": "واحد . ضع دائرة حول رمز الإجيب بة الصحيحة في كلٍ مما يأتي:",
+    "options": [],
+    "needs_review": "options"
+  },
+  "slides": [
+    {
+      "id": "title",
+      "kind": "title",
+      "title": "تمارين عامة",
+      "speech": "تمارين عامة"
+    },
+    {
+      "id": "check",
+      "kind": "checkpoint",
+      "eyebrow": "سؤال تركيز",
+      "checkpoint": {
+        "prompt": "١. ضع دائرة حول رمز الإجابة الصحيحة في كلٍ مما يأتي:",
+        "speech": "واحد . ضع دائرة حول رمز الإجيب بة الصحيحة في كلٍ مما يأتي:",
+        "options": [],
+        "needs_review": "options"
+      },
+      "speech": "واحد . ضع دائرة حول رمز الإجيب بة الصحيحة في كلٍ مما يأتي:"
+    },
+    {
+      "id": "done",
+      "kind": "done",
+      "speech": "أحسنت. أنهيت الدرس."
+    }
+  ]
+}
