@@ -1,0 +1,2 @@
+{"type": "meta", "model": "qwen3.5:9b"}
+{"type": "done", "answer": "هذا الموضوع من وحدة أخرى في المنهاج، والمادة المرفقة لا تغطيه بعد — المدرّس يغطي حالياً الوحدة الأولى: الاشتقاق وتطبيقاته.", "found": false, "refused": true, "warnings": ["out_of_scope:other_unit"], "checks": null, "seconds": 0.0}

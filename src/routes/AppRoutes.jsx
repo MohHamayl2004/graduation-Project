@@ -10,6 +10,7 @@ import Progress from "../pages/Progress";
 import Quizzes from "../pages/Quizzes";
 import AITutor from "../pages/AITutor";
 import Lesson from "../pages/Lesson";
+import InteractiveLesson from "../pages/InteractiveLesson";
 
 export default function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function AppRoutes() {
       <Route path="/progress" element={<Progress />} />
       <Route path="/quizzes" element={<Quizzes />} />
       <Route path="/ai-tutor" element={<AITutor />} />
+      <Route path="/interactive" element={<InteractiveLesson />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

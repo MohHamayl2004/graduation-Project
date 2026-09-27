@@ -45,3 +45,15 @@ test("environment template documents JWT and the isolated test database", async 
   assert.match(source, /^JWT_SECRET=/m);
   assert.match(source, /^MONGO_URI_TEST=/m);
 });
+
+test("registration creates the personal workspace in a way that keeps the session", async () => {
+  // Mongoose silently ignores { session } unless the first argument is an
+  // array, and the failure only appears on a replica set (every Atlas
+  // cluster): the workspace comes back without an _id and the whole signup
+  // is rolled back. Asserted on the source because the bug lives in the call
+  // shape, and the databases available to the tests here do not have
+  // transactions.
+  const source = await readFile(new URL("../services/registrationService.js", import.meta.url), "utf8");
+  assert.match(source, /Workspace\.create\(\[data\], options\)/);
+  assert.doesNotMatch(source, /Workspace\.create\(data, options\)/);
+});

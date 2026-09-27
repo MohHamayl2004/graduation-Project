@@ -1,4 +1,4 @@
-﻿import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import { ApiError } from "../errors/ApiError.js";
 import Membership from "../models/Membership.js";
@@ -9,7 +9,14 @@ import { listWorkspaces } from "./workspaceService.js";
 
 const transactionUnavailable = (error) => /Transaction numbers are only allowed|replica set|mongos/i.test(error?.message || "");
 
-export async function registerStudent(input, { createPersonalWorkspace = (data, options) => Workspace.create(data, options) } = {}) {
+// Mongoose only honours a session when the first argument is an ARRAY:
+// Workspace.create(data, { session }) treats the options object as a second
+// document, returns two documents, and the workspace the caller gets back has
+// no _id - so the membership below fails and the whole registration is rolled
+// back as REGISTRATION_FAILED. It only happens where transactions exist (any
+// replica set, so every Atlas cluster), which is why a standalone database
+// never showed it.
+export async function registerStudent(input, { createPersonalWorkspace = async (data, options) => (await Workspace.create([data], options))[0] } = {}) {
   if (await User.exists({ email: input.email })) throw new ApiError(409, "EMAIL_ALREADY_EXISTS", "البريد الإلكتروني مسجل مسبقاً");
   let school = null;
   if (input.schoolCode) {
