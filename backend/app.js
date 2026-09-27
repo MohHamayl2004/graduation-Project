@@ -8,6 +8,7 @@ import materialRoutes from "./routes/materialRoutes.js";
 import schoolRoutes from "./routes/schoolRoutes.js";
 import tutorRoutes from "./routes/tutorRoutes.js";
 import workspaceRoutes from "./routes/workspaceRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -22,6 +23,7 @@ export function createApp() {
   app.use("/api/workspaces", workspaceRoutes);
   app.use("/api/schools", schoolRoutes);
   app.use("/api/tutor", tutorRoutes);
+  app.use("/api/images", imageRoutes);
   app.use(notFound);
   app.use(errorHandler);
   return app;
