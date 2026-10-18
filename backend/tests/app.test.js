@@ -22,8 +22,8 @@ test("protected route rejects a missing token with a safe response", async () =>
 
 test("signup validation normalizes email and school code", () => {
   assert.deepEqual(
-    validateSignupInput({ fullName: "أحمد", email: " A@EXAMPLE.COM ", password: "12345678", schoolCode: " ens-123 " }),
-    { fullName: "أحمد", email: "a@example.com", password: "12345678", stream: undefined, grade: undefined, schoolCode: "ENS-123" }
+    validateSignupInput({ fullName: "أحمد", email: " A@EXAMPLE.COM ", password: "12345678", birthDate: "2008-05-10", stream: "scientific", schoolCode: " ens-123 ", city: "نابلس" }),
+    { fullName: "أحمد", email: "a@example.com", password: "12345678", birthDate: "2008-05-10", stream: "scientific", grade: "12", schoolCode: "ENS-123", city: "نابلس", subscriptionTier: "free" }
   );
   assert.throws(() => validateSignupInput({ fullName: "أحمد", email: "a@example.com", password: "short" }), { code: "VALIDATION_ERROR" });
 });

@@ -4,8 +4,10 @@ import { ApiError } from "../errors/ApiError.js";
 import Membership from "../models/Membership.js";
 import User from "../models/User.js";
 import Workspace from "../models/Workspace.js";
+import SchoolCoupon from "../models/SchoolCoupon.js";
 import { allocateNiprasId } from "./niprasIdService.js";
 import { listWorkspaces } from "./workspaceService.js";
+import { DAY_MS, effectiveSubscription } from "../../shared/subscriptions.js";
 
 const transactionUnavailable = (error) => /Transaction numbers are only allowed|replica set|mongos/i.test(error?.message || "");
 
@@ -18,19 +20,22 @@ const transactionUnavailable = (error) => /Transaction numbers are only allowed|
 // never showed it.
 export async function registerStudent(input, { createPersonalWorkspace = async (data, options) => (await Workspace.create([data], options))[0] } = {}) {
   if (await User.exists({ email: input.email })) throw new ApiError(409, "EMAIL_ALREADY_EXISTS", "البريد الإلكتروني مسجل مسبقاً");
-  let school = null;
+  let schoolBenefit;
   if (input.schoolCode) {
-    school = await Workspace.findOne({ type: "SCHOOL", status: "ACTIVE", joinCode: input.schoolCode });
-    if (!school) throw new ApiError(400, "INVALID_SCHOOL_CODE", "رمز المدرسة غير صحيح");
+    const coupon = await SchoolCoupon.findOne({ code: input.schoolCode, active: true, $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date() } }] });
+    if (!coupon) throw new ApiError(400, "INVALID_SCHOOL_CODE", "رمز خصم المدرسة غير صحيح أو منتهي الصلاحية");
+    schoolBenefit = { couponId: coupon._id, code: coupon.code, schoolName: coupon.schoolName, discountPercent: coupon.discountPercent, appliedAt: new Date() };
   }
   const niprasId = await allocateNiprasId();
   const passwordHash = await bcrypt.hash(input.password, 12);
+  const startsAt = new Date();
+  const tier = input.subscriptionTier || "free";
+  const subscription = tier === "free" ? { tier, status: "FREE", startsAt, expiresAt: new Date(startsAt.getTime() + 7 * DAY_MS) } : { tier, status: "INACTIVE", reason: "awaiting_payment" };
   const createRecords = async (session) => {
     const options = session ? { session } : undefined;
-    const [user] = await User.create([{ fullName: input.fullName, email: input.email, passwordHash, stream: input.stream, grade: input.grade, niprasId, status: "ACTIVE" }], options);
+    const [user] = await User.create([{ fullName: input.fullName, email: input.email, city: input.city, birthDate: input.birthDate, passwordHash, stream: input.stream, grade: input.grade, schoolBenefit, niprasId, status: "ACTIVE", role: "student", subscription }], options);
     const workspace = await createPersonalWorkspace({ name: `حساب ${input.fullName} الشخصي`, type: "PERSONAL", ownerId: user._id, status: "ACTIVE" }, options);
     await Membership.create([{ userId: user._id, workspaceId: workspace._id, role: "OWNER" }], options);
-    if (school) await Membership.create([{ userId: user._id, workspaceId: school._id, role: "STUDENT" }], options);
     return user;
   };
   const session = await mongoose.startSession();
@@ -61,5 +66,7 @@ export async function registerStudent(input, { createPersonalWorkspace = async (
 export async function authContext(user) {
   const workspaces = await listWorkspaces(user._id);
   const currentWorkspace = workspaces.find((workspace) => workspace.type === "PERSONAL") || null;
-  return { user: user.toJSON(), workspaces, currentWorkspace };
+  const safe = user.toJSON();
+  delete safe.subscription?.appliedPaymentIds;
+  return { user: { ...safe, subscription: effectiveSubscription(user) }, workspaces, currentWorkspace };
 }

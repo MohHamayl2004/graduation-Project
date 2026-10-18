@@ -8,6 +8,7 @@ import CurveChart from "./CurveChart";
 import TutorHelper from "./TutorHelper";
 import PlayerBar from "./PlayerBar";
 import Reveal from "./Reveal";
+import StudentBadge from "../../components/common/StudentBadge";
 import { buildSlides, lesson } from "./slides";
 
 const MODE_ICONS = { BookOpen, LineChart, Volume2, MousePointerClick };
@@ -144,6 +145,7 @@ export default function Lesson() {
 
       {/* ---------- thin header ---------- */}
       <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-border bg-surface-raised px-4 py-2.5 sm:px-6">
+        <StudentBadge />
         <button type="button" onClick={() => navigate("/lectures")}
           className="grid h-9 w-9 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink"
           aria-label="خروج">

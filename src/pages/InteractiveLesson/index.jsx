@@ -1,6 +1,7 @@
 import { Maximize2, Minimize2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/layout/Sidebar";
+import StudentBadge from "../../components/common/StudentBadge";
 import demoLesson from "../../data/interactive/demo.json";
 import CheckpointCard from "./components/CheckpointCard";
 import LessonSummary from "./components/LessonSummary";
@@ -21,6 +22,7 @@ export default function InteractiveLesson({ lesson = demoLesson }) {
 
         <main className="flex min-w-0 flex-1 flex-col gap-5 px-4 py-6 sm:px-8">
           <header>
+            <div className="mb-3 flex justify-end"><StudentBadge /></div>
             <h1 className="font-display text-2xl font-semibold text-ink">{lesson.title}</h1>
             {lesson.source?.channel && (
               <p className="mt-1 text-sm text-ink-muted">

@@ -26,17 +26,20 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const errorId = useId();
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     try {
       const response = await login({ email, password });
       signIn(response);
       setError("");
-      navigate("/dashboard");
+      navigate(response.user.role === "admin" ? "/admin" : !response.user.subscription?.canAccess || !response.user.city ? "/subscription" : "/dashboard");
     } catch (requestError) {
       setError(requestError.message || t("login.errorInvalid"));
-    }
+    } finally { setSubmitting(false); }
   };
 
   return <main className="login-shell" dir="rtl">
@@ -49,12 +52,10 @@ export default function Login() {
           <p className="login-intro">أدخل بياناتك عشان توصل لصفحتك الدراسية وتكمل رحلتك التعليمية.</p>
           <form className="login-form" onSubmit={handleSubmit} noValidate>
             <div><label htmlFor="email">{t("login.emailLabel")}</label><div className="login-input-wrap"><Mail size={19} aria-hidden="true" /><input id="email" type="email" dir="ltr" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={t("login.emailPlaceholder")} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined} autoComplete="email" /></div></div>
-            <div><label htmlFor="password">{t("login.passwordLabel")}</label><div className="login-input-wrap"><LockKeyhole size={19} aria-hidden="true" /><input id="password" type={showPassword ? "text" : "password"} dir="ltr" value={password} onChange={(event) => setPassword(event.target.value)} placeholder={t("login.passwordPlaceholder")} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined} autoComplete="current-password" /><button type="button" className="login-password-toggle" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? t("login.hidePassword") : t("login.showPassword")}>{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div><button type="button" className="login-forgot">{t("login.forgotPassword")}</button></div>
+            <div><label htmlFor="password">{t("login.passwordLabel")}</label><div className="login-input-wrap"><LockKeyhole size={19} aria-hidden="true" /><input id="password" type={showPassword ? "text" : "password"} dir="ltr" value={password} onChange={(event) => setPassword(event.target.value)} placeholder={t("login.passwordPlaceholder")} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined} autoComplete="current-password" /><button type="button" className="login-password-toggle" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? t("login.hidePassword") : t("login.showPassword")}>{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
             {error ? <p id={errorId} role="alert" className="login-error">{error}</p> : null}
-            <button className="duo-press duo-primary" type="submit">{t("login.signInButton")} <ArrowRight size={19} className="rtl:-scale-x-100" /></button>
+            <button className="duo-press duo-primary" type="submit" disabled={submitting}>{submitting ? "جارٍ تسجيل الدخول…" : t("login.signInButton")} <ArrowRight size={19} className="rtl:-scale-x-100" /></button>
           </form>
-          <div className="login-divider"><span /> <b>أو تابع باستخدام</b> <span /></div>
-          <button type="button" className="duo-press duo-google"><span className="login-google-mark">G</span> المتابعة باستخدام Google</button>
           <p className="login-signup">لستَ لديك حساب؟ <button type="button" onClick={() => navigate("/signup")}>أنشئ حسابًا مجانًا</button></p>
         </div>
       </section>

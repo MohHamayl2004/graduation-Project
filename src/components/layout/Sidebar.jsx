@@ -10,11 +10,13 @@ import {
   TrendingUp,
   CalendarDays,
   Settings,
+  CreditCard,
   Menu,
   X
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { userProfile } from "../../data/userProfile";
+import { useAuth } from "../../context/AuthContext";
+import { streamLabel } from "../../../shared/academicStreams";
 import Logo from "../common/Logo";
 
 const navItems = [
@@ -28,8 +30,11 @@ const navItems = [
   { id: "studyPlan", icon: CalendarDays, path: "/study-plan" }
 ];
 
-export default function Sidebar({ activeItem = "aiTutor", userName = userProfile.name, userTrack = userProfile.stream }) {
+export default function Sidebar({ activeItem = "aiTutor" }) {
   const navigate = useNavigate();
+  const { auth, signOut } = useAuth();
+  const userName = auth.user?.fullName || "طالب نبراس";
+  const userTrack = auth.user ? `الفرع ${streamLabel(auth.user.stream)}` : "";
   const { t } = useTranslation(["nav", "common"]);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -117,6 +122,7 @@ export default function Sidebar({ activeItem = "aiTutor", userName = userProfile
           </ul>
 
           <div className="mx-1 mt-3 border-t border-border pt-3">
+            <button type="button" onClick={() => goTo("/subscription")} className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-start text-ink-muted hover:bg-surface-alt"><CreditCard size={19} />اشتراكي</button>
             <button
               type="button"
               className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-start text-ink-muted transition-colors duration-base hover:bg-surface-alt hover:text-ink"
@@ -129,12 +135,13 @@ export default function Sidebar({ activeItem = "aiTutor", userName = userProfile
 
         <div className="border-t border-border px-4 py-4">
           <div className="flex items-center gap-3">
-            <img src={userProfile.avatar} alt={userName} className="h-10 w-10 shrink-0 rounded-full object-cover" />
+            <span aria-hidden="true" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-tint font-bold text-primary">{userName.slice(0, 1)}</span>
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-ink">{userName}</p>
               <p className="truncate text-xs text-ink-muted">{userTrack}</p>
             </div>
           </div>
+          {auth.user && <button type="button" className="mt-3 text-sm text-ink-muted underline" onClick={() => { signOut(); navigate("/login"); }}>تسجيل الخروج</button>}
         </div>
       </aside>
     </>

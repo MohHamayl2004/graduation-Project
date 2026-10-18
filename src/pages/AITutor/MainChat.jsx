@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import AssistantMessage from "./components/AssistantMessage";
 import Composer from "./components/Composer";
+import StudentBadge from "../../components/common/StudentBadge";
 
 // Only follow the answer down while the student is already at the bottom:
 // scrolling up to reread must not be yanked back by every new word.
@@ -45,6 +46,7 @@ export default function MainChat({ chat }) {
           )}
         </div>
         <div className="flex items-center gap-2 text-ink-muted">
+          <StudentBadge />
           <button type="button" aria-label="الإشعارات" className="grid h-11 w-11 place-items-center rounded-full hover:bg-surface-alt">
             <Bell size={19} />
           </button>

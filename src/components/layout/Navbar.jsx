@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Bell, CircleHelp, Search } from "lucide-react";
-import { userProfile } from "../../data/userProfile";
+import StudentBadge from "../common/StudentBadge";
 
 export default function Navbar({
   searchPlaceholder,
@@ -8,6 +8,7 @@ export default function Navbar({
   showNotificationDot = false,
   compact = false,
   maxWidth,
+  mobileCompact = false,
   children
 }) {
   const { t } = useTranslation("common");
@@ -48,13 +49,7 @@ export default function Navbar({
           >
             <CircleHelp size={compact ? 18 : 19} />
           </button>
-          {showAvatar ? (
-            <img
-              src={userProfile.avatar}
-              alt={userProfile.name}
-              className={`${compact ? "h-9 w-9" : "h-10 w-10"} rounded-full object-cover`}
-            />
-          ) : null}
+          <StudentBadge compactOnMobile={mobileCompact} />
         </div>
       </div>
     </header>

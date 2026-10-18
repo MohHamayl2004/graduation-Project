@@ -1,5 +1,7 @@
 # Dependencies - never committed. `npm install` rebuilds them.
 node_modules/
+.npm-cache/
+.local/
 
 # Build output
 dist/
@@ -11,7 +13,7 @@ build/
 .env.*
 !.env.example
 
-# Python
+# Pythonmdnc
 __pycache__/
 *.pyc
 .venv/

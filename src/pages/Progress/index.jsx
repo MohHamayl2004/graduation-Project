@@ -7,7 +7,7 @@ import Footer from "../../components/layout/Footer";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 import ProgressBar from "../../components/common/ProgressBar";
-import { userProfile } from "../../data/userProfile";
+
 import { completedLectures, masteryOverview } from "../../data/mockProgress";
 
 const weeklyHours = [45, 60, 52, 70, 66, 40, 30];
@@ -29,7 +29,7 @@ export default function Progress() {
   return (
     <div className="h-screen bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
-        <Sidebar activeItem="progress" userName={userProfile.name} userTrack={userProfile.stream} />
+        <Sidebar activeItem="progress" />
 
         <div className="flex min-w-0 flex-1 flex-col">
           <Navbar searchPlaceholder="ابحث في تقارير التقدّم..." showNotificationDot />
