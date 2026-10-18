@@ -15,9 +15,17 @@ import { featureAccess } from "./middleware/subscriptionMiddleware.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// CORS_ORIGINS=https://mohhamayl2004.github.io (comma-separated) limits the
+// browsers that may call the API to the published site. Unset, any origin
+// may - which is what local development and the LAN setup rely on.
+export function corsOptions(env = process.env) {
+  const allowed = String(env.CORS_ORIGINS || "").split(",").map((origin) => origin.trim()).filter(Boolean);
+  return allowed.length ? { origin: allowed } : {};
+}
+
 export function createApp() {
   const app = express();
-  app.use(cors());
+  app.use(cors(corsOptions()));
   app.use(express.json());
   app.use("/uploads", express.static(path.join(__dirname, "uploads")));
   app.get("/", (_req, res) => res.send("NIPRAS API is running"));

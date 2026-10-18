@@ -1,0 +1,60 @@
+# Build the React site and publish it on GitHub Pages:
+#   https://mohhamayl2004.github.io/graduation-Project/
+#
+# Runs on every push to main, and by hand (Actions -> Run workflow).
+# The API's address is not built in: public/config.js holds it, so
+# changing it is a one-line commit that re-runs this in about a minute.
+
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm test
+
+      - run: npm run build
+        env:
+          NIPRAS_BASE_PATH: /${{ github.event.repository.name }}/
+
+      # Pages has no rewrite rules: a link opened directly, like
+      # /graduation-Project/login, is a missing file, and Pages answers
+      # it with 404.html. Making that the app lets React Router route it.
+      - run: cp dist/index.html dist/404.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

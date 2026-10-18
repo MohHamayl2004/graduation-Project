@@ -13,6 +13,23 @@ test("unknown API route responds without a stack trace", async () => {
   assert.equal("stack" in response.body, false);
 });
 
+test("CORS_ORIGINS limits which sites may call the API", async () => {
+  const saved = process.env.CORS_ORIGINS;
+  try {
+    process.env.CORS_ORIGINS = "https://mohhamayl2004.github.io";
+    const app = createApp();
+    const allowed = await request(app).get("/").set("Origin", "https://mohhamayl2004.github.io");
+    assert.equal(allowed.headers["access-control-allow-origin"], "https://mohhamayl2004.github.io");
+    const other = await request(app).get("/").set("Origin", "https://evil.example");
+    assert.equal(other.headers["access-control-allow-origin"], undefined);
+    delete process.env.CORS_ORIGINS;
+    const open = await request(createApp()).get("/").set("Origin", "http://192.168.1.5:5173");
+    assert.equal(open.headers["access-control-allow-origin"], "*");
+  } finally {
+    if (saved === undefined) delete process.env.CORS_ORIGINS; else process.env.CORS_ORIGINS = saved;
+  }
+});
+
 test("protected route rejects a missing token with a safe response", async () => {
   const response = await request(createApp()).get("/api/auth/me");
   assert.equal(response.status, 401);

@@ -204,3 +204,36 @@ Voice: set `NIPRAS_TTS_URL` in `Nipras_Ai_Models/.env` to use the TTS model (one
 Answers to the focus question are posted to the parent window (`{ type: "nipras-lecture", event: "answer", checkpointId, answerId, correct, atSeconds }`), so an `<iframe>` in the React app can store them as progress.
 
 Tests: `python Nipras_Ai_Models/tests/test_lecture.py`
+
+## Deploying (GitHub Pages + the GPU server)
+
+```
+any device -> GitHub Pages (this React app)
+                 | HTTPS, address in public/config.js
+                 v
+        vast.ai GPU server (cloudflared tunnel -> API only)
+          - Express API             <-> MongoDB Atlas
+          - AI service (127.0.0.1)  -> Ollama + qwen3.5:9b (127.0.0.1)
+```
+
+**Site.** `.github/workflows/pages.yml` builds and publishes on every push to `main`, at `https://mohhamayl2004.github.io/graduation-Project/`. One-time: repository *Settings -> Pages -> Source: GitHub Actions* (Pages on the free plan needs a public repository).
+
+**Server, once.** Copy the code in (the AI repository is private, so the server cannot clone it), then run the setup:
+
+```powershell
+tar --exclude=node_modules --exclude=.git -czf - . | ssh -p <port> root@<ip> "mkdir -p /workspace/nipras/app && tar -xzf - -C /workspace/nipras/app"
+ssh -p <port> root@<ip> "bash /workspace/nipras/app/deploy/vast/setup.sh"
+ssh -p <port> root@<ip> "nano /workspace/nipras/app/backend/.env"      # paste MONGO_URI
+```
+
+Allow the server's IP in MongoDB Atlas -> Network Access. The service key and JWT secret are generated on the server and never leave it.
+
+**Every demo.** Start the server on vast.ai, then:
+
+```powershell
+ssh -p <port> root@<ip> "bash /workspace/nipras/app/deploy/vast/start.sh"
+```
+
+It prints a new `https://....trycloudflare.com/api` address each time. Put it in `public/config.js` on GitHub (edit in the browser, commit to `main`); the site picks it up in about a minute. Stop the vast.ai instance afterwards - it is billed by the hour.
+
+Only the API is reachable from outside, through the tunnel; it accepts browsers from `CORS_ORIGINS` only. The AI service and Ollama listen on 127.0.0.1.

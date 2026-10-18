@@ -1,5 +1,9 @@
 import { resolveApiBase } from "../../shared/apiBase.js";
-const API_BASE_URL = resolveApiBase(import.meta.env?.VITE_API_URL, typeof window === "undefined" ? "" : window.location.hostname);
+// public/config.js wins over the build-time VITE_API_URL: the API's
+// public address changes whenever the GPU server restarts, and editing
+// one file on GitHub redeploys the site in a minute without a rebuild.
+const RUNTIME_API_URL = typeof window === "undefined" ? undefined : window.NIPRAS_CONFIG?.apiUrl;
+const API_BASE_URL = resolveApiBase(RUNTIME_API_URL || import.meta.env?.VITE_API_URL, typeof window === "undefined" ? "" : window.location.hostname);
 
 // An Error that keeps the API's stable `code` (e.g. TUTOR_BUSY) beside the
 // Arabic message, so a caller can react to the case, not parse the text.

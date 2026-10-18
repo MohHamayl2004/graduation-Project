@@ -11,10 +11,13 @@ import "@fontsource/tajawal/700.css";
 import "@fontsource/tajawal/800.css";
 import "./index.css";
 
+// "/graduation-Project" on GitHub Pages, "" locally (vite.config.js base).
+const basename = import.meta.env.BASE_URL.replace(/\/+$/, "") || "/";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <BrowserLayoutSupport />
         <App />
       </BrowserRouter>

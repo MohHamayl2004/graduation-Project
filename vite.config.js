@@ -5,6 +5,9 @@ export default defineConfig(({ mode }) => {
   const target = env.NIPRAS_API_PROXY_TARGET || "http://127.0.0.1:5000";
   const proxy = { "/api": { target, changeOrigin: true }, "/uploads": { target, changeOrigin: true } };
   return {
+    // GitHub Pages serves the site under /graduation-Project/; the
+    // workflow sets NIPRAS_BASE_PATH. Local development stays at /.
+    base: env.NIPRAS_BASE_PATH || "/",
     plugins: [react()],
     server: { host: "127.0.0.1", proxy },
     preview: { host: "127.0.0.1", proxy }
