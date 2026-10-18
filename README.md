@@ -216,7 +216,7 @@ any device -> GitHub Pages (this React app)
           - AI service (127.0.0.1)  -> Ollama + qwen3.5:9b (127.0.0.1)
 ```
 
-**Site.** `.github/workflows/pages.yml` builds and publishes on every push to `main`, at `https://mohhamayl2004.github.io/graduation-Project/`. One-time: repository *Settings -> Pages -> Source: GitHub Actions* (Pages on the free plan needs a public repository).
+**Site.** `.github/workflows/pages.yml` builds and publishes on every push to `main`, at `https://nipras.site`. One-time: repository *Settings -> Pages -> Source: GitHub Actions*, then *Custom domain: nipras.site* and *Enforce HTTPS* (Pages on the free plan needs a public repository). The domain's DNS: four `A` records for `@` -> `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`, and `CNAME www` -> `mohhamayl2004.github.io`. The server's `CORS_ORIGINS` lists `https://nipras.site,https://www.nipras.site`.
 
 **Server, once.** Copy the code in (the AI repository is private, so the server cannot clone it), then run the setup:
 
