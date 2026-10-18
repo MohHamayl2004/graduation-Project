@@ -185,3 +185,22 @@ the generated credentials in ignored `.local/admin-account.json` and sign in at
 `/login`. The `/admin` dashboard supports city/plan filters, real database reports,
 manual account actions, an audit log, CSV export and printing/Save as PDF.
 See [account and billing details](docs/accounts.md) for behavior and integration tests.
+
+## Five-minute lectures
+
+The tutor model writes a short lecture for one lesson as JSON (slides, narration, one focus question); a fixed template draws it as an HTML/CSS page that plays like a video lesson, with a timeline, captions and a voice.
+
+```powershell
+cd Nipras_Ai_Models
+python scripts/generate_lecture.py --lesson 1-2                       # writes ../public/lectures/lesson-1-2/
+python scripts/generate_lecture.py --lesson 1-2 --focus "قاعدة الضرب"
+python scripts/generate_lecture.py --from ../public/lectures/lesson-1-2/lecture.json   # re-draw after a hand edit
+```
+
+The Vite app then serves it at `/lectures/lesson-1-2/index.html`. The model never writes HTML: every string it produces is escaped into one shared design (`rag/lecture_template/`). Before a lecture is written it is checked (length for five minutes, one correct choice confirmed by the calculator, no numbers that are not in the book, book notation); a failed check is sent back to the model (three attempts in all), and anything still wrong is listed under `needs_review` in `lecture.json` for a person to fix.
+
+Voice: set `NIPRAS_TTS_URL` in `Nipras_Ai_Models/.env` to use the TTS model (one audio file per slide, in `audio/`). Without it the page reads the lecture with the browser's own Arabic voice. The request shape the TTS service is assumed to accept is at the top of `rag/tts.py`.
+
+Answers to the focus question are posted to the parent window (`{ type: "nipras-lecture", event: "answer", checkpointId, answerId, correct, atSeconds }`), so an `<iframe>` in the React app can store them as progress.
+
+Tests: `python Nipras_Ai_Models/tests/test_lecture.py`

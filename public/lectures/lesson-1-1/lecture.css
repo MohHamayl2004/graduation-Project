@@ -1,0 +1,681 @@
+/* ============================================================
+   NIPRAS lecture - one design for every generated lecture.
+   The model writes the words; nothing here depends on them.
+   ============================================================ */
+
+:root {
+  --page: #0b1020;
+  --page-2: #111833;
+  --ink: #eef1fb;
+  --ink-2: #b7bfdc;
+  --ink-3: #7f89ad;
+  --line: rgba(255, 255, 255, 0.09);
+  --panel: rgba(255, 255, 255, 0.04);
+
+  --stage-a: #121a3a;
+  --stage-b: #0c1229;
+
+  /* One colour per kind of slide, so the student always knows
+     where they are in the lesson without reading the label. */
+  --intro: #a78bfa;
+  --idea: #38bdf8;
+  --rule: #fbbf24;
+  --example: #34d399;
+  --summary: #f472b6;
+  --check: #fb923c;
+
+  --good: #34d399;
+  --bad: #f87171;
+
+  --font: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --math: "Noto Naskh Arabic", "Traditional Arabic", serif;
+
+  --radius: 18px;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 80% -10%, #1b2556 0%, transparent 60%), var(--page);
+  color: var(--ink);
+  font-family: var(--font);
+  min-height: 100%;
+}
+
+button { font: inherit; color: inherit; }
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 16px 64px;
+}
+
+/* ---------- header ---------- */
+
+.page-head { margin-bottom: 18px; }
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.page-head h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+  font-weight: 700;
+}
+
+.goal {
+  margin: 8px 0 0;
+  color: var(--ink-2);
+  font-size: 1.02rem;
+  line-height: 1.8;
+}
+
+/* ---------- the player ---------- */
+
+.player {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #070b18;
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--line);
+  outline: none;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  container-type: inline-size;
+  background:
+    radial-gradient(70% 90% at 100% 0%, color-mix(in srgb, var(--accent, var(--idea)) 16%, transparent) 0%, transparent 60%),
+    linear-gradient(160deg, var(--stage-a), var(--stage-b));
+  transition: background 0.8s var(--ease);
+  overflow: hidden;
+}
+
+/* A faint grid, like squared paper: this is a maths lesson. */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 4.5cqw 4.5cqw;
+  mask-image: radial-gradient(80% 80% at 50% 40%, #000 30%, transparent 100%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.stage[data-kind="intro"]   { --accent: var(--intro); }
+.stage[data-kind="idea"]    { --accent: var(--idea); }
+.stage[data-kind="rule"]    { --accent: var(--rule); }
+.stage[data-kind="example"] { --accent: var(--example); }
+.stage[data-kind="summary"] { --accent: var(--summary); }
+.stage[data-kind="check"]   { --accent: var(--check); }
+
+/* ---------- slides ---------- */
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 5cqw 6cqw 9cqw;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(1.2cqw) scale(0.99);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease), visibility 0s linear 0.55s;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease), visibility 0s;
+}
+
+/* player.js scales this down when a slide holds more than the
+   stage does; scaling about the centre keeps it centred. */
+.slide-inner { width: 100%; transform: scale(var(--fit, 1)); transform-origin: center; }
+
+.body.has-steps {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3cqw;
+  align-items: start;
+}
+
+.body.has-steps .steps { margin-top: 0; }
+.body.has-steps .point { font-size: clamp(0.9rem, 2.1cqw, 1.5rem); }
+.body.has-steps .formula { font-size: clamp(1rem, 2.6cqw, 1.9rem); }
+.body.has-steps .step-math { font-size: clamp(0.85rem, 2.05cqw, 1.45rem); }
+
+.slide-top {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  margin-bottom: 1.6cqw;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.3em 0.9em;
+  border-radius: 999px;
+  font-size: clamp(0.72rem, 1.45cqw, 1rem);
+  font-weight: 600;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 35%, transparent);
+  white-space: nowrap;
+}
+
+.chip::before {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.chip-intro   { --c: var(--intro); }
+.chip-idea    { --c: var(--idea); }
+.chip-rule    { --c: var(--rule); }
+.chip-example { --c: var(--example); }
+.chip-summary { --c: var(--summary); }
+.chip-check   { --c: var(--check); }
+
+.slide-count {
+  color: var(--ink-3);
+  font-size: clamp(0.72rem, 1.35cqw, 0.95rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.slide-heading {
+  margin: 0 0 2.4cqw;
+  font-size: clamp(1.25rem, 4.1cqw, 3rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* Things appear as the teacher reaches them - not all at once. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(0.9cqw);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+[data-reveal].shown {
+  opacity: 1;
+  transform: none;
+}
+
+.points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.3cqw;
+}
+
+.point {
+  position: relative;
+  padding-inline-start: 2.6cqw;
+  font-size: clamp(0.95rem, 2.35cqw, 1.7rem);
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.point::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.72em;
+  width: 1cqw;
+  height: 1cqw;
+  min-width: 7px;
+  min-height: 7px;
+  border-radius: 3px;
+  background: var(--accent, var(--idea));
+  transform: rotate(45deg);
+}
+
+.formula {
+  margin-top: 2.6cqw;
+  padding: 2cqw 3cqw;
+  border-radius: 14px;
+  font-family: var(--math);
+  font-size: clamp(1.1rem, 3.6cqw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  background: color-mix(in srgb, var(--accent, var(--rule)) 10%, rgba(0, 0, 0, 0.25));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent, var(--rule)) 45%, transparent),
+    0 0 40px -12px color-mix(in srgb, var(--accent, var(--rule)) 60%, transparent);
+  unicode-bidi: plaintext;
+}
+
+.steps {
+  list-style: none;
+  margin: 2.4cqw 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.1cqw;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 1.6cqw;
+  padding: 1.1cqw 1.6cqw;
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.step-n {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3.2cqw;
+  height: 3.2cqw;
+  min-width: 24px;
+  min-height: 24px;
+  border-radius: 50%;
+  font-size: clamp(0.75rem, 1.6cqw, 1.1rem);
+  font-weight: 700;
+  color: #06221a;
+  background: var(--example);
+}
+
+.step-math {
+  font-family: var(--math);
+  font-size: clamp(0.95rem, 2.5cqw, 1.8rem);
+  line-height: 1.5;
+  unicode-bidi: plaintext;
+}
+
+/* The step the teacher is on right now. */
+.step.current {
+  background: color-mix(in srgb, var(--example) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--example) 55%, transparent);
+}
+
+/* The summary reads as a checklist of what to keep. */
+.slide-summary .point::before {
+  width: 1.3cqw;
+  height: 0.7cqw;
+  min-width: 9px;
+  min-height: 5px;
+  border-radius: 0;
+  background: none;
+  border-inline-start: 2px solid var(--summary);
+  border-bottom: 2px solid var(--summary);
+  transform: rotate(-45deg);
+  top: 0.6em;
+}
+
+/* ---------- the focus question ---------- */
+
+.question {
+  margin: 0 0 2.2cqw;
+  font-family: var(--math);
+  font-size: clamp(1.05rem, 2.9cqw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.6;
+  unicode-bidi: plaintext;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.3cqw;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 1.4cqw;
+  padding: 1.4cqw 1.8cqw;
+  border: 0;
+  border-radius: 14px;
+  text-align: start;
+  cursor: pointer;
+  background: var(--panel);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.choice:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--check) 55%, transparent);
+  transform: translateY(-1px);
+}
+
+.choice:focus-visible { outline: 2px solid var(--check); outline-offset: 2px; }
+
+.choice-key {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3.4cqw;
+  height: 3.4cqw;
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: clamp(0.8rem, 1.7cqw, 1.2rem);
+  background: color-mix(in srgb, var(--check) 18%, transparent);
+  color: var(--check);
+}
+
+.choice-text {
+  font-family: var(--math);
+  font-size: clamp(0.95rem, 2.3cqw, 1.65rem);
+  unicode-bidi: plaintext;
+}
+
+.choice.right {
+  background: color-mix(in srgb, var(--good) 16%, transparent);
+  box-shadow: inset 0 0 0 2px var(--good);
+}
+
+.choice.right .choice-key { background: var(--good); color: #06221a; }
+
+.choice.wrong {
+  background: color-mix(in srgb, var(--bad) 12%, transparent);
+  box-shadow: inset 0 0 0 2px var(--bad);
+  animation: shake 0.35s;
+}
+
+.choice.wrong .choice-key { background: var(--bad); color: #2a0707; }
+
+.choice:disabled { cursor: default; }
+
+@keyframes shake {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.feedback {
+  margin: 1.8cqw 0 0;
+  padding: 1.2cqw 1.8cqw;
+  border-radius: 12px;
+  font-size: clamp(0.9rem, 2cqw, 1.4rem);
+  line-height: 1.7;
+  background: var(--panel);
+  border-inline-start: 4px solid var(--c, var(--check));
+}
+
+.feedback.good { --c: var(--good); }
+.feedback.bad { --c: var(--bad); }
+
+.continue {
+  margin-top: 1.6cqw;
+  padding: 1cqw 2.4cqw;
+  border: 0;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 1.9cqw, 1.3rem);
+  color: #06221a;
+  background: var(--good);
+  cursor: pointer;
+}
+
+/* ---------- captions ---------- */
+
+.caption {
+  position: absolute;
+  inset-inline: 8cqw;
+  bottom: 2.4cqw;
+  margin: 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+.caption span {
+  display: inline;
+  padding: 0.25em 0.6em;
+  border-radius: 8px;
+  font-size: clamp(0.8rem, 1.9cqw, 1.35rem);
+  line-height: 2;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.62);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.player.no-cc .caption { display: none; }
+
+/* ---------- the cover ---------- */
+
+.cover {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6cqw;
+  padding: 4cqw;
+  text-align: center;
+  background:
+    radial-gradient(60% 70% at 50% 40%, rgba(167, 139, 250, 0.22), transparent 70%),
+    linear-gradient(160deg, #161f47, #0a0f24);
+  transition: opacity 0.5s var(--ease), visibility 0s linear 0.5s;
+}
+
+.cover.gone { opacity: 0; visibility: hidden; }
+
+.cover-code { margin: 0; color: var(--ink-3); font-size: clamp(0.8rem, 1.7cqw, 1.1rem); }
+
+.cover-title {
+  margin: 0;
+  font-size: clamp(1.4rem, 5cqw, 3.4rem);
+  font-weight: 700;
+}
+
+.cover-play {
+  display: grid;
+  place-items: center;
+  width: 11cqw;
+  height: 11cqw;
+  min-width: 64px;
+  min-height: 64px;
+  margin-top: 1.4cqw;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #fff;
+  color: #10163a;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  animation: pulse 2.2s infinite;
+}
+
+.cover-play svg { width: 42%; height: 42%; fill: currentColor; margin-inline-end: -6%; }
+
+.cover-meta { margin: 0; color: var(--ink-2); font-size: clamp(0.8rem, 1.6cqw, 1.05rem); }
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.45); }
+  70% { box-shadow: 0 0 0 2.4cqw rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+/* ---------- controls ---------- */
+
+.controls {
+  padding: 10px 14px 12px;
+  background: linear-gradient(#0a0f22, #070b18);
+  border-top: 1px solid var(--line);
+}
+
+.seek {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.seek:focus-visible { outline: 2px solid var(--idea); outline-offset: 4px; }
+
+.seek-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 0;
+  border-radius: inherit;
+  background: var(--idea);
+}
+
+.seek-marks { position: absolute; inset: 0; pointer-events: none; }
+
+.seek-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #070b18;
+}
+
+/* The focus question, visible on the timeline before you get there. */
+.seek-mark.check {
+  top: -4px;
+  bottom: -4px;
+  width: 10px;
+  margin-inline-start: -5px;
+  border-radius: 3px;
+  background: var(--check);
+  transform: rotate(45deg) scale(0.8);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.btn {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.btn:hover { background: rgba(255, 255, 255, 0.08); }
+.btn:focus-visible { outline: 2px solid var(--idea); outline-offset: 1px; }
+.btn svg { width: 22px; height: 22px; fill: currentColor; }
+.btn-text { font-weight: 700; font-size: 0.9rem; }
+.btn-text.on { color: #0b1020; background: var(--ink); }
+
+
+#play .i-pause { display: none; }
+.player.playing #play .i-play { display: none; }
+.player.playing #play .i-pause { display: block; }
+
+.time {
+  margin-inline-start: 6px;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.now {
+  overflow: hidden;
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.spacer { flex: 1; }
+
+/* ---------- chapters ---------- */
+
+.chapters-wrap { margin-top: 26px; }
+
+.chapters-wrap h3 { margin: 0 0 10px; font-size: 1.05rem; color: var(--ink-2); }
+
+.chapters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.chapter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  text-align: start;
+  background: var(--panel);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+
+.chapter:hover { background: rgba(255, 255, 255, 0.07); }
+
+.chapter.current {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--idea) 60%, transparent);
+  background: color-mix(in srgb, var(--idea) 8%, transparent);
+}
+
+.chapter-time {
+  min-width: 42px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+.chapter-title { font-weight: 500; line-height: 1.5; }
+
+/* ---------- fullscreen, small screens, motion ---------- */
+
+.player:fullscreen { display: flex; flex-direction: column; justify-content: center; border-radius: 0; }
+.player:fullscreen .stage { width: min(100vw, calc((100vh - 70px) * 16 / 9)); margin: 0 auto; }
+
+@media (max-width: 640px) {
+  .page { padding-top: 18px; }
+  .player { border-radius: 12px; }
+  /* 16:9 is too short for text on a phone held upright. */
+  .stage { aspect-ratio: 4 / 5; }
+  .slide { padding: 6cqw 6cqw 16cqw; }
+  .slide-heading { font-size: 6.4cqw; }
+  .point { font-size: 4.3cqw; padding-inline-start: 4.5cqw; }
+  .point::before { width: 1.8cqw; height: 1.8cqw; }
+  .formula { font-size: 5.4cqw; }
+  .step-math, .choice-text { font-size: 4.2cqw; }
+  .question { font-size: 5cqw; }
+  .choices, .body.has-steps { grid-template-columns: 1fr; }
+  .caption span { font-size: 3.6cqw; }
+  .caption { bottom: 4cqw; }
+  .now, #prev, #next { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
