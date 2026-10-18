@@ -1,0 +1,8 @@
+@keyframes nipras-calendar-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.nipras-calendar-month { animation: nipras-calendar-enter 180ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .nipras-calendar-month { animation: none; }
+}

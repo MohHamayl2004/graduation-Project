@@ -24,7 +24,7 @@ export default function Quizzes() {
   };
 
   return (
-    <div className="h-screen bg-surface text-ink">
+    <div className="app-screen bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
         <Sidebar activeItem="quizzes" />
 

@@ -1,8 +1,13 @@
-import { MessageSquarePlus, Trash2 } from "lucide-react";
+import { useEffect } from "react";
+import { MessageSquarePlus, Trash2, X } from "lucide-react";
 
-export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew, onDelete }) {
+export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew, onDelete, mobileOpen, onClose }) {
+  useEffect(() => { const mq = window.matchMedia("(min-width:1280px)"); const close = () => { if (mq.matches) onClose?.(); }; mq.addEventListener("change", close); return () => mq.removeEventListener("change", close); }, [onClose]);
   return (
-    <aside className="hidden w-[280px] shrink-0 flex-col gap-3 overflow-y-auto bg-surface-alt px-4 py-6 xl:flex" aria-label="المحادثات السابقة">
+    <>
+    {mobileOpen && <div className="fixed inset-0 z-40 bg-ink/40 xl:hidden" onClick={onClose} aria-hidden="true" />}
+    <aside role={mobileOpen ? "dialog" : undefined} aria-modal={mobileOpen || undefined} className={`${mobileOpen ? "fixed inset-y-0 end-0 z-50 flex w-[min(320px,90vw)]" : "hidden"} min-h-0 shrink-0 flex-col gap-3 overflow-y-auto bg-surface-alt px-4 py-5 xl:static xl:flex xl:w-[280px]`} aria-label="المحادثات السابقة">
+      <button aria-label="إغلاق سجل المحادثات" onClick={onClose} className="ms-auto grid h-11 w-11 place-items-center rounded-lg border border-border xl:hidden"><X size={20} /></button>
       <button
         type="button"
         onClick={onNew}
@@ -33,13 +38,13 @@ export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew,
               onClick={() => onDelete(chat.id)}
               disabled={busy}
               aria-label={`حذف المحادثة: ${chat.title}`}
-              className="me-1 grid h-8 w-8 place-items-center rounded-md text-ink-faint opacity-0 hover:bg-surface-alt hover:text-error focus:opacity-100 group-hover:opacity-100"
+              className="me-1 grid h-11 w-11 place-items-center rounded-md text-ink-faint hover:bg-surface-alt hover:text-error"
             >
               <Trash2 size={15} />
             </button>
           </li>
         ))}
       </ul>
-    </aside>
+    </aside></>
   );
 }

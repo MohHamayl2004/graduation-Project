@@ -42,9 +42,9 @@ export default {
         }
       },
       fontFamily: {
-        display: ["Fraunces", "Georgia", "serif"],
-        sans: ["Lexend", "system-ui", "sans-serif"],
-        arabic: ["'IBM Plex Sans Arabic'", "system-ui", "sans-serif"]
+        display: ["Tajawal", "system-ui", "sans-serif"],
+        sans: ["Tajawal", "system-ui", "sans-serif"],
+        arabic: ["'Tajawal'", "system-ui", "sans-serif"]
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1.5" }],

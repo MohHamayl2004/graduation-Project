@@ -41,7 +41,7 @@ export default function CurveChart({ curve }) {
 
   return (
     <div>
-      <div className="overflow-x-auto">
+      <div className="scroll-table" role="region" tabIndex={0} aria-label="الرسم البياني، قابل للتمرير أفقيًا">
         <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full min-w-[380px]" role="img"
              aria-label={`${curve.caption} — متوسط التغير من ${a} إلى ${b} يساوي ${rate?.toFixed(2)}`}>
           {ticksY.map((t) => (

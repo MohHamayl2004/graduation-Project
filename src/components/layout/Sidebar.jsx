@@ -10,11 +10,13 @@ import {
   TrendingUp,
   CalendarDays,
   Settings,
+  CreditCard,
   Menu,
   X
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { userProfile } from "../../data/userProfile";
+import { useAuth } from "../../context/AuthContext";
+import { streamLabel } from "../../../shared/academicStreams";
 import Logo from "../common/Logo";
 
 const navItems = [
@@ -28,23 +30,21 @@ const navItems = [
   { id: "studyPlan", icon: CalendarDays, path: "/study-plan" }
 ];
 
-export default function Sidebar({ activeItem = "aiTutor", userName = userProfile.name, userTrack = userProfile.stream }) {
+export default function Sidebar({ activeItem = "aiTutor" }) {
   const navigate = useNavigate();
+  const { auth, signOut } = useAuth();
+  const userName = auth.user?.fullName || "طالب نبراس";
+  const userTrack = auth.user ? `الفرع ${streamLabel(auth.user.stream)}` : "";
   const { t } = useTranslation(["nav", "common"]);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [wide, setWide] = useState(() => window.matchMedia("(min-width: 1024px)").matches);
 
   useEffect(() => {
-    if (!mobileOpen) return undefined;
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") setMobileOpen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
+    const query = window.matchMedia("(min-width: 1024px)");
+    const update = () => { setWide(query.matches); if (query.matches) setMobileOpen(false); };
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
 
   const goTo = (path) => {
     setMobileOpen(false);
@@ -59,7 +59,7 @@ export default function Sidebar({ activeItem = "aiTutor", userName = userProfile
         aria-label={t("common:nav.openMenu")}
         aria-expanded={mobileOpen}
         aria-controls="app-sidebar"
-        className="fixed start-4 top-4 z-30 grid h-11 w-11 place-items-center rounded-full bg-primary text-white shadow-md transition-colors duration-base hover:bg-primary-hover lg:hidden"
+        className="app-menu-trigger fixed start-4 top-4 z-30 grid h-11 w-11 place-items-center rounded-full bg-primary text-white shadow-md transition-colors duration-base hover:bg-primary-hover lg:hidden"
       >
         <Menu size={20} />
       </button>
@@ -74,9 +74,13 @@ export default function Sidebar({ activeItem = "aiTutor", userName = userProfile
 
       <aside
         id="app-sidebar"
+        role={mobileOpen ? "dialog" : undefined}
+        aria-modal={mobileOpen ? true : undefined}
+        aria-hidden={!wide && !mobileOpen}
+        {...(!wide && !mobileOpen ? { inert: "" } : {})}
         aria-label="التنقّل الرئيسي"
-        className={`fixed inset-y-0 start-0 z-50 flex w-[272px] shrink-0 flex-col border-e border-border bg-surface-raised transition-transform duration-base ease-out lg:static lg:z-auto lg:flex lg:w-[248px] ${
-          mobileOpen ? "translate-x-0" : "max-lg:-translate-x-full max-lg:rtl:translate-x-full"
+        className={`app-drawer fixed inset-y-0 start-0 z-50 flex w-[min(288px,90vw)] shrink-0 flex-col border-e border-border bg-surface-raised transition-transform duration-base ease-out lg:static lg:z-auto lg:flex lg:w-[248px] ${
+          mobileOpen ? "translate-x-0" : "max-lg:invisible max-lg:-translate-x-full max-lg:rtl:translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between px-6 pt-7">
@@ -117,6 +121,7 @@ export default function Sidebar({ activeItem = "aiTutor", userName = userProfile
           </ul>
 
           <div className="mx-1 mt-3 border-t border-border pt-3">
+            <button type="button" onClick={() => goTo("/subscription")} className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-start text-ink-muted hover:bg-surface-alt"><CreditCard size={19} />اشتراكي</button>
             <button
               type="button"
               className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-start text-ink-muted transition-colors duration-base hover:bg-surface-alt hover:text-ink"
@@ -129,12 +134,13 @@ export default function Sidebar({ activeItem = "aiTutor", userName = userProfile
 
         <div className="border-t border-border px-4 py-4">
           <div className="flex items-center gap-3">
-            <img src={userProfile.avatar} alt={userName} className="h-10 w-10 shrink-0 rounded-full object-cover" />
+            <span aria-hidden="true" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-tint font-bold text-primary">{userName.slice(0, 1)}</span>
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-ink">{userName}</p>
               <p className="truncate text-xs text-ink-muted">{userTrack}</p>
             </div>
           </div>
+          {auth.user && <button type="button" className="mt-3 text-sm text-ink-muted underline" onClick={() => { signOut(); navigate("/login"); }}>تسجيل الخروج</button>}
         </div>
       </aside>
     </>

@@ -8,6 +8,7 @@ import CurveChart from "./CurveChart";
 import TutorHelper from "./TutorHelper";
 import PlayerBar from "./PlayerBar";
 import Reveal from "./Reveal";
+import StudentBadge from "../../components/common/StudentBadge";
 import { buildSlides, lesson } from "./slides";
 
 const MODE_ICONS = { BookOpen, LineChart, Volume2, MousePointerClick };
@@ -113,7 +114,7 @@ export default function Lesson() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.target.tagName === "INPUT") return;
+      if (e.target.closest("input, textarea, select, button, a, [contenteditable=true]")) return;
       if (e.key === "ArrowLeft") go(index + 1);
       if (e.key === "ArrowRight") go(index - 1);
       if (e.key === " ") { e.preventDefault(); setPlaying((p) => !p); }
@@ -123,7 +124,7 @@ export default function Lesson() {
     return () => window.removeEventListener("keydown", onKey);
   }, [go, index]);
 
-  const touchX = useRef(0);
+  const touchX = useRef(0); const touchY = useRef(0);
 
   // Tapping the stage flips the slide — the left half moves forward,
   // because in an RTL layout that is the direction the lesson runs.
@@ -140,10 +141,11 @@ export default function Lesson() {
   };
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-surface text-ink" dir="rtl">
+    <div className="flex app-screen flex-col overflow-hidden bg-surface text-ink" dir="rtl">
 
       {/* ---------- thin header ---------- */}
       <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-border bg-surface-raised px-4 py-2.5 sm:px-6">
+        <StudentBadge />
         <button type="button" onClick={() => navigate("/lectures")}
           className="grid h-9 w-9 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink"
           aria-label="خروج">
@@ -193,12 +195,12 @@ export default function Lesson() {
       <main className="relative min-h-0 flex-1 overflow-hidden">
         <div className="flex h-full">
           <div
-            className="flex min-w-0 flex-1 cursor-pointer select-none items-center justify-center overflow-y-auto px-5 py-8 sm:px-10"
+            className="flex min-w-0 flex-1 cursor-pointer select-none items-start justify-center overflow-y-auto px-4 py-4 sm:px-5 sm:py-8 sm:px-10"
             onClick={onStageClick}
-            onTouchStart={(e) => { touchX.current = e.changedTouches[0].clientX; }}
+            onTouchStart={(e) => { touchX.current = e.changedTouches[0].clientX; touchY.current = e.changedTouches[0].clientY; }}
             onTouchEnd={(e) => {
               const dx = e.changedTouches[0].clientX - touchX.current;
-              if (Math.abs(dx) > 50) go(index + (dx > 0 ? 1 : -1));
+              if (!e.target.closest("button, a, input, label, aside, svg") && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(e.changedTouches[0].clientY - touchY.current) * 1.5) go(index + (dx > 0 ? 1 : -1));
             }}
           >
             <div

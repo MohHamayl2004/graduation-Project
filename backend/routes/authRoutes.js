@@ -1,11 +1,14 @@
 import { Router } from "express";
 import { login, me, signup } from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { authRateLimit } from "../middleware/authRateLimit.js";
 
-const router = Router();
+export default function createAuthRouter() {
+  const router = Router();
 
-router.post("/signup", signup);
-router.post("/login", login);
-router.get("/me", protect, me);
+  router.post("/signup", authRateLimit(10, 60 * 60 * 1000), signup);
+  router.post("/login", authRateLimit(), login);
+  router.get("/me", protect, me);
 
-export default router;
+  return router;
+}

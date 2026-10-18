@@ -1,6 +1,7 @@
 import { Maximize2, Minimize2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/layout/Sidebar";
+import StudentBadge from "../../components/common/StudentBadge";
 import demoLesson from "../../data/interactive/demo.json";
 import CheckpointCard from "./components/CheckpointCard";
 import LessonSummary from "./components/LessonSummary";
@@ -10,17 +11,18 @@ import { useYouTubeLesson } from "./useYouTubeLesson";
 // only continues once the question is answered. The video is embedded from
 // its own channel (docs/contracts/interactive-lesson-v1.md).
 export default function InteractiveLesson({ lesson = demoLesson }) {
-  const { state, mount, shell, failed, fullscreen, toggleFullscreen, answer, resume, restart } = useYouTubeLesson(lesson);
+  const { state, mount, shell, failed, fullscreen, expanded, toggleFullscreen, answer, resume, restart } = useYouTubeLesson(lesson);
   const hasVideo = Boolean(lesson?.source?.videoId);
   const answeredCount = Object.keys(state.answers).length;
 
   return (
-    <div className="min-h-screen bg-surface text-ink">
-      <div className="mx-auto flex min-h-screen max-w-[1600px]">
+    <div className="app-min-screen bg-surface text-ink">
+      <div className="mx-auto flex app-min-screen max-w-[1600px]">
         <Sidebar activeItem="lectures" />
 
         <main className="flex min-w-0 flex-1 flex-col gap-5 px-4 py-6 sm:px-8">
-          <header>
+          <header className="pt-16 lg:pt-0">
+            <div className="mb-3 flex justify-end"><StudentBadge /></div>
             <h1 className="font-display text-2xl font-semibold text-ink">{lesson.title}</h1>
             {lesson.source?.channel && (
               <p className="mt-1 text-sm text-ink-muted">
@@ -51,7 +53,9 @@ export default function InteractiveLesson({ lesson = demoLesson }) {
                   explanation stopped instead of looking away to a side panel. */}
               <div
                 ref={shell}
-                className={`relative overflow-hidden bg-black ${fullscreen ? "flex h-screen w-screen items-center justify-center" : "rounded-2xl border border-border"}`}
+                role={expanded ? "dialog" : undefined} aria-modal={expanded || undefined} aria-label={expanded ? "عرض الدرس الموسّع" : undefined}
+                data-expanded-player={expanded || undefined}
+                className={`overflow-hidden bg-black ${expanded ? "fixed inset-0 z-50 flex app-screen w-full items-center justify-center" : fullscreen ? "relative flex app-screen w-full items-center justify-center" : "relative rounded-2xl border border-border"}`}
               >
                 <div className={fullscreen ? "aspect-video max-h-full w-full" : "aspect-video w-full"}>
                   <div ref={mount} className="h-full w-full" />
@@ -61,7 +65,7 @@ export default function InteractiveLesson({ lesson = demoLesson }) {
                   type="button"
                   onClick={toggleFullscreen}
                   aria-label={fullscreen ? "خروج من ملء الشاشة" : "ملء الشاشة"}
-                  className="absolute bottom-3 left-3 z-10 grid h-10 w-10 place-items-center rounded-lg bg-ink/70 text-white hover:bg-ink"
+                  className="absolute bottom-3 left-3 z-20 grid h-11 w-11 place-items-center rounded-lg bg-ink/70 text-white hover:bg-ink"
                 >
                   {fullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
                 </button>

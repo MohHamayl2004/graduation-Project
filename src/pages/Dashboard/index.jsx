@@ -6,7 +6,8 @@ import Footer from "../../components/layout/Footer";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 import ProgressBar from "../../components/common/ProgressBar";
-import { userProfile } from "../../data/userProfile";
+import { useAuth } from "../../context/AuthContext";
+import { streamLabel } from "../../../shared/academicStreams";
 import { dashboardStats } from "../../data/mockDashboard";
 
 const weeklyActivity = [
@@ -83,20 +84,22 @@ const continueLearning = [
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   return (
-    <div className="h-screen bg-surface text-ink">
+    <div className="app-screen bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
-        <Sidebar activeItem="dashboard" userName={userProfile.name} userTrack={userProfile.stream} />
+        <Sidebar activeItem="dashboard" />
 
         <div className="flex min-w-0 flex-1 flex-col">
           <Navbar searchPlaceholder="ابحث عن درس أو اختبار أو مساعدة..." showNotificationDot />
 
           <main className="min-h-0 flex-1 overflow-y-auto px-5 py-7 sm:px-8">
             <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">
-              صباح الخير، {userProfile.name.split(" ")[0]}
+              أهلًا، {auth.user.fullName.split(" ")[0]}
             </h1>
-            <p className="mt-1 text-base text-ink-muted">24 تشرين الأول 2024 — الفرع العلمي</p>
+            <p className="mt-1 text-base text-ink-muted">{new Date().toLocaleDateString("ar-PS")} — الفرع {streamLabel(auth.user.stream)}</p>
+            {auth.user.schoolBenefit?.discountPercent && <p className="mt-3 rounded-lg bg-accent-tint p-3 text-sm text-accent">خصم مدرستك: {auth.user.schoolBenefit.discountPercent}% — {auth.user.schoolBenefit.schoolName}</p>}
 
             <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {dashboardStats.map((item) => {

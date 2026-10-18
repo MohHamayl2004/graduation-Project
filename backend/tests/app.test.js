@@ -13,6 +13,23 @@ test("unknown API route responds without a stack trace", async () => {
   assert.equal("stack" in response.body, false);
 });
 
+test("CORS_ORIGINS limits which sites may call the API", async () => {
+  const saved = process.env.CORS_ORIGINS;
+  try {
+    process.env.CORS_ORIGINS = "https://mohhamayl2004.github.io";
+    const app = createApp();
+    const allowed = await request(app).get("/").set("Origin", "https://mohhamayl2004.github.io");
+    assert.equal(allowed.headers["access-control-allow-origin"], "https://mohhamayl2004.github.io");
+    const other = await request(app).get("/").set("Origin", "https://evil.example");
+    assert.equal(other.headers["access-control-allow-origin"], undefined);
+    delete process.env.CORS_ORIGINS;
+    const open = await request(createApp()).get("/").set("Origin", "http://192.168.1.5:5173");
+    assert.equal(open.headers["access-control-allow-origin"], "*");
+  } finally {
+    if (saved === undefined) delete process.env.CORS_ORIGINS; else process.env.CORS_ORIGINS = saved;
+  }
+});
+
 test("protected route rejects a missing token with a safe response", async () => {
   const response = await request(createApp()).get("/api/auth/me");
   assert.equal(response.status, 401);
@@ -22,8 +39,8 @@ test("protected route rejects a missing token with a safe response", async () =>
 
 test("signup validation normalizes email and school code", () => {
   assert.deepEqual(
-    validateSignupInput({ fullName: "أحمد", email: " A@EXAMPLE.COM ", password: "12345678", schoolCode: " ens-123 " }),
-    { fullName: "أحمد", email: "a@example.com", password: "12345678", stream: undefined, grade: undefined, schoolCode: "ENS-123" }
+    validateSignupInput({ fullName: "أحمد", email: " A@EXAMPLE.COM ", password: "12345678", birthDate: "2008-05-10", stream: "scientific", schoolCode: " ens-123 ", city: "نابلس" }),
+    { fullName: "أحمد", email: "a@example.com", password: "12345678", birthDate: "2008-05-10", stream: "scientific", grade: "12", schoolCode: "ENS-123", city: "نابلس", subscriptionTier: "free" }
   );
   assert.throws(() => validateSignupInput({ fullName: "أحمد", email: "a@example.com", password: "short" }), { code: "VALIDATION_ERROR" });
 });

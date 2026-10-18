@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+// Public files live under the site's base path (/graduation-Project/
+// on GitHub Pages), so an absolute "/nipras-logo.png" would 404 there.
+const BASE = import.meta.env?.BASE_URL ?? "/";
+
 const SOURCES = {
-  color: "/nipras-logo.png",
-  white: "/nipras-logo-white.png"
+  color: `${BASE}nipras-logo.png`,
+  white: `${BASE}nipras-logo-white.png`
 };
 
 export default function Logo({ variant = "color", height = 36, showWordmark = true, className = "" }) {

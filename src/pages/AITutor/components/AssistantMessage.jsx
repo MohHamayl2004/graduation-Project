@@ -13,12 +13,12 @@ export default function AssistantMessage({ message }) {
   const broken = status === "failed" || status === "interrupted";
 
   return (
-    <div className="flex gap-3 sm:gap-4">
+    <div className="chat-message flex min-w-0 gap-2 sm:gap-4">
       <div className="mt-1 grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary to-ink text-white shadow-md">
         <Sparkles size={19} />
       </div>
 
-      <div className={`w-full min-w-0 rounded-2xl border p-5 shadow-sm sm:p-6 ${refused ? "border-border bg-surface-alt" : "border-border bg-surface-raised"}`}>
+      <div className={`w-full min-w-0 rounded-2xl border p-3 shadow-sm sm:p-6 ${refused ? "border-border bg-surface-alt" : "border-border bg-surface-raised"}`}>
         {sources.length > 0 && (
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm">
             <BookOpen size={16} className="text-ink-muted" aria-hidden="true" />

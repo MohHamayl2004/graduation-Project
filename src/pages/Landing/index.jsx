@@ -16,7 +16,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import Button from "../../components/common/Button";
-import Nipras3DIntro from "../../components/journey/Nipras3DIntro";
 import SchoolShowcase from "../../components/journey/SchoolShowcase";
 
 const features = [
@@ -58,23 +57,42 @@ const features = [
   }
 ];
 
-const navLinks = ["المزايا", "كيف بشتغل؟", "للطلبة", "الاشتراكات"];
+const navLinks = [
+  { label: "المزايا", href: "#journey-after" },
+  { label: "كيف بشتغل؟", href: "#how-it-works" },
+  { label: "للطلبة", href: "#students" },
+  { label: "الاشتراكات", href: "#subscriptions" }
+];
 
 export default function Landing() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const scrollToSection = (event, href) => {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const section = document.getElementById(href.slice(1));
+    if (!section) return;
+    event.preventDefault();
+    setMenuOpen(false);
+    requestAnimationFrame(() => {
+      section.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        block: "start"
+      });
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-surface text-ink">
+    <div className="app-min-screen bg-surface text-ink">
       <header className="sticky top-0 z-30 border-b border-border bg-surface-raised/95 backdrop-blur">
         <div className="mx-auto flex w-full max-w-[1280px] items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
           <Logo height={28} />
 
           <nav className="hidden items-center gap-8 text-sm font-medium text-ink-muted lg:flex">
             {navLinks.map((link) => (
-              <button key={link} type="button" className="hover:text-ink">
-                {link}
-              </button>
+              <a key={link.href} href={link.href} onClick={(event) => scrollToSection(event, link.href)} className="hover:text-ink">
+                {link.label}
+              </a>
             ))}
           </nav>
 
@@ -102,9 +120,9 @@ export default function Landing() {
           <div className="border-t border-border px-5 py-4 lg:hidden">
             <nav className="flex flex-col gap-1 text-sm font-medium text-ink-muted">
               {navLinks.map((link) => (
-                <button key={link} type="button" className="rounded-md px-2 py-2.5 text-start hover:bg-surface-alt hover:text-ink">
-                  {link}
-                </button>
+                <a key={link.href} href={link.href} onClick={(event) => scrollToSection(event, link.href)} className="rounded-md px-2 py-2.5 text-start hover:bg-surface-alt hover:text-ink">
+                  {link.label}
+                </a>
               ))}
             </nav>
             <div className="mt-3 flex flex-col gap-2">
@@ -120,10 +138,9 @@ export default function Landing() {
       </header>
 
       <main>
-        <Nipras3DIntro />
         <SchoolShowcase />
 
-        <section id="journey-after" className="mx-auto w-full max-w-[1280px] px-5 py-14 sm:px-6 lg:px-8">
+        <section id="journey-after" className="mx-auto w-full max-w-[1280px] scroll-mt-28 px-5 py-14 sm:px-6 lg:px-8">
           <h2 className="text-center font-display text-4xl font-semibold text-ink sm:text-5xl">
             كل اللي بتحتاجه عشان تتفوّق بالتوجيهي
           </h2>
@@ -146,7 +163,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="bg-surface-alt py-14">
+        <section id="how-it-works" className="scroll-mt-28 bg-surface-alt py-14">
           <div className="mx-auto w-full max-w-[1280px] px-5 sm:px-6 lg:px-8">
             <h2 className="text-center font-display text-4xl font-semibold text-ink sm:text-5xl">
               من ملف دراسي لتجربة تعلّم كاملة بأربع خطوات
@@ -169,7 +186,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="mx-auto grid w-full max-w-[1280px] gap-8 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <section id="students" className="mx-auto grid w-full max-w-[1280px] scroll-mt-28 gap-8 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="rounded-xl bg-gradient-to-br from-[#ece2d2] to-[#d7c4a4] p-6">
             <div className="h-[300px] rounded-lg bg-gradient-to-br from-primary via-[#3f5a99] to-accent sm:h-[360px]" />
           </div>
@@ -192,7 +209,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-[1280px] px-5 pb-16 sm:px-6 lg:px-8">
+        <section id="subscriptions" className="mx-auto w-full max-w-[1280px] scroll-mt-28 px-5 pb-16 sm:px-6 lg:px-8">
           <div className="rounded-2xl bg-primary p-8 text-center text-white shadow-lg sm:p-10">
             <h2 className="font-display text-4xl font-semibold sm:text-5xl">
               ابدأ رحلتك الذكية بالتوجيهي اليوم

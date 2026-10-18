@@ -1,5 +1,5 @@
 import { Send, Square } from "lucide-react";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { STARTER_PROMPTS } from "../chatState";
 
 const MAX_LENGTH = 2000;
@@ -8,18 +8,31 @@ const MAX_LENGTH = 2000;
 // written the button becomes "stop".
 export default function Composer({ busy, disabled, onSend, onStop, showStarters }) {
   const [text, setText] = useState("");
+  const sent = useRef(false);
+  const input = useRef(null);
+  useLayoutEffect(() => {
+    const resize = () => {
+      if (!input.current) return;
+      input.current.style.height = "auto";
+      input.current.style.height = `${Math.min(input.current.scrollHeight, Math.max(44, Math.min(180, (window.visualViewport?.height || window.innerHeight) * .3)))}px`;
+    };
+    resize(); window.addEventListener("resize", resize); window.visualViewport?.addEventListener("resize", resize);
+    return () => { window.removeEventListener("resize", resize); window.visualViewport?.removeEventListener("resize", resize); };
+  }, [text]);
   const canSend = !busy && !disabled && text.trim().length > 0;
 
   const submit = () => {
-    if (!canSend) return;
+    if (!canSend || sent.current) return;
+    sent.current = true;
     onSend(text);
     setText("");
+    queueMicrotask(() => { sent.current = false; });
   };
 
   return (
-    <div className="mx-auto mt-4 w-full max-w-[900px]">
+    <div className="chat-composer mx-auto mt-3 w-full max-w-[900px] shrink-0">
       {showStarters && (
-        <div className="mb-4 flex flex-wrap gap-2">
+        <details className="chat-starters mb-3 text-sm text-ink-muted"><summary className="min-h-11 cursor-pointer py-2">اقتراحات لبدء السؤال</summary><div className="flex flex-wrap gap-2">
           {STARTER_PROMPTS.map((prompt) => (
             <button
               key={prompt}
@@ -30,12 +43,13 @@ export default function Composer({ busy, disabled, onSend, onStop, showStarters 
               {prompt}
             </button>
           ))}
-        </div>
+        </div></details>
       )}
 
       <div className="rounded-2xl border border-border bg-surface-alt p-2 shadow-sm">
         <div className="flex items-end gap-3 rounded-xl bg-surface-raised/60 px-3 py-1.5 sm:px-4 sm:py-2">
           <textarea
+            ref={input}
             value={text}
             onChange={(e) => setText(e.target.value.slice(0, MAX_LENGTH))}
             onKeyDown={(e) => {
@@ -44,10 +58,11 @@ export default function Composer({ busy, disabled, onSend, onStop, showStarters 
                 submit();
               }
             }}
-            rows={Math.min(6, Math.max(1, text.split("\n").length))}
+            rows={1}
             disabled={disabled}
             placeholder="اسأل عن أي شيء بالوحدة الأولى: متوسط التغير، قواعد الاشتقاق، لوبيتال، المماس…"
             aria-label="سؤالك للمعلّم الذكي"
+            enterKeyHint="send"
             dir="auto"
             className="min-h-11 min-w-0 flex-1 resize-none bg-transparent py-2 text-base leading-7 text-ink outline-none placeholder:text-ink-faint"
           />

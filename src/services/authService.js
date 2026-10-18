@@ -1,5 +1,6 @@
 import { apiRequest } from "./api";
 
+
 export const signup = (payload) =>
   apiRequest("/auth/signup", {
     method: "POST",
@@ -12,8 +13,9 @@ export const login = (payload) =>
     body: JSON.stringify(payload)
   });
 
-export const getMe = (token) =>
+export const getMe = (token, options = {}) =>
   apiRequest("/auth/me", {
+    ...options,
     headers: {
       Authorization: `Bearer ${token}`
     }

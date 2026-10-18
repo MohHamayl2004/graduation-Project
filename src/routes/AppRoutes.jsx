@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
@@ -11,6 +12,13 @@ import Quizzes from "../pages/Quizzes";
 import AITutor from "../pages/AITutor";
 import Lesson from "../pages/Lesson";
 import InteractiveLesson from "../pages/InteractiveLesson";
+import ProtectedRoute from "./ProtectedRoute";
+const Subscription = lazy(() => import("../pages/Subscription"));
+const Admin = lazy(() => import("../pages/Admin"));
+const Coupons = lazy(() => import("../pages/Admin/Coupons"));
+const loadingPage = <p role="status" className="p-8 text-center text-ink-muted">جاري تحميل الصفحة…</p>;
+
+const privatePage = (page) => <ProtectedRoute>{page}</ProtectedRoute>;
 
 export default function AppRoutes() {
   return (
@@ -18,16 +26,20 @@ export default function AppRoutes() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/analysis" element={<Analysis />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/lectures" element={<Lectures />} />
-      <Route path="/lesson/:code" element={<Lesson />} />
-      <Route path="/lesson" element={<Lesson />} />
-      <Route path="/study-plan" element={<StudyPlan />} />
-      <Route path="/progress" element={<Progress />} />
-      <Route path="/quizzes" element={<Quizzes />} />
-      <Route path="/ai-tutor" element={<AITutor />} />
-      <Route path="/interactive" element={<InteractiveLesson />} />
+      <Route path="/subscription" element={<ProtectedRoute allowExpired><Suspense fallback={loadingPage}><Subscription /></Suspense></ProtectedRoute>} />
+      <Route path="/subscription/checkout" element={<ProtectedRoute allowExpired><Suspense fallback={loadingPage}><Subscription /></Suspense></ProtectedRoute>} />
+      <Route path="/admin" element={<ProtectedRoute adminOnly><Suspense fallback={loadingPage}><Admin /></Suspense></ProtectedRoute>} />
+      <Route path="/admin/coupons" element={<ProtectedRoute adminOnly><Suspense fallback={loadingPage}><Coupons /></Suspense></ProtectedRoute>} />
+      <Route path="/analysis" element={privatePage(<Analysis />)} />
+      <Route path="/dashboard" element={privatePage(<Dashboard />)} />
+      <Route path="/lectures" element={privatePage(<Lectures />)} />
+      <Route path="/lesson/:code" element={privatePage(<Lesson />)} />
+      <Route path="/lesson" element={privatePage(<Lesson />)} />
+      <Route path="/study-plan" element={privatePage(<StudyPlan />)} />
+      <Route path="/progress" element={privatePage(<Progress />)} />
+      <Route path="/quizzes" element={privatePage(<Quizzes />)} />
+      <Route path="/ai-tutor" element={privatePage(<AITutor />)} />
+      <Route path="/interactive" element={privatePage(<InteractiveLesson />)} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

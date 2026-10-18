@@ -13,7 +13,7 @@ import { lesson } from "../../data/mockLesson";
 // public/audio/lesson-1-1/ and that slide is narrated by a real
 // voice; leave it out and the player falls back to speech synthesis.
 // Coverage can grow one slide at a time without touching the player.
-const AUDIO_DIR = "/audio/lesson-1-1";
+const AUDIO_DIR = `${import.meta.env?.BASE_URL ?? "/"}audio/lesson-1-1`;
 
 const NARRATION = {
   title: `${AUDIO_DIR}/01-title.mp3`,
