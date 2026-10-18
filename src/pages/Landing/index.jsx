@@ -16,7 +16,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import Button from "../../components/common/Button";
-import Nipras3DIntro from "../../components/journey/Nipras3DIntro";
 import SchoolShowcase from "../../components/journey/SchoolShowcase";
 
 const features = [
@@ -84,7 +83,7 @@ export default function Landing() {
   };
 
   return (
-    <div className="min-h-screen bg-surface text-ink">
+    <div className="app-min-screen bg-surface text-ink">
       <header className="sticky top-0 z-30 border-b border-border bg-surface-raised/95 backdrop-blur">
         <div className="mx-auto flex w-full max-w-[1280px] items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
           <Logo height={28} />
@@ -139,7 +138,6 @@ export default function Landing() {
       </header>
 
       <main>
-        <Nipras3DIntro />
         <SchoolShowcase />
 
         <section id="journey-after" className="mx-auto w-full max-w-[1280px] scroll-mt-28 px-5 py-14 sm:px-6 lg:px-8">

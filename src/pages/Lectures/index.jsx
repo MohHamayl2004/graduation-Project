@@ -17,8 +17,56 @@ export default function Lectures() {
 
   const section = useMemo(() => lectureContent[selectedTopic], [selectedTopic]);
 
+  const sideContent = <>
+          <h4 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">الإجراءات</h4>
+          <div className="mt-4 space-y-3">
+            <Button variant="accent" fullWidth className="bg-accent-tint text-accent hover:bg-accent hover:text-white" onClick={() => navigate("/ai-tutor")}>
+              <Brain size={18} /> اسأل المعلّم الذكي
+            </Button>
+            <Button variant="outline" fullWidth>
+              <FileQuestion size={18} /> إنشاء اختبار
+            </Button>
+            <Button variant="secondary" fullWidth>
+              <Download size={18} /> تنزيل الدرس
+            </Button>
+          </div>
+
+          <div className="mt-6 rounded-lg border border-warning/30 bg-warning-tint p-4">
+            <p className="text-base font-semibold text-warning">مواضيع بدها مراجعة</p>
+            <p className="mt-2 text-sm text-ink">لاحظ نبراس إنك بتحتاج تراجع:</p>
+            <p className="mt-1 text-sm font-semibold text-warning">الروابط التساهمية ومشاركة الإلكترونات</p>
+            <Button variant="primary" size="sm" fullWidth className="mt-3 bg-warning hover:bg-warning/90">
+              تدريب علاجي سريع
+            </Button>
+          </div>
+
+          <div className="mt-6">
+            <p className="text-xs font-semibold tracking-[0.14em] text-ink-muted">مواضيع مرتبطة</p>
+            <div className="mt-3 flex flex-wrap gap-2.5">
+              {relatedTopics.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  className="rounded-full border border-border bg-surface-raised px-4 py-2 text-sm text-ink transition-colors duration-base hover:bg-surface-alt"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 rounded-lg bg-primary p-5 text-white">
+            <p className="font-display text-lg font-semibold">الدور الجاي</p>
+            <p className="mt-2 text-sm leading-7 text-white/85">
+              حسب تقدّمك، بنصحك تجرّب محاكاة مختبر نظرية تنافر أزواج الإلكترونات.
+            </p>
+            <Button variant="secondary" fullWidth size="sm" className="mt-4 border-none bg-white text-primary hover:bg-white/90">
+              <PlayCircle size={16} /> ابدأ المحاكاة
+            </Button>
+          </div>
+        </>;
   return (
-    <div className="h-screen bg-surface text-ink">
+    <div className="app-screen bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
         <Sidebar activeItem="lectures" />
 
@@ -80,59 +128,12 @@ export default function Lectures() {
                 ))}
               </div>
             </Card>
-          </main>
+          <details className="mt-5 rounded-xl border border-border p-4 xl:hidden"><summary className="min-h-11 cursor-pointer py-2 font-semibold">إجراءات الدرس ومواضيع المراجعة</summary>{sideContent}</details></main>
 
           <Footer />
         </div>
 
-        <aside className="hidden w-[300px] shrink-0 overflow-y-auto bg-surface-alt px-6 py-6 xl:block">
-          <h4 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">الإجراءات</h4>
-          <div className="mt-4 space-y-3">
-            <Button variant="accent" fullWidth className="bg-accent-tint text-accent hover:bg-accent hover:text-white" onClick={() => navigate("/ai-tutor")}>
-              <Brain size={18} /> اسأل المعلّم الذكي
-            </Button>
-            <Button variant="outline" fullWidth>
-              <FileQuestion size={18} /> إنشاء اختبار
-            </Button>
-            <Button variant="secondary" fullWidth>
-              <Download size={18} /> تنزيل الدرس
-            </Button>
-          </div>
-
-          <div className="mt-6 rounded-lg border border-warning/30 bg-warning-tint p-4">
-            <p className="text-base font-semibold text-warning">مواضيع بدها مراجعة</p>
-            <p className="mt-2 text-sm text-ink">لاحظ نبراس إنك بتحتاج تراجع:</p>
-            <p className="mt-1 text-sm font-semibold text-warning">الروابط التساهمية ومشاركة الإلكترونات</p>
-            <Button variant="primary" size="sm" fullWidth className="mt-3 bg-warning hover:bg-warning/90">
-              تدريب علاجي سريع
-            </Button>
-          </div>
-
-          <div className="mt-6">
-            <p className="text-xs font-semibold tracking-[0.14em] text-ink-muted">مواضيع مرتبطة</p>
-            <div className="mt-3 flex flex-wrap gap-2.5">
-              {relatedTopics.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  className="rounded-full border border-border bg-surface-raised px-4 py-2 text-sm text-ink transition-colors duration-base hover:bg-surface-alt"
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-10 rounded-lg bg-primary p-5 text-white">
-            <p className="font-display text-lg font-semibold">الدور الجاي</p>
-            <p className="mt-2 text-sm leading-7 text-white/85">
-              حسب تقدّمك، بنصحك تجرّب محاكاة مختبر نظرية تنافر أزواج الإلكترونات.
-            </p>
-            <Button variant="secondary" fullWidth size="sm" className="mt-4 border-none bg-white text-primary hover:bg-white/90">
-              <PlayCircle size={16} /> ابدأ المحاكاة
-            </Button>
-          </div>
-        </aside>
+        <aside className="hidden w-[300px] shrink-0 overflow-y-auto bg-surface-alt px-6 py-6 xl:block">{sideContent}</aside>
       </div>
     </div>
   );

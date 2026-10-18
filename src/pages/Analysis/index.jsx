@@ -61,7 +61,7 @@ export default function Analysis() {
   const estimatedSeconds = Math.max(0, Math.ceil((100 - progress) * 0.12));
 
   return (
-    <div className="h-screen overflow-hidden bg-surface text-ink">
+    <div className="app-screen overflow-hidden bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
         <Sidebar activeItem="uploadMaterial" />
 
@@ -69,7 +69,7 @@ export default function Analysis() {
           <AnalysisHeader />
 
           <main className="flex flex-1 flex-col overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto flex h-full w-full max-w-[980px] items-center justify-center">
+            <div className="mx-auto flex min-h-full w-full max-w-[980px] items-start justify-center">
               <div className="flex w-full max-w-[760px] flex-col items-center gap-3">
                 <Logo showWordmark={false} height={30} />
 

@@ -5,7 +5,7 @@ import { money, tierLabel } from "../../../shared/subscriptions";
 export default function PaymentsTable({ payments }) {
   return <Card padding="lg" className="mb-5">
     <div className="flex flex-wrap items-start justify-between gap-3"><div><h2 className="flex items-center gap-2 text-xl font-semibold"><ReceiptText size={22} className="text-primary" />سجل دفعات الطلاب</h2><p className="mt-2 text-sm text-ink-muted">صاحب كل دفعة وتفاصيلها حسب الفلاتر المختارة، من الأحدث للأقدم.</p></div><span className="rounded-full bg-primary-tint px-4 py-2 text-sm font-semibold text-primary">{payments.length} عملية دفع</span></div>
-    {!payments.length ? <p className="py-10 text-center text-ink-muted">لا توجد دفعات مطابقة للفلاتر.</p> : <div role="region" aria-label="سجل دفعات الطلاب القابل للتمرير" tabIndex={0} className="admin-table-wrap mt-5 rounded-lg border border-border">
+    {!payments.length ? <p className="py-10 text-center text-ink-muted">لا توجد دفعات مطابقة للفلاتر.</p> : <div role="region" aria-label="سجل دفعات الطلاب القابل للتمرير" tabIndex={0} className="scroll-table admin-table-wrap mt-5 rounded-lg border border-border">
       <table className="payments-table w-full text-sm" dir="rtl">
         <colgroup><col style={{ width: "28%" }} /><col style={{ width: "11%" }} /><col style={{ width: "13%" }} /><col style={{ width: "17%" }} /><col style={{ width: "12%" }} /><col style={{ width: "19%" }} /></colgroup>
         <thead><tr>{["الطالب والإيميل", "الباقة", "المبلغ المدفوع", "تاريخ الدفع", "نوع الدفع", "رقم العملية"].map((label) => <th key={label} scope="col">{label}</th>)}</tr></thead>

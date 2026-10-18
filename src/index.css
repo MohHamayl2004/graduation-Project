@@ -19,6 +19,51 @@ body {
   color: #1b2136;
 }
 
+@layer base {
+  html { -webkit-text-size-adjust: 100%; scroll-padding-block: 1rem; }
+  body { padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+  img, video, canvas, iframe { max-width: 100%; }
+  input, textarea, select { min-width: 0; max-width: 100%; font: inherit; }
+  p, h1, h2, h3, h4, h5, h6, dd, li { overflow-wrap: anywhere; }
+  input, textarea, select, button, a { -webkit-tap-highlight-color: transparent; }
+  input, textarea, select { scroll-margin-block: 5rem; }
+  input[type="checkbox"], input[type="radio"] { flex-shrink: 0; accent-color: #152a63; }
+  button, a, input, select, textarea { touch-action: manipulation; }
+  button:disabled { cursor: not-allowed; }
+  button:active:not(:disabled) { filter: brightness(.94); }
+  @media (max-width: 1023px), (pointer: coarse) {
+    button, a[href] { min-height: 44px; }
+    button { min-width: 44px; }
+    input:not([type="checkbox"]):not([type="radio"]), textarea, select { font-size: 16px !important; min-height: 44px; }
+    input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; }
+    label { overflow-wrap: anywhere; }
+  }
+}
+
+.app-screen { height: 100vh; height: 100dvh; height: var(--app-height, 100dvh); min-height: 0; padding-top: env(safe-area-inset-top, 0px); }
+.app-min-screen { min-height: 100vh; min-height: 100dvh; }
+.app-screen > .flex, .app-screen main { min-height: 0; }
+.app-screen > .flex { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.app-screen footer { flex-shrink: 0; }
+/* On short screens the document/footer must not consume the study workspace. */
+@media (max-width: 767px), (max-height: 600px) {
+  .app-screen:has(> .flex > main.chat-main) { min-height: 0; }
+
+  .app-screen main:not(.chat-main) { scroll-padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px)); }
+}
+.chat-main { min-height: 0; }
+.chat-message { overflow-wrap: anywhere; word-break: break-word; }
+.chat-message pre { max-width: 100%; overflow: auto; }
+.chat-message table { display: block; max-width: 100%; overflow-x: auto; }
+.scroll-table { max-width: 100%; overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.scroll-table:focus-visible { outline-offset: -3px; }
+
+/* Dialogs follow the visible area, including landscape/keyboard changes. */
+[aria-modal="true"] { max-height: calc(100vh - 2rem); max-height: calc(var(--app-height, 100dvh) - 2rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); overflow-y: auto; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; }
+[aria-modal="true"]:not(aside) { min-width: 0; overflow-wrap: anywhere; }
+[data-dialog-layer] { top: var(--viewport-top, 0px); height: var(--app-height, 100dvh); bottom: auto; padding-left: max(1rem, env(safe-area-inset-left, 0px)); padding-right: max(1rem, env(safe-area-inset-right, 0px)); padding-top: max(1rem, env(safe-area-inset-top, 0px)); padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px)); }
+@media (prefers-reduced-motion: reduce) { .backdrop-blur, .backdrop-blur-sm { backdrop-filter: none; } }
+
 h1,
 h2,
 h3,
@@ -61,3 +106,18 @@ button {
     scroll-behavior: auto !important;
   }
 }
+.app-menu-trigger { top: calc(1rem + env(safe-area-inset-top, 0px)); }
+.app-drawer { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); max-height: none; height: 100%; }
+@media (max-width:1023px) { .app-drawer { height: var(--app-height, 100dvh); top: var(--viewport-top, 0px); bottom: auto; } }
+.chat-composer{padding-bottom:env(safe-area-inset-bottom,0px)}
+.chat-composer textarea{max-height:min(180px,30dvh);overflow-y:auto}
+@media(max-height:600px){.chat-header{gap:.25rem;padding-block:.25rem}.chat-header h2{font-size:1rem}.chat-header .text-xs{display:none}.chat-header>div:last-child{display:none}.chat-starters{display:none}.chat-composer>p{margin-top:2px}.chat-composer{margin-top:4px}.chat-workspace{padding-top:4px}}
+.time-wheel-scroll{height:220px;padding-block:88px;scroll-snap-type:y mandatory;scrollbar-width:none;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+.time-wheel-scroll::-webkit-scrollbar{display:none}
+@media(max-height:600px){.time-wheel-scroll{height:132px;padding-block:44px}.time-wheel-dialog>p{margin-block:.5rem}.time-wheel-dialog{padding:1rem}}
+.nipras-calendar-month button{min-inline-size:0;width:100%;min-block-size:44px}
+@media(max-width:359px){.nipras-calendar-month button{min-block-size:40px}.nipras-calendar-month{gap-inline:1px}}
+@supports selector(label:has(input)) { @media(max-width:1023px),(pointer:coarse){label:has(>input[type="checkbox"]),label:has(>input[type="radio"]){min-height:44px}} }
+@media(max-width:639px){.app-screen main>div>h1{font-size:clamp(1.8rem,8vw,2.7rem)}.chat-header>div:last-child{min-width:0;max-width:100%}}
+[data-expanded-player]{max-height:none;top:var(--viewport-top,0px);height:var(--app-height,100dvh);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@layer base { @media(max-width:1023px),(pointer:coarse){a[href]{display:inline-flex;align-items:center}} }

@@ -1,4 +1,4 @@
-param([switch]$SkipAI, [switch]$StayOpen)
+param([switch]$SkipAI, [switch]$StayOpen, [switch]$Lan)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $localRoot = Join-Path $projectRoot '.local'
@@ -54,7 +54,8 @@ if (-not (Test-LocalPort 27017)) {
 }
 # Bring up the site independently of the slower AI warm-up.
 Start-LocalService 'api' $nodeExe @('server.js') (Join-Path $projectRoot 'backend') 5000
-Start-LocalService 'web' $nodeExe @('node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', '5173', '--strictPort') $projectRoot 5173
+$webHost = if ($Lan) { '0.0.0.0' } else { '127.0.0.1' }
+Start-LocalService 'web' $nodeExe @('node_modules/vite/bin/vite.js', '--host', $webHost, '--port', '5173', '--strictPort') $projectRoot 5173
 if (-not $SkipAI) {
     $aiRoot = Join-Path $projectRoot 'Nipras_Ai_Models'
     $aiSettings = @{}
@@ -74,6 +75,7 @@ if (-not $SkipAI) {
     Start-LocalService 'ai' (Join-Path $aiRoot '.venv/Scripts/python.exe') @('-u', '-m', 'rag.service', '--warm-index') $aiRoot 8000
 }
 Write-Host "Open http://localhost:5173 (logs: $logRoot)."
+if ($Lan) { Write-Host 'LAN mode: open http://<computer-LAN-IP>:5173 on the same trusted Wi-Fi. Restart web if it was already running in loopback mode.' }
 Write-Host 'Stop with: powershell -ExecutionPolicy Bypass -File scripts/stop-local.ps1'
 if ($StayOpen) {
     Write-Host 'Local servers running. Keep this terminal open. Press Ctrl+C to stop.'

@@ -12,6 +12,9 @@ export default function Nipras3DIntro() {
   const [failed, setFailed] = useState(false);
   const [ready, setReady] = useState(false);
   const [posterFailed, setPosterFailed] = useState(false);
+  const [manualPlay, setManualPlay] = useState(false);
+  const [manualPaused, setManualPaused] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const reduced = useReducedMotion();
   const media = journeyAssets.intro;
 
@@ -27,10 +30,10 @@ export default function Nipras3DIntro() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (visible && ready && !reduced && !ended.current) {
+    if (visible && ready && (manualPlay || (!reduced && !manualPaused)) && !ended.current) {
       video.play().catch(() => {});
     } else video.pause();
-  }, [visible, ready, reduced]);
+  }, [visible, ready, reduced, manualPlay, manualPaused]);
 
   useEffect(() => {
     const header = sectionRef.current.parentElement.previousElementSibling;
@@ -52,10 +55,11 @@ export default function Nipras3DIntro() {
       style={{ '--intro-desktop': media.position.desktop, '--intro-tablet': media.position.tablet, '--intro-mobile': media.position.mobile }}>
       <div className="showcase-placeholder" aria-hidden="true"><span>نبراس</span></div>
       {near && media.poster && !posterFailed && <img className="intro-poster" src={media.poster} alt="" onError={() => setPosterFailed(true)} />}
-      {near && !failed && <video ref={videoRef} src={media.mp4} className={`intro-video ${ready ? 'is-ready' : ''}`} autoPlay={!reduced} muted playsInline preload="auto" controls={false} disablePictureInPicture disableRemotePlayback
+      {near && !failed && <video ref={videoRef} src={media.mp4} className={`intro-video ${ready ? 'is-ready' : ''}`} autoPlay={!reduced} muted playsInline preload="metadata" controls={false} disablePictureInPicture disableRemotePlayback
         controlsList="nodownload nofullscreen noremoteplayback" onContextMenu={event => event.preventDefault()}
         aria-label="فيلم ترحيبي في مدرسة نبراس" onLoadedData={() => setReady(true)}
-        onEnded={() => { ended.current = true; }} onError={() => setFailed(true)} />}
+        onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => { ended.current = true; setPlaying(false); }} onError={() => setFailed(true)} />}
+      {near && !failed && <button type="button" className="absolute bottom-4 end-4 z-10 min-h-11 rounded-lg bg-ink/80 px-4 py-2 text-sm text-white" aria-label={playing ? "إيقاف المقطع الترحيبي" : "تشغيل المقطع الترحيبي"} onClick={() => { if (playing) { setManualPlay(false); setManualPaused(true); videoRef.current?.pause(); } else { ended.current = false; setManualPlay(true); setManualPaused(false); videoRef.current?.play().catch(() => {}); } }}>{playing ? "إيقاف المقطع" : "تشغيل المقطع"}</button>}
     </section>
   );
 }

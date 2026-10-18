@@ -39,14 +39,14 @@ export default function SubjectPicker({ selected, onChange, allowedIds }) {
                 const unitCount = unitIds.filter((id) => selected.includes(id)).length;
                 return (
                   <div key={unit.id} className="border-b border-border py-4 last:border-0">
-                    <label className="flex cursor-pointer items-start gap-3 font-semibold">
+                    <label className="flex min-h-11 cursor-pointer items-center gap-3 font-semibold">
                       <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 accent-primary" checked={unitCount === unitIds.length}
                         ref={(node) => { if (node) node.indeterminate = unitCount > 0 && unitCount < unitIds.length; }} onChange={() => toggleMany(unitIds)} />
                       <span>{i + 1}. {unit.title}</span>
                     </label>
                     <div className="ms-2 mt-3 space-y-1 border-s border-border ps-5">
                       {unit.lessons.map((lesson) => (
-                        <label key={lesson.id} className="flex cursor-pointer items-start gap-3 rounded-md px-2 py-2 text-sm leading-6 hover:bg-surface-raised">
+                        <label key={lesson.id} className="flex min-h-11 cursor-pointer items-start gap-3 rounded-md px-2 py-2 text-sm leading-6 hover:bg-surface-raised">
                           <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 accent-primary" checked={selected.includes(lesson.id)} onChange={() => toggleMany([lesson.id])} />{lesson.title}
                         </label>
                       ))}

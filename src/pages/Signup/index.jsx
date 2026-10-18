@@ -70,6 +70,7 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
 
     setHasSubmitted(true);
     setError("");
@@ -99,8 +100,8 @@ export default function Signup() {
     "h-12 w-full rounded-md border border-border-strong bg-surface-raised px-4 text-base outline-none transition-colors duration-base focus:border-primary focus:ring-2 focus:ring-primary/15 aria-[invalid=true]:border-error aria-[invalid=true]:bg-error-tint/30 aria-[invalid=true]:focus:border-error aria-[invalid=true]:focus:ring-error/15";
 
   return (
-    <div className="min-h-screen bg-surface text-ink">
-      <div className="mx-auto grid min-h-screen max-w-[1600px] lg:grid-cols-[46%_54%]">
+    <div className="app-min-screen bg-surface text-ink">
+      <div className="mx-auto grid app-min-screen max-w-[1600px] lg:grid-cols-[46%_54%]">
         <section className="relative hidden overflow-hidden bg-primary px-10 py-10 text-white lg:flex lg:flex-col lg:px-14 lg:py-12">
           <div className="absolute -end-20 -top-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
           <div className="absolute -start-10 bottom-10 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
@@ -212,12 +213,12 @@ export default function Signup() {
                       value={password}
                       onChange={(e) => changePassword(e, "password", setPassword)}
                       placeholder={t("signup.passwordPlaceholder")}
-                      className={`${fieldClass} ps-12`}
+                      className={`${fieldClass} ps-14`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute end-1 top-1 grid h-10 w-10 place-items-center rounded-md text-ink-muted hover:bg-surface-alt"
+                      className="absolute end-1 top-0.5 grid h-11 w-11 place-items-center rounded-md text-ink-muted hover:bg-surface-alt"
                       aria-label={showPassword ? t("login.hidePassword", { ns: "auth" }) : t("login.showPassword", { ns: "auth" })}
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}

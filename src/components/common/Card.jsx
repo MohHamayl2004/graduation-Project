@@ -8,9 +8,9 @@ const PADDING = {
   none: "",
   sm: "p-4",
   md: "p-5",
-  lg: "p-6"
+  lg: "p-4 sm:p-6"
 };
 
 export default function Card({ children, variant = "default", padding = "md", className = "" }) {
-  return <div className={`rounded-lg ${VARIANTS[variant]} ${PADDING[padding]} ${className}`}>{children}</div>;
+  return <div className={`min-w-0 rounded-lg ${VARIANTS[variant]} ${PADDING[padding]} ${className}`}>{children}</div>;
 }

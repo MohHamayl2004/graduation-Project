@@ -9,7 +9,7 @@ export default function PlayerBar({ slides, index, playing, onPlay, onPrev, onNe
   const atEnd = index === slides.length - 1;
 
   return (
-    <div className="flex items-center gap-3 border-t border-border bg-surface-raised px-4 py-3 sm:px-6">
+    <div className="flex flex-wrap items-center gap-2 border-t border-border bg-surface-raised px-4 py-3 sm:px-6">
       <button
         type="button"
         onClick={onPlay}
@@ -20,11 +20,11 @@ export default function PlayerBar({ slides, index, playing, onPlay, onPrev, onNe
       </button>
 
       <button type="button" onClick={onPrev} disabled={atStart} aria-label="السابق"
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink disabled:opacity-30">
+        className="grid h-11 w-11 shrink-0 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink disabled:opacity-30">
         <ChevronRight size={19} />
       </button>
 
-      <div className="flex min-w-0 flex-1 items-center gap-1">
+      <div className="order-last flex min-w-0 basis-full items-center gap-2 overflow-x-auto py-1 sm:order-none sm:flex-1 sm:basis-auto">
         {slides.map((s, i) => (
           <button
             key={s.id}
@@ -32,15 +32,15 @@ export default function PlayerBar({ slides, index, playing, onPlay, onPrev, onNe
             onClick={() => onSeek(i)}
             aria-label={`الشريحة ${i + 1}`}
             aria-current={i === index}
-            className={`h-1.5 flex-1 rounded-full transition-colors duration-fast ${
+            className={`relative h-11 min-w-11 shrink-0 flex-1 rounded-md transition-colors duration-fast ${
               i < index ? "bg-primary" : i === index ? "bg-accent" : "bg-surface-alt hover:bg-border-strong"
             }`}
-          />
+          >{i + 1}</button>
         ))}
       </div>
 
       <button type="button" onClick={onNext} disabled={atEnd} aria-label="التالي"
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink disabled:opacity-30">
+        className="grid h-11 w-11 shrink-0 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink disabled:opacity-30">
         <ChevronLeft size={19} />
       </button>
 
@@ -50,7 +50,7 @@ export default function PlayerBar({ slides, index, playing, onPlay, onPrev, onNe
 
       {atEnd && (
         <button type="button" onClick={onRestart} aria-label="شغّل مرة ثانية"
-          className="grid h-9 w-9 shrink-0 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink">
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-md text-ink-muted transition-colors duration-fast hover:bg-surface-alt hover:text-ink">
           <Repeat size={17} />
         </button>
       )}

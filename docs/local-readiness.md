@@ -84,3 +84,43 @@ Stop and restart have been exercised successfully.
 To return to a team database later, replace `MONGO_URI` in `backend/.env`, clear
 or update `MONGO_URI_STANDARD` (it has priority), and restart the API. Local data
 is not automatically migrated to that database.
+
+## Responsive interface verification — 2026-10-19
+
+The interface now adapts navigation, forms, chat, study calendars/time wheels,
+lesson controls, subscription/admin tables and dialogs to available space.
+Dialogs manage focus and background scrolling. Inputs use readable touch sizing;
+visible viewport height and safe-area padding handle changing browser space.
+The landing page starts with the school welcome scene; the intro video is removed
+from the page and is no longer loaded.
+
+Chromium browser checks covered widths 320, 360, 390, 430, 768, 820, 1024,
+1280 and 1440, plus short landscape and split-screen layouts. The recorded
+public/student matrix contains 181 layout checks without page-wide horizontal
+overflow. Admin students and coupons were also checked at the nine widths;
+wide tables scroll inside their own containers. Menu/dialog dismissal, VARK
+choices, calendar, time selection, chat history and long messages were exercised.
+These are browser viewport and keyboard checks, not physical device tests.
+Safari on iPhone/iPad, Android touch scrolling, actual software keyboards,
+notches and native fullscreen still need a physical-device check.
+
+### Open from a phone or tablet on the same Wi-Fi
+
+Stop any existing local instance, then start the explicit LAN mode:
+
+```powershell
+npm run local:stop
+npm run local:lan
+```
+
+Open `http://<computer-Wi-Fi-IP>:5173` on the other device. If Windows requests
+network access, allow the development server on the trusted private network.
+No firewall rules are changed automatically. Normal local startup stays bound
+to loopback. LAN mode exposes the web server; API requests use its `/api` proxy.
+The frontend falls back to this proxy when an old local API setting contains
+localhost but the page is opened from another device.
+
+For deployment, serve the frontend and reverse-proxy `/api` and `/uploads` to
+the backend (or configure the intended public API URL). Vite environment values
+prefixed with `VITE_` are public and must never contain secrets. No external
+hosting deployment was performed.

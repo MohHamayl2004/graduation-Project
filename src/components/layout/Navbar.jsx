@@ -12,7 +12,7 @@ export default function Navbar({
   children
 }) {
   const { t } = useTranslation("common");
-  const padding = compact ? "py-3 ps-20 pe-6 lg:px-8" : "py-4 ps-20 pe-8 lg:px-8";
+  const padding = "px-4 py-3 lg:px-8";
   const height = compact ? "h-11" : "h-12";
   const searchText = compact ? "text-sm" : "text-base";
   const actionGap = compact ? "gap-2" : "gap-3";
@@ -20,8 +20,8 @@ export default function Navbar({
 
   return (
     <header className={`border-b border-border bg-surface-raised ${padding}`}>
-      <div className={`${innerWidth} flex items-center justify-between gap-3`}>
-        <div className={`flex ${height} w-full min-w-0 max-w-[520px] items-center gap-3 rounded-full border border-border bg-surface-alt px-4 text-ink-muted`}>
+      <div className={`${innerWidth} flex flex-wrap items-center justify-between gap-3 lg:flex-nowrap`}>
+        <div className={`order-2 flex ${height} w-full min-w-0 items-center gap-3 rounded-full border border-border bg-surface-alt px-4 text-ink-muted lg:order-none lg:max-w-[520px]`}>
           <Search size={compact ? 18 : 19} className="shrink-0" />
           <input
             type="text"
@@ -32,7 +32,7 @@ export default function Navbar({
           />
         </div>
 
-        <div className={`flex shrink-0 items-center ${actionGap} text-ink-muted`}>
+        <div className={`order-1 flex w-full min-w-0 items-center justify-end gap-2 ps-16 text-ink-muted lg:order-none lg:w-auto lg:shrink-0 lg:gap-3 lg:ps-0`}>
           {children}
           <button
             type="button"
@@ -49,7 +49,7 @@ export default function Navbar({
           >
             <CircleHelp size={compact ? 18 : 19} />
           </button>
-          <StudentBadge compactOnMobile={mobileCompact} />
+          <StudentBadge />
         </div>
       </div>
     </header>

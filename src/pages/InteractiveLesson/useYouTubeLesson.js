@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { dueCheckpoint, initialLessonState, lessonReducer } from "./lessonState";
+import { tryEnterFullscreen } from "../../../shared/fullscreen.js";
 
 // The YouTube iframe API, loaded once for the whole app.
 let apiPromise = null;
@@ -25,6 +26,7 @@ const TICK_MS = 250;
 // student answers. The video is embedded through YouTube's own player - it is
 // never downloaded - so the channel keeps its view and its rights.
 export function useYouTubeLesson(lesson) {
+  const [expanded, setExpanded] = useState(false);
   const [state, dispatch] = useReducer(lessonReducer, initialLessonState);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -83,7 +85,7 @@ export function useYouTubeLesson(lesson) {
   }, [videoId, checkpoints]);
 
   useEffect(() => {
-    const onChange = () => setFullscreen(Boolean(document.fullscreenElement));
+    const onChange = () => setFullscreen(Boolean(document.fullscreenElement || document.webkitFullscreenElement));
     document.addEventListener("fullscreenchange", onChange);
     document.addEventListener("webkitfullscreenchange", onChange);
     return () => {
@@ -92,15 +94,18 @@ export function useYouTubeLesson(lesson) {
     };
   }, []);
 
-  const toggleFullscreen = useCallback(() => {
+  const toggleFullscreen = useCallback(async () => {
     const box = shell.current;
     if (!box) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen?.();
+    if (expanded) { setExpanded(false); return; }
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      const exit = document.exitFullscreen || document.webkitExitFullscreen;
+      try { await exit?.call(document); } catch { setExpanded(false); }
       return;
     }
-    (box.requestFullscreen || box.webkitRequestFullscreen)?.call(box);
-  }, []);
+    if (!(await tryEnterFullscreen(box))) setExpanded(true);
+  }, [expanded]);
+  useEffect(() => { if (!expanded) return; const close = (e) => { if (e.key === "Escape") setExpanded(false); }; document.addEventListener("keydown", close); return () => document.removeEventListener("keydown", close); }, [expanded]);
 
   const answer = useCallback((checkpoint, choiceId) => {
     dispatch({ type: "answered", checkpoint, choiceId, seconds: player.current?.getCurrentTime?.() || checkpoint.at });
@@ -117,5 +122,5 @@ export function useYouTubeLesson(lesson) {
     player.current?.playVideo?.();
   }, []);
 
-  return { state, mount, shell, ready, failed, fullscreen, toggleFullscreen, answer, resume, restart };
+  return { state, mount, shell, ready, failed, fullscreen: fullscreen || expanded, expanded, toggleFullscreen, answer, resume, restart };
 }

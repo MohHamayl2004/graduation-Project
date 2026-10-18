@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env?.VITE_API_URL || "http://localhost:5000/api";
+import { resolveApiBase } from "../../shared/apiBase.js";
+const API_BASE_URL = resolveApiBase(import.meta.env?.VITE_API_URL, typeof window === "undefined" ? "" : window.location.hostname);
 
 // An Error that keeps the API's stable `code` (e.g. TUTOR_BUSY) beside the
 // Arabic message, so a caller can react to the case, not parse the text.

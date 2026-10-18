@@ -8,9 +8,9 @@ const VARIANTS = {
 };
 
 const SIZES = {
-  sm: "h-9 gap-1.5 px-3.5 text-sm",
-  md: "h-11 gap-2 px-5 text-base",
-  lg: "h-[52px] gap-2.5 px-7 text-lg"
+  sm: "min-h-11 gap-1.5 px-3.5 py-2 text-sm",
+  md: "min-h-11 gap-2 px-5 py-2 text-base",
+  lg: "min-h-[52px] gap-2.5 px-7 py-2 text-lg"
 };
 
 export default function Button({

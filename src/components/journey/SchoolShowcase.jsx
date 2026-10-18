@@ -1,4 +1,5 @@
 import IntroFallback from './IntroFallback';
+import './journey.css';
 
 export default function SchoolShowcase() {
   return (

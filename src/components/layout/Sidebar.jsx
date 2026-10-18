@@ -37,19 +37,14 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
   const userTrack = auth.user ? `الفرع ${streamLabel(auth.user.stream)}` : "";
   const { t } = useTranslation(["nav", "common"]);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [wide, setWide] = useState(() => window.matchMedia("(min-width: 1024px)").matches);
 
   useEffect(() => {
-    if (!mobileOpen) return undefined;
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") setMobileOpen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
+    const query = window.matchMedia("(min-width: 1024px)");
+    const update = () => { setWide(query.matches); if (query.matches) setMobileOpen(false); };
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
 
   const goTo = (path) => {
     setMobileOpen(false);
@@ -64,7 +59,7 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
         aria-label={t("common:nav.openMenu")}
         aria-expanded={mobileOpen}
         aria-controls="app-sidebar"
-        className="fixed start-4 top-4 z-30 grid h-11 w-11 place-items-center rounded-full bg-primary text-white shadow-md transition-colors duration-base hover:bg-primary-hover lg:hidden"
+        className="app-menu-trigger fixed start-4 top-4 z-30 grid h-11 w-11 place-items-center rounded-full bg-primary text-white shadow-md transition-colors duration-base hover:bg-primary-hover lg:hidden"
       >
         <Menu size={20} />
       </button>
@@ -79,9 +74,13 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
 
       <aside
         id="app-sidebar"
+        role={mobileOpen ? "dialog" : undefined}
+        aria-modal={mobileOpen ? true : undefined}
+        aria-hidden={!wide && !mobileOpen}
+        {...(!wide && !mobileOpen ? { inert: "" } : {})}
         aria-label="التنقّل الرئيسي"
-        className={`fixed inset-y-0 start-0 z-50 flex w-[272px] shrink-0 flex-col border-e border-border bg-surface-raised transition-transform duration-base ease-out lg:static lg:z-auto lg:flex lg:w-[248px] ${
-          mobileOpen ? "translate-x-0" : "max-lg:-translate-x-full max-lg:rtl:translate-x-full"
+        className={`app-drawer fixed inset-y-0 start-0 z-50 flex w-[min(288px,90vw)] shrink-0 flex-col border-e border-border bg-surface-raised transition-transform duration-base ease-out lg:static lg:z-auto lg:flex lg:w-[248px] ${
+          mobileOpen ? "translate-x-0" : "max-lg:invisible max-lg:-translate-x-full max-lg:rtl:translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between px-6 pt-7">

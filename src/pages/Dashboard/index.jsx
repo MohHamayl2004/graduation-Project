@@ -87,7 +87,7 @@ export default function Dashboard() {
   const { auth } = useAuth();
 
   return (
-    <div className="h-screen bg-surface text-ink">
+    <div className="app-screen bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
         <Sidebar activeItem="dashboard" />
 

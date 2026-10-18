@@ -68,7 +68,7 @@ export default function StudyPlan() {
   };
 
   return (
-    <div className="h-screen bg-surface text-ink">
+    <div className="app-screen bg-surface text-ink">
       <div className="mx-auto flex h-full max-w-[1600px]">
         <Sidebar activeItem="studyPlan" />
         <div className="flex min-w-0 flex-1 flex-col">
