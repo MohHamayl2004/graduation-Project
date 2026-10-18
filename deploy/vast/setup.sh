@@ -64,7 +64,7 @@ fi
 "$ROOT/venv/bin/pip" install --quiet -r "$APP/Nipras_Ai_Models/requirements.txt"
 
 echo "== 5/6 Model ($MODEL)"
-ollama pull "$MODEL" >/dev/null
+ollama pull "$MODEL" >/dev/null 2>&1 || { echo "   could not pull $MODEL"; exit 1; }
 ollama list | grep -E "^NAME|$MODEL"
 
 echo "== 6/6 Settings"
