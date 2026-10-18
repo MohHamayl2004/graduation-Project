@@ -8,4 +8,4 @@
 // workflow redeploys the site in about a minute.
 //
 //   window.NIPRAS_CONFIG = { apiUrl: "https://example-words.trycloudflare.com/api" };
-window.NIPRAS_CONFIG = { apiUrl: "https://interfaces-beings-coordinates-label.trycloudflare.com/api" };
+window.NIPRAS_CONFIG = { apiUrl: "https://heater-thickness-promised-adjusted.trycloudflare.com/api" };

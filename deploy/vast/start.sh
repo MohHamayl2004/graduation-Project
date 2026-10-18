@@ -9,8 +9,12 @@
 #   tunnel      https://<random>.trycloudflare.com -> the API
 #
 # Nothing listens on a public port: the only way in is the HTTPS
-# tunnel, and it reaches the API alone. The tunnel's address is new
-# every time this runs - put it in public/config.js on GitHub.
+# tunnel, and it reaches the API alone.
+#
+# Running this again restarts the AI service and the API but KEEPS a
+# working tunnel, so the address in public/config.js stays valid. A
+# new address appears only after the server itself restarted, or with
+#   bash start.sh --new-tunnel
 # ============================================================
 
 set -euo pipefail
@@ -20,7 +24,14 @@ APP="$ROOT/app"
 LOG="$ROOT/logs"
 mkdir -p "$LOG"
 
-bash "$APP/deploy/vast/stop.sh" >/dev/null 2>&1 || true
+NEW_TUNNEL=0
+[ "${1:-}" = "--new-tunnel" ] && NEW_TUNNEL=1
+
+if [ "$NEW_TUNNEL" = 1 ]; then
+  bash "$APP/deploy/vast/stop.sh" --all >/dev/null 2>&1 || true
+else
+  bash "$APP/deploy/vast/stop.sh" >/dev/null 2>&1 || true
+fi
 
 if grep -q PASTE_YOUR_MONGODB_URI_HERE "$APP/backend/.env" 2>/dev/null; then
   echo "backend/.env has no MongoDB address yet:  nano $APP/backend/.env"
@@ -51,20 +62,26 @@ echo $! >"$ROOT/api.pid"
 wait_for "API" http://127.0.0.1:5000/ 90
 
 echo "== Public HTTPS address"
-CLOUDFLARED="$(command -v cloudflared || echo /opt/instance-tools/bin/cloudflared)"
-nohup "$CLOUDFLARED" tunnel --no-autoupdate --url http://127.0.0.1:5000 >"$LOG/tunnel.log" 2>&1 &
-echo $! >"$ROOT/tunnel.pid"
-
 URL=""
-for _ in $(seq 1 60); do
-  URL="$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$LOG/tunnel.log" | head -1 || true)"
-  [ -n "$URL" ] && break
-  sleep 1
-done
-[ -n "$URL" ] || { echo "   no tunnel address - see $LOG/tunnel.log"; exit 1; }
-wait_for "tunnel" "$URL/" 60 || true
-
-echo "$URL/api" >"$ROOT/api-url.txt"
+OLD_URL="$(sed 's#/api$##' "$ROOT/api-url.txt" 2>/dev/null || true)"
+if [ -f "$ROOT/tunnel.pid" ] && kill -0 "$(cat "$ROOT/tunnel.pid")" 2>/dev/null    && [ -n "$OLD_URL" ] && curl -fsS -o /dev/null -m 20 "$OLD_URL/"; then
+  URL="$OLD_URL"
+  echo "   kept the running tunnel - the address has not changed"
+else
+  bash "$APP/deploy/vast/stop.sh" --tunnel-only >/dev/null 2>&1 || true
+  CLOUDFLARED="$(command -v cloudflared || echo /opt/instance-tools/bin/cloudflared)"
+  nohup "$CLOUDFLARED" tunnel --no-autoupdate --url http://127.0.0.1:5000 >"$LOG/tunnel.log" 2>&1 &
+  echo $! >"$ROOT/tunnel.pid"
+  for _ in $(seq 1 60); do
+    URL="$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$LOG/tunnel.log" | head -1 || true)"
+    [ -n "$URL" ] && break
+    sleep 1
+  done
+  [ -n "$URL" ] || { echo "   no tunnel address - see $LOG/tunnel.log"; exit 1; }
+  wait_for "tunnel" "$URL/" 60 || true
+  echo "$URL/api" >"$ROOT/api-url.txt"
+  echo "   NEW address - public/config.js on GitHub must be updated"
+fi
 
 cat <<EOF
 

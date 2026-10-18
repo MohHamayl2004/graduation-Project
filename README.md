@@ -234,6 +234,6 @@ Allow the server's IP in MongoDB Atlas -> Network Access. The service key and JW
 ssh -p <port> root@<ip> "bash /workspace/nipras/app/deploy/vast/start.sh"
 ```
 
-It prints a new `https://....trycloudflare.com/api` address each time. Put it in `public/config.js` on GitHub (edit in the browser, commit to `main`); the site picks it up in about a minute. Stop the vast.ai instance afterwards - it is billed by the hour.
+It prints the `https://....trycloudflare.com/api` address. Running it again keeps a working tunnel, so the address only changes after the instance itself restarted (or with `--new-tunnel`). When it does change, put it in `public/config.js` on GitHub (edit in the browser, commit to `main`); the site picks it up in about a minute. Stop the vast.ai instance afterwards - it is billed by the hour.
 
 Only the API is reachable from outside, through the tunnel; it accepts browsers from `CORS_ORIGINS` only. The AI service and Ollama listen on 127.0.0.1.
