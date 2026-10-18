@@ -1,5 +1,5 @@
 # Build the React site and publish it on GitHub Pages:
-#   https://mohhamayl2004.github.io/graduation-Project/
+#   https://nipras.site   (custom domain: Settings -> Pages)
 #
 # Runs on every push to main, and by hand (Actions -> Run workflow).
 # The API's address is not built in: public/config.js holds it, so
@@ -36,12 +36,14 @@ jobs:
 
       - run: npm test
 
+      # At the root of nipras.site. Without the custom domain the site
+      # would be under /graduation-Project/ and this would be that path.
       - run: npm run build
         env:
-          NIPRAS_BASE_PATH: /${{ github.event.repository.name }}/
+          NIPRAS_BASE_PATH: /
 
       # Pages has no rewrite rules: a link opened directly, like
-      # /graduation-Project/login, is a missing file, and Pages answers
+      # nipras.site/login, is a missing file, and Pages answers
       # it with 404.html. Making that the app lets React Router route it.
       - run: cp dist/index.html dist/404.html
 

@@ -2,7 +2,9 @@ import { resolveApiBase } from "../../shared/apiBase.js";
 // public/config.js wins over the build-time VITE_API_URL: the API's
 // public address changes whenever the GPU server restarts, and editing
 // one file on GitHub redeploys the site in a minute without a rebuild.
-const RUNTIME_API_URL = typeof window === "undefined" ? undefined : window.NIPRAS_CONFIG?.apiUrl;
+// `npm run dev` ignores it and keeps using the local backend through
+// Vite's /api proxy - the GPU server does not accept localhost (CORS).
+const RUNTIME_API_URL = typeof window === "undefined" || import.meta.env?.DEV ? undefined : window.NIPRAS_CONFIG?.apiUrl;
 const API_BASE_URL = resolveApiBase(RUNTIME_API_URL || import.meta.env?.VITE_API_URL, typeof window === "undefined" ? "" : window.location.hostname);
 
 // An Error that keeps the API's stable `code` (e.g. TUTOR_BUSY) beside the
