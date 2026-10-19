@@ -1,0 +1,15 @@
+.git
+**/.git
+node_modules
+**/node_modules
+.local
+.npm-cache
+dist
+**/.env
+**/.env.*
+**/*.log
+**/.venv
+Nipras_Ai_Models
+backend/uploads
+backend/tests
+backend/services/app.test.js

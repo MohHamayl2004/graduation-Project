@@ -15,12 +15,13 @@ import { featureAccess } from "./middleware/subscriptionMiddleware.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export function createApp() {
+export function createApp({ serveFrontend = process.env.SERVE_FRONTEND === "true", frontendDirectory = path.resolve(__dirname, "../dist") } = {}) {
   const app = express();
   app.use(cors());
   app.use(express.json());
   app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-  app.get("/", (_req, res) => res.send("NIPRAS API is running"));
+  app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
+  if (!serveFrontend) app.get("/", (_req, res) => res.send("NIPRAS API is running"));
   app.use("/api/auth", createAuthRouter());
   app.use("/api/billing", billingRoutes);
   app.use("/api/admin", adminRoutes);
@@ -29,6 +30,13 @@ export function createApp() {
   app.use("/api/schools", ...featureAccess, schoolRoutes);
   app.use("/api/tutor", ...featureAccess, tutorRoutes);
   app.use("/api/study-plan", ...featureAccess, studyPlanRoutes);
+  if (serveFrontend) {
+    app.use(express.static(frontendDirectory));
+    app.get("*", (req, res, next) => {
+      if (/^\/(api|uploads)(\/|$)/.test(req.path) || path.extname(req.path)) return next();
+      res.sendFile(path.join(frontendDirectory, "index.html"));
+    });
+  }
   app.use(notFound);
   app.use(errorHandler);
   return app;
