@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import AssistantMessage from "./components/AssistantMessage";
 import Composer from "./components/Composer";
+import MathText from "./components/MathText";
 import StudentBadge from "../../components/common/StudentBadge";
 
 // Only follow the answer down while the student is already at the bottom:
@@ -78,7 +79,7 @@ export default function MainChat({ chat, onHistory }) {
               {messages.map((message) =>
                 message.role === "user" ? (
                   <div key={message.id} dir="auto" className="chat-message ms-auto max-w-[95%] whitespace-pre-wrap break-words rounded-2xl rounded-es-md bg-primary px-4 py-3 text-base leading-8 text-white shadow-sm sm:max-w-[78%] sm:px-6 sm:py-5">
-                    {message.content}
+                    <MathText text={message.content} equations={message.equations} />
                   </div>
                 ) : (
                   <AssistantMessage key={message.id} message={message} />

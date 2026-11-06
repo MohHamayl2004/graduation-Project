@@ -61,23 +61,26 @@ export function useTutorChat() {
     }
   }, [token]);
 
-  const send = useCallback(async (text) => {
+  const sending = useRef(false);
+  const send = useCallback(async (text, equations = []) => {
     const content = text.trim();
-    if (!content || state.phase === "streaming" || !token) return;
+    if (!content || state.phase === "streaming" || !token || sending.current) return false;
+    sending.current = true;
 
     let chatId = state.chatId;
     if (!chatId) {
       chatId = await newChat();
-      if (!chatId) return;
+      if (!chatId) { sending.current = false; return false; }
     }
 
     const stamp = Date.now();
-    dispatch({ type: "questionSent", content, userId: `local-user-${stamp}`, assistantId: `local-assistant-${stamp}` });
+    dispatch({ type: "questionSent", content, equations, userId: `local-user-${stamp}`, assistantId: `local-assistant-${stamp}` });
 
     controller.current = new AbortController();
     try {
       const { terminal } = await streamMessage(token, chatId, content, {
         signal: controller.current.signal,
+        equations,
         onEvent: (event) => dispatch({ type: "streamEvent", event })
       });
       if (!terminal) dispatch({ type: "streamFailed", message: CUT_OFF });
@@ -86,7 +89,9 @@ export function useTutorChat() {
       else dispatch({ type: "streamFailed", message: error.message || CUT_OFF });
     } finally {
       controller.current = null;
+      sending.current = false;
     }
+    return true;
   }, [token, state.chatId, state.phase, newChat]);
 
   const stop = useCallback(() => controller.current?.abort(), []);

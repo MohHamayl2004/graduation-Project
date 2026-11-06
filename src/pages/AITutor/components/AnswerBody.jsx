@@ -3,7 +3,8 @@ import MathText from "./MathText";
 
 // Numbered steps as steps, the final answer as the line a student
 // copies into the exam, everything else as a short paragraph.
-export default function AnswerBody({ text }) {
+export default function AnswerBody({ text, streaming = false }) {
+  if (/\\[([]|\$/.test(text)) return <div className="whitespace-pre-wrap text-base leading-8"><MathText text={text} streaming={streaming} /></div>;
   const blocks = layoutAnswer(text);
   const out = [];
 

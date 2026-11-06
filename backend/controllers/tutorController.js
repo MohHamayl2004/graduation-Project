@@ -32,7 +32,7 @@ export function createTutorHandlers({ chats = chatStore, openStream = openTutorS
   });
 
   const streamMessage = asyncHandler(async (req, res) => {
-    const { content } = validateMessageInput(req.body);
+    const { content, equations = [] } = validateMessageInput(req.body);
     const ownerId = req.user._id;
     const chat = await chats.findOwnChat(ownerId, req.params.chatId);
     const busyKey = String(ownerId);
@@ -44,7 +44,7 @@ export function createTutorHandlers({ chats = chatStore, openStream = openTutorS
 
     try {
       const history = chats.historyFor(chat);
-      const userMessage = await chats.addUserMessage(chat, content);
+      const userMessage = await chats.addUserMessage(chat, content, equations);
 
       // Opened before any byte is written: if the AI service is down the
       // student gets a normal JSON 503. The question stays saved, with a

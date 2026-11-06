@@ -33,8 +33,8 @@ function memoryChats() {
     async findOwnChat(owner, id) { const chat = store.get(String(id)); if (!chat || chat.owner !== String(owner)) throw notFound(); return chat; },
     async deleteChat(owner, id) { await this.findOwnChat(owner, id); store.delete(String(id)); },
     historyFor,
-    async addUserMessage(chat, content) {
-      const message = { _id: new mongoose.Types.ObjectId(), role: "user", content, status: "complete" };
+    async addUserMessage(chat, content, equations = []) {
+      const message = { _id: new mongoose.Types.ObjectId(), role: "user", content, equations, status: "complete" };
       if (!chat.messages.some((m) => m.role === "user")) chat.title = content.slice(0, 60);
       chat.messages.push(message);
       return message;
@@ -64,6 +64,23 @@ function appWith({ chats = memoryChats(), openStream, timeoutMs = 5000 } = {}) {
 }
 
 const as = (user) => ({ "x-test-user": user });
+
+test("API streams and reopens mathematical messages while upstream reads the complete Arabic expression", async () => {
+  const content = "احسب تكامل (س²) بالنسبة إلى س من ٠ إلى ١";
+  const start = content.indexOf("تكامل");
+  const equations = [{ start, end: content.length, itemId: "definite-integral", values: { expression: "س²", variable: "س", lower: "٠", upper: "١" } }];
+  let seen;
+  const events = [{ type: "meta", model: "test" }, { type: "delta", text: "\\(\\frac{1}" }, { type: "delta", text: "{3}\\)" }, { type: "done", answer: "\\(\\frac{1}{3}\\)", refused: false }];
+  const { app } = appWith({ openStream: async args => { seen = args; return fromArray(events); } });
+  const id = (await request(app).post("/api/tutor/chats").set(as(ALICE)).send({})).body.chat.id;
+  const response = await request(app).post(`/api/tutor/chats/${id}/messages`).set(as(ALICE)).send({ content, equations });
+  assert.equal(response.status, 200);
+  assert.equal(seen.question, content);
+  assert.equal(parseLines(response.text).at(-1).answer, "\\(\\frac{1}{3}\\)");
+  const reopened = (await request(app).get(`/api/tutor/chats/${id}`).set(as(ALICE))).body.chat;
+  assert.deepEqual(reopened.messages[0].equations, equations);
+  assert.equal(reopened.messages[1].content, "\\(\\frac{1}{3}\\)");
+});
 
 test("a chat belongs to its owner: another student gets 404, never the chat", async () => {
   const { app } = appWith({ openStream: async () => fromArray([]) });

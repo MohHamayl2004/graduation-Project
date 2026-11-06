@@ -1,0 +1,3670 @@
+{
+  "schemaVersion": 1,
+  "scope": "math-unit-1-differentiation",
+  "titleAr": "رموز وقوالب إدخال أسئلة الوحدة الأولى: حساب التفاضل",
+  "purpose": "قائمة محفوظة لتطوير لوحة إدخال الشات لاحقًا؛ ليست واجهة مفعّلة أو محلّل معادلات.",
+  "coverage": {
+    "sources": 71,
+    "sourceLayers": {
+      "extracted": 6,
+      "processed": 65
+    },
+    "scannedStringValues": 9745,
+    "lessons": [
+      "1-0",
+      "1-1",
+      "1-2",
+      "1-3",
+      "1-4",
+      "1-5",
+      "1-6",
+      "1-7",
+      "1-عام"
+    ]
+  },
+  "notesAr": [
+    "قراءة ملفات JSON كاملة وفحص قيم النصوص؛ لم تتم إعادة تدقيق الصور أو صحة حلول الكتاب.",
+    "ملفات extracted مدخلات خام حتى لو احتوى اسمها verified؛ ملفات processed قد تتضمن حقول uncertain.",
+    "أرقام صفحات extracted مطبوعة؛ صفحات processed أرقام PDF، والأوفست الموثق للكتاب أربع صفحات.",
+    "المراجع تثبت وجود الترميز أو الحاجة إليه، ولا تعني اعتماد الحلول أو الصيغ المحيطة به.",
+    "الحقول بين الأقواس المعقوفة مدخلات يعبئها الطالب، وليست نصًا يرسل كما هو.",
+    "canonicalTemplate وصف غير ملتبس للتطوير؛ لا يُرسل أو يُنفّذ تلقائيًا ولا يضمن دعم محلّل الموديل الحالي.",
+    "تختلف معاني هـ وص وع ون حسب السياق: هـ قد يكون اقترانًا أو زيادة أو العدد e؛ وص متغير أو مجموعة أعداد صحيحة.",
+    "سهم النهاية في النص العربي قد يظهر ←؛ نخزن الاقتراب كمتغير وقيمة واتجاه بدل استبدال الأسهم آليًا.",
+    "أكبر عدد صحيح [س] ليس قيمة مطلقة |س|، والفترة (أ، ب) ليست زوجًا مرتبًا إلا حسب السياق.",
+    "تمييز (جا س)^٢ عن جا(س²)، والمشتقة الثانية عن مربع المشتقة، والأسّ النوني عن المشتقة النونية.",
+    "تُحفظ شجرة الصيغة أو حقول القالب عند التنفيذ لاحقًا مع عزل اتجاه المعادلة عن النص العربي؛ لا نعكس ترتيب الحدود.",
+    "جذور عامة وبعض أسماء القوالب صيغ إدخال مساعدة مشتقة من الحاجة في النص وليست نسخًا حرفية.",
+    "لم تُعدّل ملفات المصدر أو فهرس RAG ولم تُضف لوحة رموز إلى الشات ضمن هذه الخطوة."
+  ],
+  "quickAccessIds": [
+    "x-square",
+    "y-square",
+    "fraction",
+    "sqrt",
+    "prime",
+    "double-prime",
+    "dy-dx",
+    "limit",
+    "sin",
+    "cos",
+    "tan",
+    "pi",
+    "exp",
+    "ln",
+    "power"
+  ],
+  "categories": [
+    {
+      "id": "variables",
+      "labelAr": "المتغيرات والاقترانات",
+      "items": [
+        {
+          "id": "x",
+          "labelAr": "س",
+          "insertText": "س",
+          "canonicalTemplate": "x",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page006.json",
+              "lesson": "1-0",
+              "location": "$.lesson.titles[0]",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.lesson.titles[0]",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.lesson.titles[0]",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "y",
+          "labelAr": "ص",
+          "insertText": "ص",
+          "canonicalTemplate": "y",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page006.json",
+              "lesson": "1-0",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page017.json",
+              "lesson": "1-2",
+              "location": "$.blocks[16].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "t",
+          "labelAr": "ن: الزمن أو الأس",
+          "insertText": "ن",
+          "canonicalTemplate": "t",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page051.json",
+              "lesson": "1-7",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page054.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page011.json",
+              "lesson": "1-1",
+              "location": "$.blocks[5].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "u",
+          "labelAr": "ع: متغير وسيط",
+          "insertText": "ع",
+          "canonicalTemplate": "u",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page047.json",
+              "lesson": "1-7",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page012.json",
+              "lesson": "1-5",
+              "location": "$.blocks[13].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page013.json",
+              "lesson": "1-6",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "a",
+          "labelAr": "أ: ثابت",
+          "insertText": "أ",
+          "canonicalTemplate": "a",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page012.json",
+              "lesson": "1-1",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page018.json",
+              "lesson": "1-2",
+              "location": "$.blocks[10].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page040.json",
+              "lesson": "1-5",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "b",
+          "labelAr": "ب: ثابت",
+          "insertText": "ب",
+          "canonicalTemplate": "b",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page014.json",
+              "lesson": "1-6",
+              "location": "$.blocks[9].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[1].figure_description",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page036.json",
+              "lesson": "1-5",
+              "location": "$.blocks[15].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "c",
+          "labelAr": "ج: ثابت",
+          "insertText": "ج",
+          "canonicalTemplate": "c",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page021.json",
+              "lesson": "1-2",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page051.json",
+              "lesson": "1-7",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "function",
+          "labelAr": "ق(س)",
+          "insertText": "ق({x})",
+          "canonicalTemplate": "f({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "second-function",
+          "labelAr": "هـ(س)",
+          "insertText": "هـ({x})",
+          "canonicalTemplate": "g({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page043.json",
+              "lesson": "1-6",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "other-function",
+          "labelAr": "ك(س)",
+          "insertText": "ك({x})",
+          "canonicalTemplate": "k({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+              "lesson": "1-1",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page044.json",
+              "lesson": "1-6",
+              "location": "$.blocks[1].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "m-function",
+          "labelAr": "م(س)",
+          "insertText": "م({x})",
+          "canonicalTemplate": "m({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page019.json",
+              "lesson": "1-2",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page013.json",
+              "lesson": "1-6",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "l-function",
+          "labelAr": "ل(س)",
+          "insertText": "ل({x})",
+          "canonicalTemplate": "l({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page029.json",
+              "lesson": "1-4",
+              "location": "$.blocks[5].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "indexed-x",
+          "labelAr": "س₁ وس₂",
+          "insertText": "س_{index}",
+          "canonicalTemplate": "x_{index}",
+          "fields": [
+            "index"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+              "lesson": "1-1",
+              "location": "$.blocks[1].topic_title",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page006.json",
+              "lesson": "1-2",
+              "location": "$.blocks[1].topic_title",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page009.json",
+              "lesson": "1-3",
+              "location": "$.blocks[1].topic_title",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "indexed-y",
+          "labelAr": "ص₁ وص₂",
+          "insertText": "ص_{index}",
+          "canonicalTemplate": "y_{index}",
+          "fields": [
+            "index"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/extracted/lesson_1_1_rate_of_change_verified.json",
+              "lesson": "1-1",
+              "location": "$.lesson.pages[0].definition.average_rate_of_change",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "arithmetic",
+      "labelAr": "العمليات والمقارنة",
+      "items": [
+        {
+          "id": "plus",
+          "labelAr": "جمع",
+          "insertText": "+",
+          "canonicalTemplate": "+",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[29].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "minus",
+          "labelAr": "طرح / سالب",
+          "insertText": "−",
+          "canonicalTemplate": "-",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page006.json",
+              "lesson": "1-0",
+              "location": "$.lesson.code",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.lesson.code",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.lesson.code",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "times",
+          "labelAr": "ضرب",
+          "insertText": "×",
+          "canonicalTemplate": "*",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page017.json",
+              "lesson": "1-2",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[29].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[13].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "division",
+          "labelAr": "قسمة",
+          "insertText": "/",
+          "canonicalTemplate": "/",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[27].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "plus-minus",
+          "labelAr": "زائد أو ناقص",
+          "insertText": "±",
+          "canonicalTemplate": "+/-",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page016.json",
+              "lesson": "1-7",
+              "location": "$.blocks[11].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page019.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page015.json",
+              "lesson": "1-2",
+              "location": "$.blocks[9].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "equals",
+          "labelAr": "يساوي",
+          "insertText": "=",
+          "canonicalTemplate": "=",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[27].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "not-equal",
+          "labelAr": "لا يساوي",
+          "insertText": "≠",
+          "canonicalTemplate": "!=",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page017.json",
+              "lesson": "1-2",
+              "location": "$.blocks[16].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page040.json",
+              "lesson": "1-5",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "approx",
+          "labelAr": "يساوي تقريبًا",
+          "insertText": "≈",
+          "canonicalTemplate": "approx",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page029.json",
+              "lesson": "1-4",
+              "location": "$.blocks[8].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "less",
+          "labelAr": "أصغر من",
+          "insertText": "<",
+          "canonicalTemplate": "<",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[9].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page054.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "greater",
+          "labelAr": "أكبر من",
+          "insertText": ">",
+          "canonicalTemplate": ">",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[15].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page027.json",
+              "lesson": "1-4",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "less-equal",
+          "labelAr": "أصغر من أو يساوي",
+          "insertText": "≤",
+          "canonicalTemplate": "<=",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page054.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[18].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/extracted/lesson_1_1_rate_of_change_verified.json",
+              "lesson": "1-1",
+              "location": "$.lesson.pages[2].activities[1].function",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "greater-equal",
+          "labelAr": "أكبر من أو يساوي",
+          "insertText": "≥",
+          "canonicalTemplate": ">=",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[9].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page054.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "parentheses",
+          "labelAr": "أقواس",
+          "insertText": "({expression})",
+          "canonicalTemplate": "({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page006.json",
+              "lesson": "1-0",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "group-brackets",
+          "labelAr": "أقواس تجميع",
+          "insertText": "[{expression}]",
+          "canonicalTemplate": "({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].topic_title",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].topic_title",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[27].topic_title",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "fraction",
+          "labelAr": "كسر: بسط ومقام",
+          "insertText": "({numerator})/({denominator})",
+          "canonicalTemplate": "({numerator})/({denominator})",
+          "fields": [
+            "numerator",
+            "denominator"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "powers-roots",
+      "labelAr": "الأسس والجذور",
+      "items": [
+        {
+          "id": "x-square",
+          "labelAr": "س تربيع",
+          "insertText": "س²",
+          "canonicalTemplate": "x^2",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page018.json",
+              "lesson": "1-2",
+              "location": "$.blocks[10].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page028.json",
+              "lesson": "1-4",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "y-square",
+          "labelAr": "ص تربيع",
+          "insertText": "ص²",
+          "canonicalTemplate": "y^2",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page046.json",
+              "lesson": "1-7",
+              "location": "$.blocks[1].figure_description",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[10].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page009.json",
+              "lesson": "1-3",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "cube",
+          "labelAr": "س تكعيب",
+          "insertText": "س³",
+          "canonicalTemplate": "x^3",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page018.json",
+              "lesson": "1-2",
+              "location": "$.blocks[10].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[28].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "power",
+          "labelAr": "قوة عامة",
+          "insertText": "({base})^({exponent})",
+          "canonicalTemplate": "({base})^({exponent})",
+          "fields": [
+            "base",
+            "exponent"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page012.json",
+              "lesson": "1-1",
+              "location": "$.blocks[19].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page019.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page033.json",
+              "lesson": "1-4",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "negative-power",
+          "labelAr": "أس سالب",
+          "insertText": "({base})^(−{exponent})",
+          "canonicalTemplate": "({base})^(-{exponent})",
+          "fields": [
+            "base",
+            "exponent"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page054.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page007.json",
+              "lesson": "1-2",
+              "location": "$.blocks[10].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "fractional-power",
+          "labelAr": "أس كسري",
+          "insertText": "({base})^({numerator}/{denominator})",
+          "canonicalTemplate": "({base})^({numerator}/{denominator})",
+          "fields": [
+            "base",
+            "numerator",
+            "denominator"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "sqrt",
+          "labelAr": "جذر تربيعي",
+          "insertText": "√({expression})",
+          "canonicalTemplate": "sqrt({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page046.json",
+              "lesson": "1-7",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page007.json",
+              "lesson": "1-2",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "cbrt",
+          "labelAr": "جذر تكعيبي",
+          "insertText": "الجذر التكعيبي لـ ({expression})",
+          "canonicalTemplate": "cbrt({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page049.json",
+              "lesson": "1-7",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "nth-root",
+          "labelAr": "جذر من الرتبة ن",
+          "insertText": "الجذر من الرتبة {degree} لـ ({expression})",
+          "canonicalTemplate": "root({expression},{degree})",
+          "fields": [
+            "degree",
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[9].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "derivatives",
+      "labelAr": "المشتقات ومتوسط التغير",
+      "items": [
+        {
+          "id": "prime",
+          "labelAr": "المشتقة الأولى ق′(س)",
+          "insertText": "ق′({x})",
+          "canonicalTemplate": "f'({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[17].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "double-prime",
+          "labelAr": "المشتقة الثانية ق″(س)",
+          "insertText": "ق″({x})",
+          "canonicalTemplate": "f''({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page020.json",
+              "lesson": "1-2",
+              "location": "$.blocks[13].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[26].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "triple-prime",
+          "labelAr": "المشتقة الثالثة ق‴(س)",
+          "insertText": "ق‴({x})",
+          "canonicalTemplate": "f'''({x})",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page022.json",
+              "lesson": "1-2",
+              "location": "$.blocks[11].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "nth-derivative",
+          "labelAr": "المشتقة من الرتبة ن",
+          "insertText": "المشتقة من الرتبة {order} للاقتران ق عند ({x})",
+          "canonicalTemplate": "derivative(f,{order},{x})",
+          "fields": [
+            "order",
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/extracted/lesson_1_2_rules_of_differentiation_verified.json",
+              "lesson": "1-2",
+              "location": "$.lesson.pages[7].notation[1]",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "y-prime",
+          "labelAr": "ص′",
+          "insertText": "ص′",
+          "canonicalTemplate": "dy/dx",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page021.json",
+              "lesson": "1-2",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page044.json",
+              "lesson": "1-6",
+              "location": "$.blocks[11].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page046.json",
+              "lesson": "1-7",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "y-double-prime",
+          "labelAr": "ص″",
+          "insertText": "ص″",
+          "canonicalTemplate": "d^2y/dx^2",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page021.json",
+              "lesson": "1-2",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page044.json",
+              "lesson": "1-6",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page025.json",
+              "lesson": "1-3",
+              "location": "$.blocks[16].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "dy-dx",
+          "labelAr": "دص/دس",
+          "insertText": "دص/دس",
+          "canonicalTemplate": "dy/dx",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[27].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page043.json",
+              "lesson": "1-6",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page046.json",
+              "lesson": "1-7",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "d2y-dx2",
+          "labelAr": "د²ص/دس²",
+          "insertText": "د²ص/دس²",
+          "canonicalTemplate": "d^2y/dx^2",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/extracted/lesson_1_2_rules_of_differentiation_verified.json",
+              "lesson": "1-2",
+              "location": "$.lesson.pages[7].explanation",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/extracted/lesson_1_3_derivatives_of_trigonometric_functions_verified.json",
+              "lesson": "1-3",
+              "location": "$.lesson.pages[2].exercises[1].question",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "generic-derivative",
+          "labelAr": "اشتقاق بالنسبة إلى متغير",
+          "insertText": "مشتقة ({expression}) بالنسبة إلى {variable}",
+          "canonicalTemplate": "d/d{variable}({expression})",
+          "fields": [
+            "expression",
+            "variable"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page046.json",
+              "lesson": "1-7",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page013.json",
+              "lesson": "1-6",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "at-point",
+          "labelAr": "المشتقة عند نقطة",
+          "insertText": "مشتقة ({expression}) بالنسبة إلى {variable} عند {variable} = {point}",
+          "canonicalTemplate": "derivative({expression},{variable}) at {variable}={point}",
+          "fields": [
+            "expression",
+            "variable",
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[28].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "right-derivative",
+          "labelAr": "المشتقة اليمنى",
+          "insertText": "المشتقة اليمنى للاقتران ق عند ({point})",
+          "canonicalTemplate": "right_derivative(f,{point})",
+          "fields": [
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[10].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "left-derivative",
+          "labelAr": "المشتقة اليسرى",
+          "insertText": "المشتقة اليسرى للاقتران ق عند ({point})",
+          "canonicalTemplate": "left_derivative(f,{point})",
+          "fields": [
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[10].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "delta-x",
+          "labelAr": "Δس: التغير في س",
+          "insertText": "Δس",
+          "canonicalTemplate": "delta_x",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[9].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "delta-y",
+          "labelAr": "Δص: التغير في ص",
+          "insertText": "Δص",
+          "canonicalTemplate": "delta_y",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[9].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "delta-distance",
+          "labelAr": "Δف: التغير في الإزاحة",
+          "insertText": "Δف",
+          "canonicalTemplate": "delta_s",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page011.json",
+              "lesson": "1-1",
+              "location": "$.blocks[5].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page037.json",
+              "lesson": "1-5",
+              "location": "$.blocks[4].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "delta-time",
+          "labelAr": "Δن: التغير في الزمن",
+          "insertText": "Δن",
+          "canonicalTemplate": "delta_t",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page011.json",
+              "lesson": "1-1",
+              "location": "$.blocks[5].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page037.json",
+              "lesson": "1-5",
+              "location": "$.blocks[4].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "average-rate",
+          "labelAr": "متوسط التغير",
+          "insertText": "متوسط تغير ({expression}) من {start} إلى {end}",
+          "canonicalTemplate": "average_rate({expression},{start},{end})",
+          "fields": [
+            "expression",
+            "start",
+            "end"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page007.json",
+              "lesson": "1-0",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page008.json",
+              "lesson": "1-1",
+              "location": "$.lesson.titles[1]",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "delta-ratio",
+          "labelAr": "Δص/Δس",
+          "insertText": "Δص/Δس",
+          "canonicalTemplate": "delta_y/delta_x",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page013.json",
+              "lesson": "1-2",
+              "location": "$.blocks[9].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "composition",
+          "labelAr": "تركيب الاقترانات",
+          "insertText": "(ق ∘ هـ)({x})",
+          "canonicalTemplate": "f(g({x}))",
+          "fields": [
+            "x"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page014.json",
+              "lesson": "1-6",
+              "location": "$.blocks[16].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "piecewise",
+          "labelAr": "اقتران متعدد القواعد",
+          "insertText": "ق(س) = {firstExpression} إذا {firstCondition}؛ و{secondExpression} إذا {secondCondition}",
+          "canonicalTemplate": "piecewise({firstExpression},{firstCondition};{secondExpression},{secondCondition})",
+          "fields": [
+            "firstExpression",
+            "firstCondition",
+            "secondExpression",
+            "secondCondition"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[9].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page054.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "implicit",
+          "labelAr": "علاقة ضمنية",
+          "insertText": "{left} = {right}، أوجد دص/دس بالاشتقاق الضمني",
+          "canonicalTemplate": "implicit_derivative({left}={right},y,x)",
+          "fields": [
+            "left",
+            "right"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page046.json",
+              "lesson": "1-7",
+              "location": "$.lesson.titles[1]",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page055.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "limits",
+      "labelAr": "النهايات",
+      "items": [
+        {
+          "id": "limit",
+          "labelAr": "نهاية عند عدد",
+          "insertText": "نها ({expression}) عندما {variable} تقترب من {point}",
+          "canonicalTemplate": "lim_({variable}->{point})({expression})",
+          "fields": [
+            "expression",
+            "variable",
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page044.json",
+              "lesson": "1-6",
+              "location": "$.blocks[11].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "right-limit",
+          "labelAr": "نهاية من اليمين",
+          "insertText": "نها ({expression}) عندما {variable} تقترب من {point} من اليمين",
+          "canonicalTemplate": "lim_({variable}->{point}+)({expression})",
+          "fields": [
+            "expression",
+            "variable",
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[11].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "left-limit",
+          "labelAr": "نهاية من اليسار",
+          "insertText": "نها ({expression}) عندما {variable} تقترب من {point} من اليسار",
+          "canonicalTemplate": "lim_({variable}->{point}-)({expression})",
+          "fields": [
+            "expression",
+            "variable",
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "approaches",
+          "labelAr": "تقترب من",
+          "insertText": "→",
+          "canonicalTemplate": "->",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page049.json",
+              "lesson": "1-7",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "indeterminate",
+          "labelAr": "الصورة غير المعيّنة ٠/٠",
+          "insertText": "الصورة غير المعيّنة ٠/٠",
+          "canonicalTemplate": "indeterminate 0/0",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page032.json",
+              "lesson": "1-4",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page049.json",
+              "lesson": "1-7",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page011.json",
+              "lesson": "1-5",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "trigonometry",
+      "labelAr": "الاقترانات المثلثية والزوايا",
+      "items": [
+        {
+          "id": "sin",
+          "labelAr": "جا",
+          "insertText": "جا({expression})",
+          "canonicalTemplate": "sin({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page028.json",
+              "lesson": "1-4",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page047.json",
+              "lesson": "1-7",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[19].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "cos",
+          "labelAr": "جتا",
+          "insertText": "جتا({expression})",
+          "canonicalTemplate": "cos({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page027.json",
+              "lesson": "1-4",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page047.json",
+              "lesson": "1-7",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "tan",
+          "labelAr": "ظا",
+          "insertText": "ظا({expression})",
+          "canonicalTemplate": "tan({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page043.json",
+              "lesson": "1-6",
+              "location": "$.blocks[9].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+              "lesson": "1-1",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "cot",
+          "labelAr": "ظتا",
+          "insertText": "ظتا({expression})",
+          "canonicalTemplate": "cot({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[27].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page031.json",
+              "lesson": "1-4",
+              "location": "$.blocks[2].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page014.json",
+              "lesson": "1-6",
+              "location": "$.blocks[3].topic_title",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "sec",
+          "labelAr": "قا",
+          "insertText": "قا({expression})",
+          "canonicalTemplate": "sec({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page043.json",
+              "lesson": "1-6",
+              "location": "$.blocks[9].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page009.json",
+              "lesson": "1-3",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "csc",
+          "labelAr": "قتا",
+          "insertText": "قتا({expression})",
+          "canonicalTemplate": "csc({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page024.json",
+              "lesson": "1-3",
+              "location": "$.blocks[27].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[10].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page031.json",
+              "lesson": "1-4",
+              "location": "$.blocks[1].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "trig-power",
+          "labelAr": "قوة اقتران مثلثي",
+          "insertText": "({function}({expression}))^({exponent})",
+          "canonicalTemplate": "({function}({expression}))^({exponent})",
+          "fields": [
+            "function",
+            "expression",
+            "exponent"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page054.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page014.json",
+              "lesson": "1-6",
+              "location": "$.blocks[19].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/extracted/lesson_1_3_derivatives_of_trigonometric_functions_verified.json",
+              "lesson": "1-3",
+              "location": "$.lesson.pages[1].examples[0].solution[0]",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "pi",
+          "labelAr": "π: باي",
+          "insertText": "π",
+          "canonicalTemplate": "pi",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+              "lesson": "1-1",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "pi-fraction",
+          "labelAr": "كسر من π",
+          "insertText": "π/{denominator}",
+          "canonicalTemplate": "pi/{denominator}",
+          "fields": [
+            "denominator"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page045.json",
+              "lesson": "1-6",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+              "lesson": "1-1",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "degrees",
+          "labelAr": "درجة °",
+          "insertText": "{angle}°",
+          "canonicalTemplate": "{angle} degrees",
+          "fields": [
+            "angle"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page007.json",
+              "lesson": "1-2",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page012.json",
+              "lesson": "1-1",
+              "location": "$.blocks[12].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "radians",
+          "labelAr": "راديان",
+          "insertText": "{angle} راديان",
+          "canonicalTemplate": "{angle} radians",
+          "fields": [
+            "angle"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page009.json",
+              "lesson": "1-1",
+              "location": "$.blocks[10].topic_title",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page023.json",
+              "lesson": "1-3",
+              "location": "$.blocks[6].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "exponential-log",
+      "labelAr": "الأسّي واللوغاريتمي",
+      "items": [
+        {
+          "id": "e",
+          "labelAr": "هـ: العدد النيبيري",
+          "insertText": "العدد النيبيري هـ",
+          "canonicalTemplate": "e",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page012.json",
+              "lesson": "1-1",
+              "location": "$.blocks[18].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page029.json",
+              "lesson": "1-4",
+              "location": "$.blocks[7].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "exp",
+          "labelAr": "هـ أس مقدار",
+          "insertText": "هـ^({expression})",
+          "canonicalTemplate": "e^({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page021.json",
+              "lesson": "1-2",
+              "location": "$.blocks[12].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page033.json",
+              "lesson": "1-4",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page044.json",
+              "lesson": "1-6",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "base-power",
+          "labelAr": "أ أس س",
+          "insertText": "({base})^({expression})",
+          "canonicalTemplate": "({base})^({expression})",
+          "fields": [
+            "base",
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page029.json",
+              "lesson": "1-4",
+              "location": "$.blocks[3].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "ln",
+          "labelAr": "اللوغاريتم الطبيعي",
+          "insertText": "لو_هـ({expression})",
+          "canonicalTemplate": "ln({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page012.json",
+              "lesson": "1-1",
+              "location": "$.blocks[19].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page032.json",
+              "lesson": "1-4",
+              "location": "$.blocks[0].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page044.json",
+              "lesson": "1-6",
+              "location": "$.blocks[8].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "log",
+          "labelAr": "لوغاريتم بأساس محدّد",
+          "insertText": "لو_{base}({expression})",
+          "canonicalTemplate": "log({expression},{base})",
+          "fields": [
+            "base",
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page029.json",
+              "lesson": "1-4",
+              "location": "$.blocks[5].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/extracted/lesson_1_1_rate_of_change_verified.json",
+              "lesson": "1-1",
+              "location": "$.lesson.pages[4].exercises[7].sub_questions[1]",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "sets",
+      "labelAr": "الفترات والمجموعات والقيمة المطلقة",
+      "items": [
+        {
+          "id": "interval-closed",
+          "labelAr": "فترة مغلقة",
+          "insertText": "[{start}، {end}]",
+          "canonicalTemplate": "[{start},{end}]",
+          "fields": [
+            "start",
+            "end"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+              "lesson": "1-1",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[16].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "interval-open",
+          "labelAr": "فترة مفتوحة",
+          "insertText": "({start}، {end})",
+          "canonicalTemplate": "({start},{end})",
+          "fields": [
+            "start",
+            "end"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[17].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[2].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+              "lesson": "1-1",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "interval-left-closed",
+          "labelAr": "فترة مغلقة يسارًا",
+          "insertText": "[{start}، {end})",
+          "canonicalTemplate": "[{start},{end})",
+          "fields": [
+            "start",
+            "end"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page008.json",
+              "lesson": "1-2",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "interval-right-closed",
+          "labelAr": "فترة مغلقة يمينًا",
+          "insertText": "({start}، {end}]",
+          "canonicalTemplate": "({start},{end}]",
+          "fields": [
+            "start",
+            "end"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page011.json",
+              "lesson": "1-5",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page009.json",
+              "lesson": "1-1",
+              "location": "$.blocks[4].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "member",
+          "labelAr": "ينتمي إلى",
+          "insertText": "∈",
+          "canonicalTemplate": "in",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[16].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page043.json",
+              "lesson": "1-6",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "subset",
+          "labelAr": "مجموعة جزئية",
+          "insertText": "⊆",
+          "canonicalTemplate": "subseteq",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[18].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page041.json",
+              "lesson": "1-6",
+              "location": "$.blocks[9].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "real",
+          "labelAr": "ح: الأعداد الحقيقية",
+          "insertText": "الأعداد الحقيقية ح",
+          "canonicalTemplate": "R",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page014.json",
+              "lesson": "1-2",
+              "location": "$.blocks[19].text",
+              "uncertain": true
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page026.json",
+              "lesson": "1-4",
+              "location": "$.blocks[6].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "integers",
+          "labelAr": "ص: الأعداد الصحيحة",
+          "insertText": "الأعداد الصحيحة ص",
+          "canonicalTemplate": "Z",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page017.json",
+              "lesson": "1-2",
+              "location": "$.blocks[16].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page043.json",
+              "lesson": "1-6",
+              "location": "$.blocks[1].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page048.json",
+              "lesson": "1-7",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "positive-integers",
+          "labelAr": "ص⁺: الصحيحة الموجبة",
+          "insertText": "الأعداد الصحيحة الموجبة ص⁺",
+          "canonicalTemplate": "Z_positive",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page017.json",
+              "lesson": "1-2",
+              "location": "$.blocks[16].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "infinity",
+          "labelAr": "∞: لانهاية",
+          "insertText": "∞",
+          "canonicalTemplate": "infinity",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page019.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "unbounded-interval",
+          "labelAr": "فترة غير محدودة من الأعلى",
+          "insertText": "({start}، ∞)",
+          "canonicalTemplate": "({start},infinity)",
+          "fields": [
+            "start"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page019.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "abs",
+          "labelAr": "قيمة مطلقة",
+          "insertText": "|{expression}|",
+          "canonicalTemplate": "abs({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page053.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[10].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "floor",
+          "labelAr": "أكبر عدد صحيح",
+          "insertText": "أكبر عدد صحيح لـ ({expression})",
+          "canonicalTemplate": "floor({expression})",
+          "fields": [
+            "expression"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page016.json",
+              "lesson": "1-2",
+              "location": "$.blocks[21].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    },
+    {
+      "id": "geometry-motion",
+      "labelAr": "الهندسة والحركة",
+      "items": [
+        {
+          "id": "point",
+          "labelAr": "نقطة (س، ص)",
+          "insertText": "({x}، {y})",
+          "canonicalTemplate": "({x},{y})",
+          "fields": [
+            "x",
+            "y"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page046.json",
+              "lesson": "1-7",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page011.json",
+              "lesson": "1-5",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "tangent",
+          "labelAr": "معادلة المماس",
+          "insertText": "معادلة المماس للاقتران ({expression}) عند س = {point}",
+          "canonicalTemplate": "tangent({expression},x={point})",
+          "fields": [
+            "expression",
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page047.json",
+              "lesson": "1-7",
+              "location": "$.blocks[5].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page011.json",
+              "lesson": "1-5",
+              "location": "$.blocks[11].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page042.json",
+              "lesson": "1-6",
+              "location": "$.blocks[14].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "normal",
+          "labelAr": "معادلة العمودي",
+          "insertText": "معادلة العمودي على المماس للاقتران ({expression}) عند س = {point}",
+          "canonicalTemplate": "normal({expression},x={point})",
+          "fields": [
+            "expression",
+            "point"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page051.json",
+              "lesson": "1-7",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page014.json",
+              "lesson": "1-6",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page034.json",
+              "lesson": "1-5",
+              "location": "$.blocks[7].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "parallel",
+          "labelAr": "موازٍ",
+          "insertText": "موازٍ للمستقيم ({line})",
+          "canonicalTemplate": "parallel to ({line})",
+          "fields": [
+            "line"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page049.json",
+              "lesson": "1-7",
+              "location": "$.blocks[3].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page055.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "perpendicular",
+          "labelAr": "عمودي",
+          "insertText": "عمودي على المستقيم ({line})",
+          "canonicalTemplate": "perpendicular to ({line})",
+          "fields": [
+            "line"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page051.json",
+              "lesson": "1-7",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page014.json",
+              "lesson": "1-6",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page034.json",
+              "lesson": "1-5",
+              "location": "$.blocks[7].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "distance",
+          "labelAr": "ف(ن): الإزاحة / الموقع",
+          "insertText": "ف({time})",
+          "canonicalTemplate": "s({time})",
+          "fields": [
+            "time"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page012.json",
+              "lesson": "1-5",
+              "location": "$.blocks[6].text",
+              "uncertain": false
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "velocity",
+          "labelAr": "ع(ن): السرعة",
+          "insertText": "ع({time})",
+          "canonicalTemplate": "v({time})",
+          "fields": [
+            "time"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/solutions_page016.json",
+              "lesson": "1-7",
+              "location": "$.blocks[4].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page037.json",
+              "lesson": "1-5",
+              "location": "$.blocks[6].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "acceleration",
+          "labelAr": "ت(ن): التسارع",
+          "insertText": "ت({time})",
+          "canonicalTemplate": "a({time})",
+          "fields": [
+            "time"
+          ],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page037.json",
+              "lesson": "1-5",
+              "location": "$.blocks[9].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "meters",
+          "labelAr": "متر",
+          "insertText": "م",
+          "canonicalTemplate": "m",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page051.json",
+              "lesson": "1-7",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page011.json",
+              "lesson": "1-1",
+              "location": "$.blocks[8].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "seconds",
+          "labelAr": "ثانية",
+          "insertText": "ث",
+          "canonicalTemplate": "s",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page051.json",
+              "lesson": "1-7",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page010.json",
+              "lesson": "1-1",
+              "location": "$.blocks[1].figure_description",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "speed-unit",
+          "labelAr": "م/ث",
+          "insertText": "م/ث",
+          "canonicalTemplate": "m/s",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page051.json",
+              "lesson": "1-7",
+              "location": "$.blocks[7].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[14].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page011.json",
+              "lesson": "1-1",
+              "location": "$.blocks[8].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        },
+        {
+          "id": "accel-unit",
+          "labelAr": "م/ث²",
+          "insertText": "م/ث²",
+          "canonicalTemplate": "m/s^2",
+          "fields": [],
+          "evidence": [
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page052.json",
+              "lesson": "1-عام",
+              "location": "$.blocks[15].text",
+              "uncertain": false
+            },
+            {
+              "source": "Nipras_Ai_Models/data/processed/math_page038.json",
+              "lesson": "1-5",
+              "location": "$.blocks[2].text",
+              "uncertain": true
+            }
+          ],
+          "status": "source_backed_input"
+        }
+      ]
+    }
+  ],
+  "futureExtensions": [
+    {
+      "id": "integral",
+      "labelAr": "تكامل غير محدّد",
+      "insertText": "∫ ({expression}) د{variable}",
+      "observedInUnit": false
+    },
+    {
+      "id": "definite-integral",
+      "labelAr": "تكامل محدّد",
+      "insertText": "تكامل ({expression}) بالنسبة إلى {variable} من {lower} إلى {upper}",
+      "observedInUnit": false
+    }
+  ],
+  "sources": [
+    {
+      "path": "Nipras_Ai_Models/data/extracted/lesson_1_1_rate_of_change_verified.json",
+      "layer": "extracted",
+      "lesson": "1-1",
+      "sha256": "0d596dbd53edf15070c2f75a1692ef233d0e197e51acc5c34c7ccfc50580cc4a",
+      "page": null,
+      "title": "متوسط التغير"
+    },
+    {
+      "path": "Nipras_Ai_Models/data/extracted/lesson_1_2_rules_of_differentiation_verified.json",
+      "layer": "extracted",
+      "lesson": "1-2",
+      "sha256": "acd572bd68f621aed6e1601f300480a13767ff66da4de5e777c55b59fa3440ec",
+      "page": null,
+      "title": "قواعد الاشتقاق"
+    },
+    {
+      "path": "Nipras_Ai_Models/data/extracted/lesson_1_3_derivatives_of_trigonometric_functions_verified.json",
+      "layer": "extracted",
+      "lesson": "1-3",
+      "sha256": "5d33ebf2c59834d473735d8c88f2ccc91034a0645232a01c5ef027c088aee3b4",
+      "page": null,
+      "title": "مشتقات الاقترانات المثلثية"
+    },
+    {
+      "path": "Nipras_Ai_Models/data/extracted/lesson_1_4_lhopital_exponential_logarithmic_verified.json",
+      "layer": "extracted",
+      "lesson": "1-4",
+      "sha256": "c95e33563d9c9ec0a68c18b10acbdc1be8d9901c5557f4192e2978e10484ff7b",
+      "page": null,
+      "title": "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي"
+    },
+    {
+      "path": "Nipras_Ai_Models/data/extracted/lesson_1_5_geometric_physical_applications_verified.json",
+      "layer": "extracted",
+      "lesson": "1-5",
+      "sha256": "fd70c4751582b6e8df3da14604cb000a62602c50afba6fa00ff36648ef92ac86",
+      "page": null,
+      "title": "تطبيقات هندسية وفيزيائية"
+    },
+    {
+      "path": "Nipras_Ai_Models/data/extracted/lesson_1_6_chain_rule_verified.json",
+      "layer": "extracted",
+      "lesson": "1-6",
+      "sha256": "70333b76adfb72e835d94362499c51da7c97ed41ea8bb8a02134fe404d558132",
+      "page": null,
+      "title": "قاعدة السلسلة"
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page006.json",
+      "layer": "processed",
+      "lesson": "1-0",
+      "sha256": "86b9fe1e64321f1bfd0eefe8aa7cefe05cd68a14d4ed6107a6a4ef4567fe45c1",
+      "page": 6,
+      "title": [
+        "حساب التفاضل",
+        "افتتاحية الوحدة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page007.json",
+      "layer": "processed",
+      "lesson": "1-0",
+      "sha256": "9790d046a404928150599379ede29e7526f947d2b46b702047649589b88be67b",
+      "page": 7,
+      "title": [
+        "حساب التفاضل",
+        "افتتاحية الوحدة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page008.json",
+      "layer": "processed",
+      "lesson": "1-1",
+      "sha256": "669ce7f7cdd48f8a9bb8b48e17356bb36dad5efcb388395c64a52d4f59f22595",
+      "page": 8,
+      "title": [
+        "حساب التفاضل",
+        "متوسط التغير"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page009.json",
+      "layer": "processed",
+      "lesson": "1-1",
+      "sha256": "ad9d1ec85ca735d0d165f4237e4dc8be421282faaca963d05b3783d74ba8c7b3",
+      "page": 9,
+      "title": [
+        "حساب التفاضل",
+        "متوسط التغير"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page010.json",
+      "layer": "processed",
+      "lesson": "1-1",
+      "sha256": "8952253714a354709c90bf2bca1fd984127c71ed263e625f32e23f9c6b13d520",
+      "page": 10,
+      "title": [
+        "حساب التفاضل",
+        "متوسط التغير"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page011.json",
+      "layer": "processed",
+      "lesson": "1-1",
+      "sha256": "8d0ab5facc142fd7a4ba9f63507337018aadc1f4d4779c2d8e8761f06be0fdd0",
+      "page": 11,
+      "title": [
+        "حساب التفاضل",
+        "متوسط التغير"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page012.json",
+      "layer": "processed",
+      "lesson": "1-1",
+      "sha256": "12513b14801b6c92bd88b0656cdaaa072664e5d24215417e9c71290447d6895a",
+      "page": 12,
+      "title": [
+        "حساب التفاضل",
+        "متوسط التغير"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page013.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "f5f718c32279565e0d31fe066c99d7acadfbbc81b0717a49b1a65ba9a693c1d1",
+      "page": 13,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page014.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "154f543580adcdadf25c18e3c142a920d680cb517978ab35691958996437da69",
+      "page": 14,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page015.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "292f4eedbde3064142bf582e22fc11dff5a151dd9a8b676c1a2a713d667457d6",
+      "page": 15,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page016.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "732676ddafb61122414ed64038a5616de186fe52384c65024ce4eafabc89949d",
+      "page": 16,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page017.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "4e493460704ddc49d399089943afa15f9354058d87dc973d8ead37f820dc55c8",
+      "page": 17,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page018.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "fbb145f4f6bc1ed0114d42a746a08315b33f55ef0530ada78196ffcb04f4ca60",
+      "page": 18,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page019.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "c104dcacef6273a1293635f79c06ca8e40b455264f85eab0c01e222ea4e58590",
+      "page": 19,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page020.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "bbaf62946145143ba1ba7189de4ab6029bf59d68db3fc6e652053cfee53103f3",
+      "page": 20,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page021.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "9ce6061efe5aa6833020ea6e4702e93eee0d4ab70e004e9f6a2925ccde9fe081",
+      "page": 21,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page022.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "2b672cea78c660399acce634e1b3047270e0ef24489638a9c8133698b6ffde36",
+      "page": 22,
+      "title": [
+        "حساب التفاضل",
+        "قواعد الاشتقاق"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page023.json",
+      "layer": "processed",
+      "lesson": "1-3",
+      "sha256": "50becaeba3007815c43cb976d91f68dbc0b0713aee9f0d11ac8533b2665f7798",
+      "page": 23,
+      "title": [
+        "حساب التفاضل",
+        "مشتقات الاقترانات المثلثية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page024.json",
+      "layer": "processed",
+      "lesson": "1-3",
+      "sha256": "aa52c2347556431376638001e1b880bbe211ae1be62bda977bb741abe5c18000",
+      "page": 24,
+      "title": [
+        "حساب التفاضل",
+        "مشتقات الاقترانات المثلثية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page025.json",
+      "layer": "processed",
+      "lesson": "1-3",
+      "sha256": "151ed5e91e3d8745444b6d492ddc33c8c0d5a40df1bab072590937a0e4dbe6e5",
+      "page": 25,
+      "title": [
+        "حساب التفاضل",
+        "مشتقات الاقترانات المثلثية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page026.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "0d8d5bb791a06eae9db0aeb7f0854311923584a32f9fe405c3ee604e1462f869",
+      "page": 26,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "أولاً: قاعدة لوبيتال"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page027.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "6cf7633a2088eea8c2a9a1eb3eb63e895f8b566c9a7a75ba266f84858b34e2b1",
+      "page": 27,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "أولاً: قاعدة لوبيتال"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page028.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "7c9d122552c3cd9cffc63040cfda3b9ad17bc8e0b83c65f05a35c80feb40307d",
+      "page": 28,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "أولاً: قاعدة لوبيتال"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page029.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "9abf8f3b5c287d2b0ac96153d66c9f96899cd759a03718aa0b3e4efb95613403",
+      "page": 29,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "ثانياً: مشتقة الاقتران الأُسّي واللوغاريتمي"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page030.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "e9ba05625f5916c8c5bb5122d5a7aa58c2eab2c867d6f465815de9349c5874d8",
+      "page": 30,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "ثانياً: مشتقة الاقتران الأُسّي واللوغاريتمي"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page031.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "fe7d4d99bde0829bb5a55b4ccf7beaea9d4c87243dba7bb9128537e1e0a61828",
+      "page": 31,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "ثانياً: مشتقة الاقتران الأُسّي واللوغاريتمي"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page032.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "332c24da0305e584d76cb09f434c1118ffa10fa80dd660cf249d8fe6482bf7c8",
+      "page": 32,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "ثانياً: مشتقة الاقتران الأُسّي واللوغاريتمي"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page033.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "36fc37f002d3f90870daac3969b81bf1b0564e2dd162d90e935809f4fa61b0f7",
+      "page": 33,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة لوبيتال، ومشتقة الاقتران الأُسّي واللوغاريتمي",
+        "تمارين 1-4"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page034.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "ae3e93dd1edc73573fa19e73ef6af435bee8db8db40fec825a32c7b3e9136018",
+      "page": 34,
+      "title": [
+        "حساب التفاضل",
+        "تطبيقات هندسية وفيزيائية",
+        "أولاً: تطبيقات هندسية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page035.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "00d34ae304fdfea4f1b7779bcb3c2e2ee0ff4d6aa3a66f158d0109f6f5c960dd",
+      "page": 35,
+      "title": [
+        "حساب التفاضل",
+        "تطبيقات هندسية وفيزيائية",
+        "أولاً: تطبيقات هندسية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page036.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "fd91de7cbfbd9854f70bb98626124dcf0086089a8a490b2acb0125b027d2a95e",
+      "page": 36,
+      "title": [
+        "حساب التفاضل",
+        "تطبيقات هندسية وفيزيائية",
+        "أولاً: تطبيقات هندسية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page037.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "f8ab41ca3cd17b0ae989a58c3d0972270b7494698297d473893e6d8bd4f2729d",
+      "page": 37,
+      "title": [
+        "حساب التفاضل",
+        "تطبيقات هندسية وفيزيائية",
+        "ثانياً: تطبيقات فيزيائية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page038.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "5bf8e8db178cb2b3ef94d540fa41dc6777482ca770a9ee2de5117a7d87ab7884",
+      "page": 38,
+      "title": [
+        "حساب التفاضل",
+        "تطبيقات هندسية وفيزيائية",
+        "ثانياً: تطبيقات فيزيائية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page039.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "cd5d6a4676e196e8a834311993a877c7c94827dbf763b9027a59360dd9b262d1",
+      "page": 39,
+      "title": [
+        "حساب التفاضل",
+        "تطبيقات هندسية وفيزيائية",
+        "ثانياً: تطبيقات فيزيائية"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page040.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "de51862db326c982a2424f1d9bf9e46be93ec419eb7b10f1ad294b51ca5248cb",
+      "page": 40,
+      "title": [
+        "حساب التفاضل",
+        "تطبيقات هندسية وفيزيائية",
+        "تمارين 1-5"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page041.json",
+      "layer": "processed",
+      "lesson": "1-6",
+      "sha256": "da8abe33cddfd003304fb95ff3f1c9421c3f74ce18db2b25b2e0da831865f298",
+      "page": 41,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة السلسلة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page042.json",
+      "layer": "processed",
+      "lesson": "1-6",
+      "sha256": "8b1d6c48cb9147013aeb9c1e63dc18b4919ff5bb60a85a45d0e7d38f89372ba1",
+      "page": 42,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة السلسلة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page043.json",
+      "layer": "processed",
+      "lesson": "1-6",
+      "sha256": "7351d4833721821e55fec1b9ba7bad4f51d9cc33758466c0060ef1dc62e52a2a",
+      "page": 43,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة السلسلة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page044.json",
+      "layer": "processed",
+      "lesson": "1-6",
+      "sha256": "feb2a9ba5b4ff16699c0023179c8a69820d236317e84a7e22bbcc05e2ab1f597",
+      "page": 44,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة السلسلة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page045.json",
+      "layer": "processed",
+      "lesson": "1-6",
+      "sha256": "0a116591f2e3f8dfdf8b171b5ab6e1432b1ae56adfca31c3a64ee6802318c3a5",
+      "page": 45,
+      "title": [
+        "حساب التفاضل",
+        "قاعدة السلسلة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page046.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "dea124f8240dc117be7e02fc808bad7c5068dcbe09e4b8c390fe4f5916a7babe",
+      "page": 46,
+      "title": [
+        "حساب التفاضل",
+        "الاشتقاق الضمني"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page047.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "253fb8cca0bad98d7b82a015f2fb6e330a8186d8dc3fcb7eaad5ea996cbdd08b",
+      "page": 47,
+      "title": [
+        "حساب التفاضل",
+        "الاشتقاق الضمني"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page048.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "534f74a58aa94ceccd5d8c27a3a74362c9f730b0a62d008908511c6947ecef58",
+      "page": 48,
+      "title": [
+        "حساب التفاضل",
+        "الاشتقاق الضمني"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page049.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "e40362c302040122e31547c7453604fb246811fcbe4da65b2fce8d6cb36e4088",
+      "page": 49,
+      "title": [
+        "حساب التفاضل",
+        "الاشتقاق الضمني"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page050.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "54e7b7609160da7213edf7620c2b7c4e3731fb57d0e3d489f56122182bb98b76",
+      "page": 50,
+      "title": [
+        "حساب التفاضل",
+        "الاشتقاق الضمني"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page051.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "fcdbdb89d94893229b7ab5b891c9c043a991321b94a27924cb74b436d6a00db7",
+      "page": 51,
+      "title": [
+        "حساب التفاضل",
+        "الاشتقاق الضمني"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page052.json",
+      "layer": "processed",
+      "lesson": "1-عام",
+      "sha256": "0b026044c7c9fa4aee17183bd6daee9010a79db7ab5aab6b28654e452108432f",
+      "page": 52,
+      "title": [
+        "حساب التفاضل",
+        "تمارين عامة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page053.json",
+      "layer": "processed",
+      "lesson": "1-عام",
+      "sha256": "35baa4e286944bddce444be420e3e4236537bd9484767ce3cadd5e774791b20a",
+      "page": 53,
+      "title": [
+        "حساب التفاضل",
+        "تمارين عامة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page054.json",
+      "layer": "processed",
+      "lesson": "1-عام",
+      "sha256": "ad8f82bd6706d3e6feba17e4dd18789903d29160a157d114716f8a98c7cf1b18",
+      "page": 54,
+      "title": [
+        "حساب التفاضل",
+        "تمارين عامة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/math_page055.json",
+      "layer": "processed",
+      "lesson": "1-عام",
+      "sha256": "d2493e187affb14f747a558fef47521e9cb7e6eeecd835a327f98aae265c5d9a",
+      "page": 55,
+      "title": [
+        "حساب التفاضل",
+        "تمارين عامة"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page002.json",
+      "layer": "processed",
+      "lesson": "1-1",
+      "sha256": "c169924211472708b127d8af36feacae5446032c8e3d39571ff9318e858f5993",
+      "page": 2,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-١"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page006.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "5aed0a42e6b03bf8345630d90cb8d605d1cd7bd442f3e8d090369990c6753da5",
+      "page": 6,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٢"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page007.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "d21a18cb89233f0ecb442cf884648078e15d8d577a364f1a11203da62942bba2",
+      "page": 7,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٢"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page008.json",
+      "layer": "processed",
+      "lesson": "1-2",
+      "sha256": "1f6a2519a8fa5325d224eeb7e73de22832d3f6052c5696f532fb956f6de6e7b5",
+      "page": 8,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٢"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page009.json",
+      "layer": "processed",
+      "lesson": "1-3",
+      "sha256": "33267ed73677891fdd25c4c415d6acf8efa4ec2bedb84e31e8e741dc1ddeb1d3",
+      "page": 9,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٣"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page010.json",
+      "layer": "processed",
+      "lesson": "1-4",
+      "sha256": "f6969582b20aefcf351558bbffa11f1de1a28422897eeabf31c1f2ece95e2f72",
+      "page": 10,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٤"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page011.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "23f4ff10750812a20ff3b7137e058cf93d1d5acc7904254dae3ac73f4b4ec95a",
+      "page": 11,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٥"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page012.json",
+      "layer": "processed",
+      "lesson": "1-5",
+      "sha256": "0ab5322a25e3ecfd26debb3506b92c402e4c232b3e291bc913ca5f09160d8be6",
+      "page": 12,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٥ وبداية تمارين ١-٦"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page013.json",
+      "layer": "processed",
+      "lesson": "1-6",
+      "sha256": "6175cbb3df0c54857441a63b572f6439b7e8f846da5a6274347497d2eb131693",
+      "page": 13,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٦"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page014.json",
+      "layer": "processed",
+      "lesson": "1-6",
+      "sha256": "36f2546938d74de67058bf37ea45cfbedd222345b28e055b916213e4527155d7",
+      "page": 14,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٦"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page015.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "e9ec4dba5e1030890f97f5215bb82019d674294e51795a951f3181a85be365b6",
+      "page": 15,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٧ وتتمة تمارين ١-٦"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page016.json",
+      "layer": "processed",
+      "lesson": "1-7",
+      "sha256": "0cb3310cb40a46fb68c6ec7fd318fdeeb92d338667daf81f2a1c91da4de97b0f",
+      "page": 16,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول تمارين ١-٧ (الاشتقاق الضمني)"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page017.json",
+      "layer": "processed",
+      "lesson": "1-عام",
+      "sha256": "5cc73909cbe82ebc16c75a883b9e57a4663657b1178792040c9c0a781ad30872",
+      "page": 17,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول التمارين العامة (الوحدة الأولى)"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page018.json",
+      "layer": "processed",
+      "lesson": "1-عام",
+      "sha256": "a1bfad2064e61b37dd470ede01d4d97575c5ebfeb0952b30693668fd0038bfeb",
+      "page": 18,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول التمارين العامة (الوحدة الأولى)"
+      ]
+    },
+    {
+      "path": "Nipras_Ai_Models/data/processed/solutions_page019.json",
+      "layer": "processed",
+      "lesson": "1-عام",
+      "sha256": "68103918a3ed4d7bf6395c40dcfceb28375fd722a3767cdd21c3199e1ce2c494",
+      "page": 19,
+      "title": [
+        "حلول الوحدة الأولى",
+        "حلول التمارين العامة (الوحدة الأولى)"
+      ]
+    }
+  ]
+}

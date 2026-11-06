@@ -59,7 +59,7 @@ export default function AssistantMessage({ message }) {
 
         {content ? (
           <div className="break-words">
-            <AnswerBody text={content} />
+            <AnswerBody text={content} streaming={streaming} />
             {streaming && <span className="ms-1 inline-block h-5 w-2 animate-pulse rounded-sm bg-primary align-middle" aria-hidden="true" />}
           </div>
         ) : streaming ? (

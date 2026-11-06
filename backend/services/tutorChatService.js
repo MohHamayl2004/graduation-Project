@@ -13,6 +13,7 @@ export const messageDto = (message) => ({
   id: String(message._id),
   role: message.role,
   content: message.content,
+  equations: (message.equations || []).map(e => ({ start: e.start, end: e.end, itemId: e.itemId, values: e.values instanceof Map ? Object.fromEntries(e.values) : e.values })),
   status: message.status,
   sources: message.sources || [],
   calculation: message.calculation?.answer ? { answer: message.calculation.answer, facts: message.calculation.facts || [] } : null,
@@ -49,9 +50,9 @@ export function historyFor(chat) {
     .map(({ role, content }) => ({ role, content }));
 }
 
-export async function addUserMessage(chat, content) {
+export async function addUserMessage(chat, content, equations = []) {
   const isFirst = !chat.messages.some((m) => m.role === "user");
-  chat.messages.push({ role: "user", content });
+  chat.messages.push({ role: "user", content, ...(equations.length ? { equations } : {}) });
   if (isFirst) chat.title = content.length > TITLE_LENGTH ? `${content.slice(0, TITLE_LENGTH).trim()}…` : content;
   await chat.save();
   return chat.messages[chat.messages.length - 1];

@@ -121,3 +121,15 @@ button {
 @media(max-width:639px){.app-screen main>div>h1{font-size:clamp(1.8rem,8vw,2.7rem)}.chat-header>div:last-child{min-width:0;max-width:100%}}
 [data-expanded-player]{max-height:none;top:var(--viewport-top,0px);height:var(--app-height,100dvh);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @layer base { @media(max-width:1023px),(pointer:coarse){a[href]{display:inline-flex;align-items:center}} }
+/* Arabic mathematics: native MathML handles RTL layout, including scripts and
+   limits, without mirroring text or changing the stored expression. */
+.math-formula { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; unicode-bidi: isolate; padding: .3rem .15rem; -webkit-overflow-scrolling: touch; }
+.math-formula math { direction: rtl; font-size: 1.3em; font-family: "Cambria Math", "STIX Two Math", math, serif; }
+.math-formula mtext { font-family: "Tajawal", sans-serif; }
+.math-message-text { min-width: 0; overflow-wrap: anywhere; }
+.math-render-note { font-size: .85rem; opacity: .85; }
+.math-panel { display: flex; flex-direction: column; max-height: calc(var(--app-height, 100dvh) - 1.5rem) !important; overflow: hidden !important; }
+.math-panel-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.math-panel input, .math-panel button { min-height: 44px; }
+.math-draft-preview { max-height: 220px; overflow-y: auto; }
+@media (max-height: 500px) { .math-panel-layer { padding: .25rem; } .math-panel header, .math-panel footer { padding-block: .25rem; } .math-panel-body { padding: .6rem; } .math-draft-preview { max-height: 100px; } }

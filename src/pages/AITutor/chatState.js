@@ -26,6 +26,7 @@ export const fromServerMessage = (m) => ({
   id: m.id,
   role: m.role,
   content: m.content || "",
+  equations: m.equations || [],
   status: m.status || "complete",
   sources: m.sources || [],
   calculation: m.calculation?.answer ? { answer: m.calculation.answer, facts: m.calculation.facts || [] } : null,
@@ -75,7 +76,7 @@ export function chatReducer(state, action) {
         error: null,
         messages: [
           ...state.messages,
-          { id: action.userId, role: "user", content: action.content, status: "complete", sources: [], calculation: null, errorMessage: null },
+          { id: action.userId, role: "user", content: action.content, equations: action.equations || [], status: "complete", sources: [], calculation: null, errorMessage: null },
           { id: action.assistantId, role: "assistant", content: "", status: "streaming", sources: [], calculation: null, errorMessage: null }
         ],
         chats: state.chats.map((c) => (c.id === state.chatId && (!c.title || c.title === "محادثة جديدة") ? { ...c, title: action.content.slice(0, 60) } : c))

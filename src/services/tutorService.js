@@ -18,11 +18,11 @@ export const deleteChat = async (token, chatId) => {
 // (meta, sources, calculation, delta, done | error) as it arrives.
 // Resolves when the stream ends; rejects with { status, code } when the API
 // refuses before streaming (401, 404, 409 TUTOR_BUSY, 503 AI_UNAVAILABLE).
-export async function streamMessage(token, chatId, content, { signal, onEvent }) {
+export async function streamMessage(token, chatId, content, { signal, onEvent, equations = [] }) {
   const response = await fetch(`${API_BASE_URL}/tutor/chats/${encodeURIComponent(chatId)}/messages`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...auth(token) },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify({ content, ...(equations.length ? { equations } : {}) }),
     signal
   });
 

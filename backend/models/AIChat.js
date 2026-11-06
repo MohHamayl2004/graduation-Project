@@ -25,6 +25,7 @@ const aiChatMessageSchema = new mongoose.Schema(
       type: String,
       default: ""
     },
+    equations: { type: [{ _id: false, start: Number, end: Number, itemId: String, values: { type: Map, of: String } }], default: undefined },
     // complete: answered; refused: out of scope / not in the book;
     // interrupted: the stream broke after some text; failed: no answer.
     status: {
