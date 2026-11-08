@@ -1,0 +1,52 @@
+/* Public pages share the dashboard palette without changing other routes. */
+.public-theme { background-color: var(--app-background); color: var(--app-ink); }
+.public-theme .bg-primary { background-color: var(--app-forest); }
+.public-theme .bg-primary.bg-white { background-color: #fff; }
+.public-theme .bg-primary.bg-white:hover { background-color: var(--app-tint); }
+.public-theme .bg-accent { background-color: #16733e; }
+.public-theme :is(.bg-primary-tint, .bg-accent-tint, .bg-surface-alt) { background-color: var(--app-soft); }
+.public-theme .bg-surface-raised { background-color: var(--app-surface); }
+.public-theme .bg-surface-raised\/95 { background-color: #fffffff2; }
+.public-theme :is(.text-primary, .text-accent) { color: var(--app-forest); }
+.public-theme .text-ink { color: var(--app-ink); }
+.public-theme :is(.text-ink-muted, .text-ink-faint) { color: var(--app-muted); }
+.public-theme :is(.border-border, .border-border-strong) { border-color: #c9ded2; }
+.public-theme .border-primary { border-color: var(--app-forest); }
+.public-theme .hover\:bg-primary-hover:hover { background-color: #0b6850; }
+.public-theme .hover\:bg-primary-tint:hover, .public-theme .hover\:bg-surface-alt:hover { background-color: var(--app-tint); }
+.public-theme .hover\:text-ink:hover { color: var(--app-forest); }
+.public-theme :is(input, select):not([aria-invalid="true"]):focus { border-color: var(--app-forest); --tw-ring-color: #064c3b33; }
+.public-theme .peer:focus-visible ~ .peer-focus-visible\:ring-primary\/25 { --tw-ring-color: #22c96b66; }
+.public-theme input[type="checkbox"], .public-theme input[type="radio"] { accent-color: var(--app-forest); }
+.public-theme :focus-visible { outline-color: var(--app-forest); box-shadow: 0 0 0 4px #22c96b66; }
+.public-theme .bg-accent\/20 { background-color: #22c96b33; }
+.landing-theme .nipras-intro, .landing-theme .school-showcase { background-color: var(--app-forest); }
+.landing-theme .showcase-placeholder { background: radial-gradient(ellipse at 50% 45%, #176b54, #064c3b 65%, #182522); }
+.landing-theme .school-showcase-shade { background: linear-gradient(180deg, #18252220 15%, transparent 45%, #182522e8 100%); }
+.landing-theme .school-showcase-heading p { color: var(--app-tint); }
+
+.login-shell { background: radial-gradient(circle at 50% 50%, var(--app-background) 0, #fff 56%); color: var(--app-ink); }
+.login-shell .login-card { border-color: #d2e4d9; box-shadow: 0 24px 70px #064c3b29; }
+.login-shell .login-form-panel:after { background: linear-gradient(135deg, #b7e5cb, #22c96b 52%, #064c3b); }
+.login-shell .login-badge { color: var(--app-forest); background: var(--app-tint); }
+.login-shell :is(.login-form-content h1, .login-form label, .login-input-wrap input, .duo-google) { color: var(--app-ink); }
+.login-shell :is(.login-intro, .login-signup, .login-divider, .login-password-toggle) { color: var(--app-muted); }
+.login-shell .login-input-wrap { border-color: #c9ded2; color: #688579; }
+.login-shell .login-input-wrap:focus-within { border-color: var(--app-forest); box-shadow: 0 0 0 3px #22c96b66; }
+.login-shell .login-input-wrap input::placeholder { color: #71887c; }
+.login-shell :is(.login-forgot, .login-signup button, .login-google-mark) { color: var(--app-forest); }
+.login-shell .duo-primary { background: var(--app-forest); box-shadow: 0 5px 0 #04392d, 0 10px 16px #064c3b33; }
+.login-shell .duo-google { border-color: #c9ded2; box-shadow: 0 3px 0 #d2e4d9, 0 7px 12px #064c3b12; }
+.login-shell .login-divider span { background: #d2e4d9; }
+.login-shell .login-brand-panel { background: linear-gradient(135deg, #182522 0%, #064c3b 54%, #147053 100%); }
+.login-shell .login-brand-panel:before { background: radial-gradient(circle at 15% 67%, #22c96b55 0 2px, transparent 3px), radial-gradient(circle at 79% 18%, #a7eac4 0 2px, transparent 3px), linear-gradient(112deg, transparent 0 45%, #22c96b25 45% 47%, transparent 47% 100%); }
+.login-shell .login-brand-orbit { border-color: #a7eac455; }
+.login-shell :is(.login-brand-tagline, .login-brand-copy p, .login-brand-note) { color: #e7f4ec; }
+.login-shell .login-brand-copy em { color: #8de5b1; }
+.login-shell .login-book-shadow { background: #18252288; }
+.login-shell .login-book-page { color: #064c3b; background: linear-gradient(135deg, #f8faf9, #cfe9da); box-shadow: 0 15px 25px #1825224d; }
+.login-shell .login-book-page-right { color: #064c3b; }
+.login-shell .login-book-spine { background: linear-gradient(90deg, #a9d6bd, #f8faf9, #8ec5a6); }
+.login-shell .login-book-page-right i, .login-shell .login-graph span { background: #22c96b; }
+.login-shell .login-graph, .login-shell .login-graph:after { border-color: #16733e; }
+.login-shell .login-brand-chips span { background: #064c3baa; }

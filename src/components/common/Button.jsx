@@ -1,3 +1,5 @@
+import "./button.css";
+
 const VARIANTS = {
   primary: "bg-primary text-white hover:bg-primary-hover",
   accent: "bg-accent text-white hover:bg-accent-hover",
@@ -21,18 +23,21 @@ export default function Button({
   className = "",
   type = "button",
   disabled = false,
+  press = false,
+  loading = false,
   ...props
 }) {
   return (
     <button
       type={type}
-      disabled={disabled}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       className={`inline-flex items-center justify-center rounded-md font-medium transition-colors duration-base ease-out disabled:cursor-not-allowed disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${
         fullWidth ? "w-full" : ""
-      } ${className}`}
+      } ${press && variant === "primary" ? "nipras-press" : ""} ${className}`}
       {...props}
     >
-      {children}
+      {loading && <span className="nipras-button-spinner" aria-hidden="true" />}{children}
     </button>
   );
 }

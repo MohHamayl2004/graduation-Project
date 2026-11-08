@@ -3,17 +3,19 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import AssistantMessage from "./components/AssistantMessage";
 import Composer from "./components/Composer";
-import StudentBadge from "../../components/common/StudentBadge";
+import MathText from "./components/MathText";
+import ChatScrollbar from "./components/ChatScrollbar";
 
 // Only follow the answer down while the student is already at the bottom:
 // scrolling up to reread must not be yanked back by every new word.
 const NEAR_BOTTOM_PX = 120;
 
-export default function MainChat({ chat, onHistory }) {
+export default function MainChat({ chat, onHistory, historyOpen, draft, onDraftChange, composerRef }) {
   const { state, signedIn, send, stop, newChat } = chat;
   const { messages, phase, error } = state;
   const busy = phase === "streaming";
   const list = useRef(null);
+  const content = useRef(null);
   const pinned = useRef(true);
 
   useEffect(() => {
@@ -39,15 +41,14 @@ export default function MainChat({ chat, onHistory }) {
               type="button"
               onClick={newChat}
               disabled={busy}
-              className="flex items-center gap-2 rounded-md border border-border bg-surface-raised px-3 py-2 text-sm text-ink shadow-sm hover:bg-surface-alt disabled:opacity-50 xl:hidden"
+              className="tutor-new-chat flex items-center gap-2 rounded-md px-3 py-2 text-sm disabled:opacity-50 xl:hidden"
             >
               <MessageSquarePlus size={17} className="text-primary" /> محادثة جديدة
             </button>
           )}
-          {signedIn && <button type="button" onClick={onHistory} aria-label="فتح سجل المحادثات" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-3 text-sm xl:hidden"><History size={18} />المحادثات السابقة</button>}
+          {signedIn && <button type="button" onClick={onHistory} aria-label="فتح المحادثات والرموز الرياضية" aria-haspopup="dialog" aria-expanded={historyOpen} aria-controls="tutor-study-panel" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-3 text-sm xl:hidden"><History size={18} />المحادثات والرموز</button>}
         </div>
         <div className="flex items-center gap-2 text-ink-muted">
-          <StudentBadge />
           <button type="button" aria-label="الإشعارات" className="grid h-11 w-11 place-items-center rounded-full hover:bg-surface-alt">
             <Bell size={19} />
           </button>
@@ -67,28 +68,33 @@ export default function MainChat({ chat, onHistory }) {
           </div>
         ) : (
           <>
-            <div ref={list} onScroll={onScroll} className="chat-messages mx-auto flex min-h-0 w-full max-w-[900px] flex-1 flex-col gap-5 overflow-y-auto pe-1 sm:pe-2" aria-live="polite">
+            <div className="chat-scroll-region">
+            <div ref={list} id="tutor-chat-messages" onScroll={onScroll} className="chat-messages mx-auto min-h-0 w-full max-w-[900px] flex-1 overflow-y-auto pe-1 sm:pe-2" tabIndex={0} aria-label="سجل محادثة المعلم الذكي" aria-live="polite">
+              <div ref={content} className="chat-message-content mx-auto flex w-full max-w-[900px] flex-col gap-5">
               {messages.length === 0 && (
                 <div className="mt-10 text-center text-ink-muted">
-                  <p className="text-lg">اسألني عن أي شيء بالوحدة الأولى.</p>
+                  <p className="text-lg">اسألني عن أي إشي بالمواد</p>
                   <p className="mt-1 text-sm">بجاوبك من كتابك وبحكيلك الصفحة، والتمارين الحسابية بتنحسب وبتتأكد قبل ما توصلك.</p>
                 </div>
               )}
 
               {messages.map((message) =>
                 message.role === "user" ? (
-                  <div key={message.id} dir="auto" className="chat-message ms-auto max-w-[95%] whitespace-pre-wrap break-words rounded-2xl rounded-es-md bg-primary px-4 py-3 text-base leading-8 text-white shadow-sm sm:max-w-[78%] sm:px-6 sm:py-5">
-                    {message.content}
+                  <div key={message.id} dir="auto" className="tutor-user-message chat-message ms-auto max-w-[95%] whitespace-pre-wrap break-words rounded-2xl rounded-es-md bg-primary px-4 py-3 text-base leading-8 text-white shadow-sm sm:max-w-[78%] sm:px-6 sm:py-5">
+                    <MathText text={message.content} />
                   </div>
                 ) : (
                   <AssistantMessage key={message.id} message={message} />
                 )
               )}
+              </div>
+            </div>
+            <ChatScrollbar viewportRef={list} contentRef={content} enabled={!historyOpen} />
             </div>
 
             {error && <p className="mx-auto mt-3 w-full max-w-[900px] text-sm text-error" role="alert">{error}</p>}
 
-            <Composer busy={busy} onSend={send} onStop={stop} showStarters={messages.length === 0} />
+            <Composer text={draft} onTextChange={onDraftChange} inputRef={composerRef} busy={busy} onSend={send} onStop={stop} showStarters={messages.length === 0} />
           </>
         )}
       </section>

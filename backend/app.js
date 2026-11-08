@@ -9,6 +9,7 @@ import schoolRoutes from "./routes/schoolRoutes.js";
 import tutorRoutes from "./routes/tutorRoutes.js";
 import workspaceRoutes from "./routes/workspaceRoutes.js";
 import studyPlanRoutes from "./routes/studyPlanRoutes.js";
+import progressRoutes from "./routes/progressRoutes.js";
 import billingRoutes from "./routes/billingRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import { featureAccess } from "./middleware/subscriptionMiddleware.js";
@@ -37,6 +38,7 @@ export function createApp() {
   app.use("/api/schools", ...featureAccess, schoolRoutes);
   app.use("/api/tutor", ...featureAccess, tutorRoutes);
   app.use("/api/study-plan", ...featureAccess, studyPlanRoutes);
+  app.use("/api/progress", ...featureAccess, progressRoutes);
   app.use(notFound);
   app.use(errorHandler);
   return app;

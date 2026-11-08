@@ -1,4 +1,4 @@
 import dns from "dns";
 
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
+// Use the system DNS servers; public resolvers may be blocked by the network.
 dns.setDefaultResultOrder("ipv4first");

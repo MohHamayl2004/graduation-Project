@@ -18,7 +18,6 @@ export const lesson = {
   title: "متوسط التغير",
   titleEn: "Rate of Change",
   subject: "الرياضيات",
-  progress: 40,
 
   // The four VARK presentations. Every one is available to every
   // student — the framework is used to vary presentation, not to

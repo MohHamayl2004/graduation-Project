@@ -4,6 +4,7 @@ import { ArrowRight, BookOpen, Eye, EyeOff, GraduationCap, LockKeyhole, Mail, Si
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import "./login.css";
+import "../public-theme.css";
 import { login } from "../../services/authService";
 import { useAuth } from "../../context/AuthContext";
 
@@ -42,7 +43,7 @@ export default function Login() {
     } finally { setSubmitting(false); }
   };
 
-  return <main className="login-shell" dir="rtl">
+  return <main className="public-theme login-shell" dir="rtl">
     <div className="login-card">
       <section className="login-form-panel lg:order-2" aria-labelledby="login-title">
         <div className="login-form-content">

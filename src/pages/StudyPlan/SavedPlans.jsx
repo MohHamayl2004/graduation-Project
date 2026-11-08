@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Plus, CalendarDays, ChevronDown, CheckCircle2, Trash2, Sparkles, PencilLine } from "lucide-react";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
@@ -8,12 +9,20 @@ import GeneratedPlan from "./GeneratedPlan";
 import { formatDuration } from "../../../shared/studyPlanRules";
 
 export default function SavedPlans({ token }) {
+  const [searchParams] = useSearchParams();
+  const requestedPlanId = searchParams.get("plan");
   const [plans, setPlans] = useState([]), [building, setBuilding] = useState(false), [editing, setEditing] = useState(null);
   const [weeklyContext, setWeeklyContext] = useState(null), [loading, setLoading] = useState(true);
   const [error, setError] = useState(""), [notice, setNotice] = useState(""), [reload, setReload] = useState(0);
   const [deleting, setDeleting] = useState(null), [busy, setBusy] = useState(false), [deleteError, setDeleteError] = useState("");
   const [replace, setReplace] = useState(null), [openId, setOpenId] = useState(null);
   const generationKeys = useRef({}), lock = useRef(false);
+  useEffect(() => { if (requestedPlanId) setOpenId(requestedPlanId); }, [requestedPlanId]);
+  useEffect(() => {
+    if (loading || !requestedPlanId) return;
+    const frame = requestAnimationFrame(() => document.getElementById(`saved-plan-${requestedPlanId}`)?.scrollIntoView({ block: "start" }));
+    return () => cancelAnimationFrame(frame);
+  }, [loading, requestedPlanId]);
   const headers = { Authorization: `Bearer ${token}` };
   const updatePlan = (plan) => setPlans((old) => old.some((p) => p._id === plan._id) ? old.map((p) => p._id === plan._id ? plan : p) : [plan, ...old]);
   function prepareDay(plan, day) {
@@ -55,7 +64,7 @@ export default function SavedPlans({ token }) {
     <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="font-display text-2xl font-semibold">اختياراتي وخططي الدراسية</h2><Button disabled={loading || busy} onClick={() => { setNotice(""); setWeeklyContext(null); setEditing(null); setBuilding(true); }}><Plus size={17} />بدء الاختيارات</Button></div>
     {notice && <p role="status" className="mt-4 flex items-start gap-2 rounded-lg bg-accent-tint p-4 text-sm leading-7 text-accent"><CheckCircle2 className="mt-1 shrink-0" size={18} />{notice}</p>}
     {error && <div role="alert" className="mt-4 rounded-lg bg-error-tint p-4 text-sm text-error">{error}<Button className="ms-3" size="sm" variant="outline" disabled={busy} onClick={() => { setReplace(null); setReload((n) => n + 1); }}>تحديث القائمة وإعادة المحاولة</Button></div>}
-    {loading ? <p role="status" className="mt-4 text-ink-muted">جاري تحميل اختياراتك وخططك…</p> : !plans.length ? <Card className="mt-4 text-center" padding="lg"><CalendarDays size={30} className="mx-auto text-primary" /><p className="mt-3 font-semibold">جاهز تختار شو بدك تدرس؟</p><p className="mt-2 text-sm text-ink-muted">اختَر أيامك ودروسك، ثم ولّد خطتك. اليومية تستخدم فترات فراغك، والأسبوعية تبدأ بتوزيع مبدئي بدون ساعات.</p></Card> : <div className="mt-4 space-y-4">{plans.map((plan) => <details key={plan._id} open={openId === plan._id} onToggle={(e) => { if (e.currentTarget.open) setOpenId(plan._id); else setOpenId((current) => current === plan._id ? null : current); }} className="rounded-xl border border-border bg-surface-raised p-4 sm:p-5">
+    {loading ? <p role="status" className="mt-4 text-ink-muted">جاري تحميل اختياراتك وخططك…</p> : !plans.length ? <Card className="mt-4 text-center" padding="lg"><CalendarDays size={30} className="mx-auto text-primary" /><p className="mt-3 font-semibold">جاهز تختار شو بدك تدرس؟</p><p className="mt-2 text-sm text-ink-muted">اختَر أيامك ودروسك، ثم ولّد خطتك. اليومية تستخدم فترات فراغك، والأسبوعية تبدأ بتوزيع مبدئي بدون ساعات.</p></Card> : <div className="mt-4 space-y-4">{plans.map((plan) => <details key={plan._id} id={`saved-plan-${plan._id}`} open={openId === plan._id} onToggle={(e) => { if (e.currentTarget.open) setOpenId(plan._id); else setOpenId((current) => current === plan._id ? null : current); }} className="rounded-xl border border-border bg-surface-raised p-4 sm:p-5">
       <summary className="flex cursor-pointer list-none items-center gap-3"><CalendarDays size={23} className="shrink-0 text-primary" /><span className="min-w-0 flex-1"><strong className="block">{plan.type === "daily" ? "خطة يومية" : "خطة أسبوعية"} · {plan.periodStart}</strong><span className="text-xs text-ink-muted">{plan.selections.length} درسًا · {plan.type === "weekly" ? "بدون ساعات محددة" : formatDuration(plan.totalMinutes)} · {plan.generated ? plan.generatedStale ? "تحتاج إعادة توليد" : "خطة مولّدة محفوظة" : "اختيارات محفوظة"}</span></span><ChevronDown size={19} className="shrink-0" /></summary>
       <div className="mt-5 border-t border-border pt-5"><div className="mb-5 flex flex-wrap gap-2"><Button size="sm" disabled={busy} onClick={() => generate(plan)}><Sparkles size={16} />{busy ? "جاري المعالجة…" : plan.generated ? "إعادة توليد الخطة" : "توليد الخطة الدراسية"}</Button><Button variant="outline" size="sm" disabled={busy} onClick={() => editPlan(plan)}><PencilLine size={16} />تعديل الاختيارات</Button><Button variant="ghost" size="sm" disabled={busy} onClick={() => { setDeleteError(""); setDeleting(plan); }}><Trash2 size={16} />حذف الاختيارات</Button></div>
       {plan.generated ? <GeneratedPlan plan={plan} onEdit={() => editPlan(plan)} onPrepareDay={(day) => prepareDay(plan, day)} /> : <PlanSummary plan={plan} />}

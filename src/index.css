@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Phase-one tokens are scoped to navigation and the student dashboard. */
+:where(.app-drawer, .app-menu-trigger, .app-navbar, .dashboard-screen, .nipras-account-menu, .student-dashboard-link, .public-theme) {
+  --app-primary: #22c96b;
+  --app-primary-hover: #16a34a;
+  --app-forest: #064c3b;
+  --app-sidebar: #064c3b;
+  --app-ink: #182522;
+  --app-link: #16733e;
+  --app-muted: #586e61;
+  --app-background: #f8faf9;
+  --app-surface: #ffffff;
+  --app-border: #dcece2;
+  --app-tint: #e7f4ec;
+  --app-soft: #e7f4ec;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -107,8 +123,84 @@ button {
   }
 }
 .app-menu-trigger { top: calc(1rem + env(safe-area-inset-top, 0px)); }
+.app-sidebar-slot { display: contents; }
 .app-drawer { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); max-height: none; height: 100%; }
+
+.app-drawer {
+  width: min(216px, 88vw);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  background: var(--app-sidebar);
+  color: var(--app-surface);
+  border: 1px solid #ffffff1f;
+  border-start-end-radius: 24px;
+  border-end-end-radius: 24px;
+  box-shadow: 0 8px 30px #064e3b12;
+  transition: transform 240ms cubic-bezier(.22, 1, .36, 1), visibility 240ms, width 240ms cubic-bezier(.22, 1, .36, 1);
+}
+.app-drawer::-webkit-scrollbar { display: none; }
+.app-drawer-header { padding: 18px 14px 0; flex-shrink: 0; text-align: center; }
+.app-drawer-brand { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.app-drawer-wordmark { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+.app-drawer-close { margin-inline-start: auto; margin-bottom: 6px; border: 0; background: transparent; color: var(--app-surface); }
+.app-drawer-close:hover { background: #ffffff16; }
+.app-drawer-toggle { place-items: center; width: 40px; height: 40px; margin: 0 auto 8px; border: 0; border-radius: 10px; background: transparent; color: var(--app-tint); }
+.app-drawer-toggle:hover { background: #ffffff10; }
+.app-drawer-toggle svg { transition: transform 180ms; }
+.app-drawer[data-collapsed="false"] .app-drawer-toggle svg { transform: rotate(180deg); }
+.app-drawer nav { margin-top: 18px; padding-inline: 10px; flex: 0 0 auto; padding-bottom: 18px; }
+.app-drawer-account { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-top: auto; margin-inline: 10px; padding: 14px 4px 18px; border-top: 1px solid #ffffff24; }
+.app-drawer-account { flex-direction: column; }
+.app-drawer .app-drawer-account .nipras-mascot { width: 128px; height: 160px; }
+.app-drawer nav ul { display: grid; gap: 4px; }
+.app-drawer nav button { min-height: 45px; padding: 10px 12px; gap: 11px; border-radius: 12px; color: #d1e6da; transition: background-color 180ms, color 180ms; }
+.app-drawer nav button > span { font-size: 14px; }
+.app-drawer nav button > span:not(.absolute) { white-space: nowrap; }
+.app-drawer nav button svg { width: 19px; height: 19px; flex-shrink: 0; transition: transform 180ms; }
+.app-drawer nav button:hover { background: #ffffff10; color: white; }
+.app-drawer nav button:hover svg { transform: translateY(-1px); }
+.app-drawer nav button[aria-current="page"] { color: var(--app-ink); background: var(--app-primary); font-weight: 700; box-shadow: 0 2px 6px #002b2020; }
+.app-drawer nav button[aria-current] > span.absolute { inset-inline-start: 0; height: 18px; width: 3px; background: var(--app-forest); border-radius: 3px; }
+.app-menu-trigger { background: var(--app-forest); color: white; border-radius: 14px; }
+.app-menu-trigger:hover { background: #0a6549; }
+:is(.app-drawer, .app-navbar, .dashboard-screen) :focus-visible, .app-menu-trigger:focus-visible { outline: 2px solid var(--app-primary); outline-offset: 3px; box-shadow: 0 0 0 5px var(--app-forest); }
+.app-navbar { background: var(--app-surface); border-color: var(--app-border); color: var(--app-ink); }
+.app-navbar input { color: var(--app-ink); }
+.app-navbar input::placeholder { color: var(--app-muted); }
+.app-navbar > div > div:first-child { background: var(--app-background); border-color: var(--app-border); color: var(--app-muted); border-radius: 14px; }
+.app-navbar button { color: var(--app-muted); border-radius: 12px; }
+.app-navbar button:hover { background: var(--app-soft); color: var(--app-forest); }
+.student-dashboard-link { display: flex; align-items: center; min-width: 0; min-height: 44px; flex: 1; padding: 4px; border-radius: 10px; color: var(--app-surface); font-size: 14px; font-weight: 700; text-decoration: none; transition: background-color 180ms; }
+.student-dashboard-link bdi { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.student-dashboard-link:hover { background: #ffffff10; color: var(--app-tint); }
+.student-dashboard-link:focus-visible { outline: 2px solid var(--app-link); outline-offset: 3px; box-shadow: none; }
+@media (min-width: 1024px) {
+  /* Only the panel width changes; this layout slot always reserves one rail. */
+  .app-sidebar-slot { display: block; position: relative; flex: 0 0 72px; width: 72px; min-height: 0; height: calc(100% - 24px); margin: 12px; z-index: 30; }
+  .app-sidebar-slot:has(.app-drawer[data-collapsed="false"]) { flex-basis: 215px; width: 215px; }
+  .app-sidebar-slot { transition: width 240ms cubic-bezier(.22, 1, .36, 1), flex-basis 240ms cubic-bezier(.22, 1, .36, 1); }
+  .app-sidebar-slot > .app-drawer { position: absolute; inset-block: 0; inset-inline-start: 0; width: 215px; height: 100%; margin: 0; border-radius: 24px; }
+  .app-drawer[data-collapsed="true"] { width: 72px; }
+  .app-drawer .app-drawer-header { display: flex; align-items: center; gap: 8px; height: 72px; padding: 14px 15px; }
+  .app-drawer .app-drawer-toggle { flex-shrink: 0; margin: 0; }
+  .app-drawer .app-drawer-brand { min-width: 0; flex: 1; }
+  .app-drawer .app-drawer-wordmark { white-space: nowrap; }
+  .app-drawer[data-collapsed="true"] nav { padding-inline: 8px; }
+  .app-drawer[data-collapsed="true"] nav button { justify-content: center; gap: 0; padding-inline: 0; }
+  .app-drawer[data-collapsed="true"] nav button > span:not(.absolute) { display: none; }
+  .app-drawer[data-collapsed="true"] .app-drawer-account { flex-direction: column; gap: 4px; margin-inline: 4px; padding: 12px 0; }
+  .app-drawer[data-collapsed="true"] .app-drawer-account .nipras-mascot { width: 56px; height: 90px; }
+  .app-drawer[data-collapsed="true"] .student-dashboard-link { display: none; }
+}
 @media (max-width:1023px) { .app-drawer { height: var(--app-height, 100dvh); top: var(--viewport-top, 0px); bottom: auto; } }
+.app-screen :is(main.overflow-y-auto, .library-content, .dashboard-scroll) { scrollbar-width: thin; scrollbar-color: #879b90 transparent; }
+.app-screen :is(main.overflow-y-auto, .library-content, .dashboard-scroll)::-webkit-scrollbar { width: 8px; }
+.app-screen :is(main.overflow-y-auto, .library-content, .dashboard-scroll)::-webkit-scrollbar-thumb { background: #879b90; border: 2px solid transparent; border-radius: 999px; background-clip: padding-box; }
+.app-screen :is(main.overflow-y-auto, .library-content, .dashboard-scroll)::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+.app-screen main.overflow-y-auto:not(.library-content) { padding: 32px clamp(20px, 4vw, 56px) 48px; }
+@media (max-width: 639px) { .app-screen main.overflow-y-auto:not(.library-content) { padding: 24px 16px 32px; } }
 .chat-composer{padding-bottom:env(safe-area-inset-bottom,0px)}
 .chat-composer textarea{max-height:min(180px,30dvh);overflow-y:auto}
 @media(max-height:600px){.chat-header{gap:.25rem;padding-block:.25rem}.chat-header h2{font-size:1rem}.chat-header .text-xs{display:none}.chat-header>div:last-child{display:none}.chat-starters{display:none}.chat-composer>p{margin-top:2px}.chat-composer{margin-top:4px}.chat-workspace{padding-top:4px}}

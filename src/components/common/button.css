@@ -1,0 +1,19 @@
+.nipras-press {
+  background: #1460df;
+  color: #fff;
+  border: 1px solid transparent;
+  font-weight: 700;
+  box-shadow: 0 4px 0 #0d42ae;
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+.nipras-press:hover:not(:disabled) { background: #1460df; filter: brightness(1.04); }
+.nipras-press:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #0d42ae; filter: brightness(1.02); }
+.nipras-press:focus-visible { outline: 3px solid #1460df; outline-offset: 4px; box-shadow: 0 4px 0 #0d42ae; }
+.nipras-press:disabled { box-shadow: 0 2px 0 #0d42ae; transform: none; filter: none; }
+.nipras-button-spinner { width: 1em; height: 1em; flex-shrink: 0; border: 2px solid currentColor; border-inline-start-color: transparent; border-radius: 50%; animation: nipras-button-spin 800ms linear infinite; }
+@keyframes nipras-button-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .nipras-press { transition: none; }
+  .nipras-press:active:not(:disabled) { transform: none; box-shadow: 0 4px 0 #0d42ae; }
+  .nipras-button-spinner { animation: none; }
+}

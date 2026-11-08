@@ -1,249 +1,53 @@
-import { useState } from "react";
-import { Download, Plus, BookOpen, BarChart3, Clock3, Flame, ChevronDown, TrendingUp, Sparkles, ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Activity, BookOpen, ClipboardCheck, Clock3, Target, Sparkles, Award, CalendarDays } from "lucide-react";
 import Sidebar from "../../components/layout/Sidebar";
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
-import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
-import ProgressBar from "../../components/common/ProgressBar";
+import { useAuth } from "../../context/AuthContext";
+import { getProgressOverview } from "../../services/progressService";
+import "./progress.css";
 
-import { completedLectures, masteryOverview } from "../../data/mockProgress";
-
-const weeklyHours = [45, 60, 52, 70, 66, 40, 30];
-const streakIntensity = [
-  0, 1, 3, 0, 2, 3, 1, 3, 2, 3, 3, 0, 3, 3, 2, 3, 0, 3, 2, 3, 3, 3, 1, 3, 3, 2, 0, 0
+const metrics = [
+  ["معدل الإنجاز العام", Target, "لا يوجد مقياس مكتمل بعد"],
+  ["الدروس المكتملة", BookOpen, "تتبع إكمال الدروس غير متاح بعد"],
+  ["الاختبارات المكتملة", ClipboardCheck, "تتبع الاختبارات المقيّمة غير متاح بعد"],
+  ["وقت الدراسة", Clock3, "تتبع وقت الدراسة غير متاح بعد"]
 ];
-const STREAK_TONE = ["bg-surface-alt", "bg-accent/30", "bg-accent/60", "bg-accent"];
+
+export function ProgressContent({ data, loading, error, days, onDaysChange, onRetry }) {
+  const plan = data?.plan;
+  return <div className="progress-content" dir="rtl">
+    <header className="progress-heading"><div><h1><span className="progress-heading-icon"><Activity size={24} /></span>متابعة التقدم</h1><p>نظرة شاملة على إنجازك في التعلّم والخطة الدراسية.</p></div>
+      <label className="progress-period">الفترة <select value={days} onChange={(e) => onDaysChange(Number(e.target.value))} aria-label="الفترة الزمنية"><option value={7}>آخر 7 أيام</option><option value={30}>آخر 30 يومًا</option><option value={90}>آخر 90 يومًا</option></select></label>
+    </header>
+    {loading ? <div className="progress-state" role="status" aria-busy="true">جارٍ تحميل بيانات التقدم…</div> : error ? <div className="progress-state" role="alert"><p>تعذّر تحميل بيانات التقدم: {error}</p><button type="button" onClick={onRetry}>إعادة المحاولة</button></div> : <>
+      <section className="progress-metrics" aria-label="ملخص التقدم">{metrics.map(([label, Icon, explanation]) => <article className="progress-card progress-metric" key={label}><span className="progress-icon"><Icon size={21} /></span><h2>{label}</h2><strong>غير متاح</strong><p>{explanation}</p></article>)}</section>
+      <div className="progress-columns">
+        <section className="progress-card progress-panel"><h2>التقدم حسب المادة</h2><div className="progress-empty"><BookOpen size={25} /><p>لا تتوفر سجلات إكمال موثوقة للمواد بعد.</p></div></section>
+        <section className="progress-card progress-panel"><h2>التقدم عبر الوقت</h2><div className="progress-empty"><Activity size={25} /><p>سيظهر نشاطك هنا عند توفر سجل إنجاز موثوق.</p></div></section>
+        <section className="progress-card progress-panel"><h2>الخطة الدراسية</h2>{plan ? <div className="progress-plan"><span className="progress-icon"><CalendarDays size={21} /></span><h3>{plan.type === "daily" ? "خطة يومية" : "خطة أسبوعية"} · <bdi>{plan.periodStart}</bdi></h3><p>{plan.scheduledSessions === null ? "لم تُجدول جلسات يومية لهذه الخطة بعد." : `الجلسات في آخر جدول محفوظ: ${new Intl.NumberFormat("ar").format(plan.scheduledSessions)}`}</p><p>تم إعداد الخطة، ولم يبدأ تتبع إنجاز الجلسات بعد.</p><Link to={`/study-plan?plan=${encodeURIComponent(plan.id)}`}>عرض الخطة</Link></div> : <div className="progress-plan"><p>لم تنشئ خطة دراسية بعد.</p><Link to="/study-plan">إنشاء خطة دراسية</Link></div>}</section>
+        <section className="progress-card progress-panel"><h2>الإنجازات</h2><div className="progress-empty"><Award size={25} /><p>ستظهر الإنجازات عندما تتوفر أنشطة تعليمية موثقة.</p></div></section>
+      </div>
+      <section className="progress-card progress-activity"><h2>آخر الأنشطة</h2><p>تتبع الأنشطة التعليمية غير متاح بعد.</p></section>
+      <section className="progress-strategy"><span className="progress-strategy-icon"><Sparkles size={22} /></span><div><h2>تحديث استراتيجية الدراسة</h2><p>نحتاج إلى أنشطة تعليمية موثقة قبل تقديم توصيات شخصية مناسبة.</p><p>ستتوفر إجراءات الدروس والاختبارات المقترحة عند وجود محتوى وبيانات موثوقة.</p></div></section>
+    </>}
+  </div>;
+}
 
 export default function Progress() {
-  const navigate = useNavigate();
-  const [toast, setToast] = useState("");
-  const [showGoal, setShowGoal] = useState(false);
-  const [goalText, setGoalText] = useState("أنجز 3 دروس هذا الأسبوع");
-  const exportReport = () => {
-    setToast("تم تصدير التقرير بنجاح!");
-    setTimeout(() => setToast(""), 1800);
-  };
-
-  return (
-    <div className="app-screen bg-surface text-ink">
-      <div className="mx-auto flex h-full max-w-[1600px]">
-        <Sidebar activeItem="progress" />
-
-        <div className="flex min-w-0 flex-1 flex-col">
-          <Navbar searchPlaceholder="ابحث في تقارير التقدّم..." showNotificationDot />
-
-          <main className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">رحلتك التعليمية</h1>
-                <p className="mt-1 text-base text-ink-muted">صورة مباشرة عن استعدادك للتوجيهي</p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                <Button variant="secondary" onClick={exportReport}>
-                  <Download size={17} /> تصدير التقرير
-                </Button>
-                <Button onClick={() => setShowGoal((v) => !v)}>
-                  <Plus size={17} /> إضافة هدف
-                </Button>
-              </div>
-            </div>
-
-            {toast ? (
-              <p role="status" className="mt-3 text-sm font-medium text-accent">
-                {toast}
-              </p>
-            ) : null}
-
-            {showGoal ? (
-              <Card padding="sm" className="mt-3">
-                <label htmlFor="goalText" className="text-sm font-medium text-ink-muted">
-                  الهدف الجديد
-                </label>
-                <div className="mt-2 flex gap-2">
-                  <input
-                    id="goalText"
-                    value={goalText}
-                    onChange={(e) => setGoalText(e.target.value)}
-                    className="h-10 flex-1 rounded-md border border-border-strong px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/15"
-                  />
-                  <Button size="sm" onClick={() => setShowGoal(false)}>
-                    حفظ
-                  </Button>
-                </div>
-              </Card>
-            ) : null}
-
-            <section className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              <Card>
-                <div className="flex items-center justify-between">
-                  <BookOpen size={18} className="text-primary" />
-                  <p className="text-sm text-accent">+2 هذا الأسبوع</p>
-                </div>
-                <p className="mt-3 text-sm text-ink-muted">الدروس المكتملة</p>
-                <p className="text-3xl font-semibold text-ink">
-                  14<span className="text-lg text-ink-faint">/20</span>
-                </p>
-                <div className="mt-2">
-                  <ProgressBar value={70} size="sm" />
-                </div>
-              </Card>
-              <Card>
-                <div className="flex items-center justify-between">
-                  <BarChart3 size={18} className="text-accent" />
-                  <p className="text-sm text-accent">زيادة 5%</p>
-                </div>
-                <p className="mt-3 text-sm text-ink-muted">متوسط علامات الاختبارات</p>
-                <p className="text-3xl font-semibold text-ink">78%</p>
-              </Card>
-              <Card>
-                <Clock3 size={18} className="text-primary" />
-                <p className="mt-3 text-sm text-ink-muted">إجمالي وقت الدراسة</p>
-                <p className="text-3xl font-semibold text-ink">
-                  42 س <span className="text-lg text-ink-faint">15 د</span>
-                </p>
-              </Card>
-              <Card>
-                <Flame size={18} className="text-warning" />
-                <p className="mt-3 text-sm text-ink-muted">أيام الالتزام</p>
-                <p className="text-3xl font-semibold text-ink">9 أيام</p>
-              </Card>
-            </section>
-
-            <section className="mt-5 grid gap-4 xl:grid-cols-[1.4fr_1fr]">
-              <Card padding="lg">
-                <div className="mb-5 flex items-center justify-between">
-                  <h2 className="font-display text-2xl font-semibold text-ink">مستوى إتقان المواضيع</h2>
-                  <button
-                    type="button"
-                    className="flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm text-ink-muted hover:bg-surface-alt"
-                  >
-                    كل المواد <ChevronDown size={14} />
-                  </button>
-                </div>
-                <div className="space-y-5">
-                  {masteryOverview.map((m) => (
-                    <div key={m.subject}>
-                      <div className="mb-1 flex justify-between text-sm">
-                        <span className="text-ink">{m.subject}</span>
-                        <span className="font-semibold text-primary">{m.value}%</span>
-                      </div>
-                      <ProgressBar value={m.value} />
-                    </div>
-                  ))}
-                </div>
-              </Card>
-
-              <div className="space-y-4">
-                <Card padding="lg">
-                  <h3 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">النشاط الأسبوعي (بالساعات)</h3>
-                  <div className="mt-8 flex h-28 items-end gap-2">
-                    {weeklyHours.map((h, i) => (
-                      <div
-                        key={String(h) + String(i)}
-                        className="flex-1 rounded-t bg-primary"
-                        style={{ height: `${h}%`, opacity: 0.5 + i * 0.05 }}
-                      />
-                    ))}
-                  </div>
-                  <div className="mt-3 flex justify-between text-xs text-ink-muted">
-                    <span>ن</span><span>ث</span><span>ر</span><span>خ</span><span>ج</span><span>س</span><span>ح</span>
-                  </div>
-                </Card>
-
-                <Card padding="lg">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xs font-semibold tracking-[0.14em] text-ink-muted">الالتزام بالدراسة</h3>
-                    <p className="text-sm font-medium text-accent">التزام ممتاز!</p>
-                  </div>
-                  <div className="mt-4 grid grid-cols-7 gap-1.5">
-                    {streakIntensity.map((v, i) => (
-                      <div key={String(v) + String(i)} className={`h-9 rounded ${STREAK_TONE[v]}`} />
-                    ))}
-                  </div>
-                </Card>
-              </div>
-            </section>
-
-            <section className="mt-5 grid gap-4 xl:grid-cols-2">
-              <Card padding="lg">
-                <div className="mb-1 flex items-center justify-between">
-                  <h2 className="font-display text-2xl font-semibold text-ink">سجل أداء الاختبارات</h2>
-                  <TrendingUp size={18} className="text-primary" />
-                </div>
-                <p className="text-sm text-ink-muted">آخر 10 محاولات</p>
-                <div className="mt-6 h-48 rounded-md border border-dashed border-border bg-gradient-to-t from-primary-tint to-surface-raised p-3 sm:h-56">
-                  <svg viewBox="0 0 400 170" className="h-full w-full text-primary">
-                    <polyline
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      points="0,150 40,142 80,158 120,118 160,126 200,90 240,98 280,62 320,70 360,45 400,28"
-                    />
-                  </svg>
-                </div>
-                <div className="mt-2 grid grid-cols-10 text-center text-xs text-ink-muted">
-                  <span>١</span><span>٢</span><span>٣</span><span>٤</span><span>٥</span><span>٦</span><span>٧</span><span>٨</span><span>٩</span><span>١٠</span>
-                </div>
-              </Card>
-
-              <Card padding="lg">
-                <h2 className="font-display text-2xl font-semibold text-ink">آخر الدروس المكتملة</h2>
-                <div className="mt-4 overflow-hidden rounded-md border border-border">
-                  <div className="grid grid-cols-[1.5fr_0.8fr_0.8fr] bg-surface-alt px-4 py-3 text-xs font-semibold tracking-wide text-ink-muted">
-                    <span>الموضوع</span><span>المدة</span><span>التاريخ</span>
-                  </div>
-                  {completedLectures.map(([topic, duration, date, color]) => (
-                    <div key={topic} className="grid grid-cols-[1.5fr_0.8fr_0.8fr] items-center border-t border-border px-4 py-4 text-sm">
-                      <span className="flex items-center gap-2 text-ink">
-                        <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: color }} />
-                        {topic}
-                      </span>
-                      <span className="text-ink-muted">{duration}</span>
-                      <span className="text-ink-muted">{date}</span>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            </section>
-
-            <section className="mt-5 rounded-lg bg-primary p-6 text-white">
-              <p className="inline-flex items-center rounded-full bg-accent px-3 py-1 text-xs font-semibold">مدعوم بالذكاء الاصطناعي</p>
-              <div className="mt-3 grid gap-4 xl:grid-cols-[1.5fr_1fr]">
-                <div className="flex gap-3">
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/15">
-                    <Sparkles size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-2xl font-semibold">تحديث استراتيجية الدراسة</h3>
-                    <p className="mt-1 text-sm leading-7 text-white/80">
-                      حسب أدائك الأخير بالفيزياء، بنصحك تركّز على &ldquo;الحث الكهرومغناطيسي&rdquo; لمدة 30 دقيقة بكرة.
-                      إتقانك للكيمياء العضوية ممتاز؛ ممكن تجرّب امتحان تجريبي.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center gap-3 xl:justify-end">
-                  <Button variant="accent" onClick={() => navigate("/lectures")} className="rounded-full">
-                    ابدأ الدرس المقترح <ArrowRight size={16} className="rtl:-scale-x-100" />
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="rounded-full border-white/25 bg-transparent text-white hover:bg-white/10"
-                  >
-                    ابدأ اختبار الفيزياء
-                  </Button>
-                </div>
-              </div>
-            </section>
-          </main>
-
-          <Footer brand />
-        </div>
-      </div>
-    </div>
-  );
+  const { auth } = useAuth();
+  const [days, setDays] = useState(7), [attempt, setAttempt] = useState(0);
+  const [state, setState] = useState({ data: null, loading: true, error: "" });
+  useEffect(() => {
+    const controller = new AbortController();
+    let current = true, timedOut = false;
+    setState({ data: null, loading: true, error: "" });
+    const timer = setTimeout(() => { timedOut = true; controller.abort(); if (current) setState({ data: null, loading: false, error: "انتهت مهلة الاتصال بالخادم." }); }, 15000);
+    getProgressOverview(auth.token, days, { signal: controller.signal }).then((data) => {
+      if (current && !timedOut) setState({ data, loading: false, error: "" });
+    }).catch((error) => { if (current && !timedOut && error.name !== "AbortError") setState({ data: null, loading: false, error: error.message }); }).finally(() => clearTimeout(timer));
+    return () => { current = false; clearTimeout(timer); controller.abort(); };
+  }, [auth.token, days, attempt]);
+  return <div className="app-screen progress-screen" dir="rtl"><div className="mx-auto flex h-full max-w-[1600px]"><Sidebar activeItem="progress" /><div className="flex min-w-0 flex-1 flex-col"><Navbar searchPlaceholder="ابحث في تقارير التقدّم..." showNotificationDot /><main className="min-h-0 flex-1 overflow-y-auto"><ProgressContent {...state} days={days} onDaysChange={setDays} onRetry={() => setAttempt((n) => n + 1)} /></main><Footer brand /></div></div></div>;
 }

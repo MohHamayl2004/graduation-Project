@@ -10,14 +10,15 @@ const SOURCES = {
   white: `${BASE}nipras-logo-white.png`
 };
 
-export default function Logo({ variant = "color", height = 36, showWordmark = true, className = "" }) {
+export default function Logo({ variant = "color", height = 36, showWordmark = true, className = "", to = "/", onClick }) {
   const [failed, setFailed] = useState(false);
   const isWhite = variant === "white";
 
   return (
     <Link
-      to="/"
-      aria-label="الانتقال إلى الصفحة الرئيسية"
+      to={to}
+      onClick={onClick}
+      aria-label={to === "/dashboard" ? "الانتقال إلى لوحة الطالب" : "الانتقال إلى الصفحة الرئيسية"}
       className={`flex cursor-pointer items-center gap-2.5 ${className}`}
     >
       {failed ? (

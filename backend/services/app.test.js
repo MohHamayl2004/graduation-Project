@@ -46,6 +46,12 @@ test("environment template documents JWT and the isolated test database", async 
   assert.match(source, /^MONGO_URI_TEST=/m);
 });
 
+test("environment loader resolves backend/.env independently of the launch directory", async () => {
+  const source = await readFile(new URL("../config/env.js", import.meta.url), "utf8");
+  assert.match(source, /dotenv\.config\(\{\s*path:/);
+  assert.match(source, /backend|config/);
+});
+
 test("registration creates the personal workspace in a way that keeps the session", async () => {
   // Mongoose silently ignores { session } unless the first argument is an
   // array, and the failure only appears on a replica set (every Atlas

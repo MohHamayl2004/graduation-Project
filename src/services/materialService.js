@@ -1,11 +1,17 @@
-import { API_BASE_URL, apiRequest } from "./api";
+import { API_BASE_URL, apiRequest } from "./api.js";
 
-export const getMaterials = (token) =>
-  apiRequest("/materials", {
+export const getMaterials = async (token, { signal } = {}) => {
+  const data = await apiRequest("/materials", {
+    signal,
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
+  if (!Array.isArray(data?.materials) || !data.materials.every((material) => material && typeof material._id === "string" && typeof material.title === "string")) {
+    throw new Error("تعذّر قراءة قائمة المواد من الخادم");
+  }
+  return data;
+};
 
 export const getMaterialById = (id, token) =>
   apiRequest(`/materials/${id}`, {

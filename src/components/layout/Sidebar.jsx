@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   LayoutGrid,
@@ -9,15 +9,16 @@ import {
   CircleHelp,
   TrendingUp,
   CalendarDays,
-  Settings,
-  CreditCard,
+  ChevronLeft,
   Menu,
   X
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import { streamLabel } from "../../../shared/academicStreams";
 import Logo from "../common/Logo";
+import NiprasMascotMenu from "../common/NiprasMascotMenu";
+import StudentBadge from "../common/StudentBadge";
+
+const TeacherCharacter = lazy(() => import("../../pages/AITutor/components/TeacherCharacter"));
 
 const navItems = [
   { id: "dashboard", icon: LayoutGrid, path: "/dashboard" },
@@ -30,14 +31,17 @@ const navItems = [
   { id: "studyPlan", icon: CalendarDays, path: "/study-plan" }
 ];
 
-export default function Sidebar({ activeItem = "aiTutor" }) {
+export default function Sidebar({ activeItem = "aiTutor", mascotArt }) {
   const navigate = useNavigate();
-  const { auth, signOut } = useAuth();
-  const userName = auth.user?.fullName || "طالب نبراس";
-  const userTrack = auth.user ? `الفرع ${streamLabel(auth.user.stream)}` : "";
   const { t } = useTranslation(["nav", "common"]);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const drawerRef = useRef(null);
+  const triggerRef = useRef(null);
   const [wide, setWide] = useState(() => window.matchMedia("(min-width: 1024px)").matches);
+  const [hovered, setHovered] = useState(false);
+  const [focusWithin, setFocusWithin] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const isCollapsed = wide && !hovered && !focusWithin && !accountOpen;
 
   useEffect(() => {
     const query = window.matchMedia("(min-width: 1024px)");
@@ -45,6 +49,35 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
   }, []);
+
+  useEffect(() => {
+    if (!mobileOpen || wide) return;
+    const drawer = drawerRef.current;
+    const previousFocus = document.activeElement;
+    const slot = drawer.parentElement;
+    const siblings = [...slot.parentElement.children].filter((element) => element !== slot && !element.contains(triggerRef.current) && !element.hasAttribute("data-drawer-backdrop"));
+    const previousInert = siblings.map((element) => element.inert);
+    siblings.forEach((element) => { element.inert = true; });
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const controls = () => [...drawer.querySelectorAll('button:not(:disabled), a[href], [tabindex="0"]')];
+    controls()[0]?.focus();
+    return () => {
+      siblings.forEach((element, index) => { element.inert = previousInert[index]; });
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [mobileOpen, wide]);
+
+  const onDrawerKeyDown = (event) => {
+    if (!mobileOpen || wide) return;
+    if (event.key === "Escape") { event.preventDefault(); setMobileOpen(false); }
+    if (event.key !== "Tab") return;
+    const items = [...drawerRef.current.querySelectorAll('button:not(:disabled), a[href], [tabindex="0"]')];
+    const first = items[0], last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+  };
 
   const goTo = (path) => {
     setMobileOpen(false);
@@ -54,6 +87,7 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setMobileOpen(true)}
         aria-label={t("common:nav.openMenu")}
@@ -66,37 +100,50 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
 
       {mobileOpen ? (
         <div
+          data-drawer-backdrop
           className="fixed inset-0 z-40 bg-ink/40 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
       ) : null}
 
+      <div className="app-sidebar-slot">
       <aside
+        ref={drawerRef}
+        onKeyDown={onDrawerKeyDown}
         id="app-sidebar"
+        data-collapsed={isCollapsed}
+        onPointerEnter={(event) => { if (event.pointerType === "mouse") setHovered(true); }}
+        onPointerLeave={() => setHovered(false)}
+        onFocusCapture={() => setFocusWithin(true)}
+        onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocusWithin(false); }}
         role={mobileOpen ? "dialog" : undefined}
         aria-modal={mobileOpen ? true : undefined}
         aria-hidden={!wide && !mobileOpen}
         {...(!wide && !mobileOpen ? { inert: "" } : {})}
         aria-label="التنقّل الرئيسي"
-        className={`app-drawer fixed inset-y-0 start-0 z-50 flex w-[min(288px,90vw)] shrink-0 flex-col border-e border-border bg-surface-raised transition-transform duration-base ease-out lg:static lg:z-auto lg:flex lg:w-[248px] ${
+        className={`app-drawer fixed inset-y-0 start-0 z-50 flex shrink-0 flex-col lg:z-auto ${
           mobileOpen ? "translate-x-0" : "max-lg:invisible max-lg:-translate-x-full max-lg:rtl:translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between px-6 pt-7">
-          <Logo height={30} />
+        <div className="app-drawer-header">
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
             aria-label={t("common:nav.closeMenu")}
-            className="grid h-9 w-9 place-items-center rounded-full text-ink-muted hover:bg-surface-alt lg:hidden"
+            className="app-drawer-close grid h-11 w-11 place-items-center rounded-md lg:hidden"
           >
             <X size={18} />
           </button>
+          <button type="button" className="app-drawer-toggle hidden lg:grid" onClick={() => drawerRef.current?.querySelector("nav button")?.focus()} aria-expanded={!isCollapsed} aria-controls="app-sidebar" aria-label="إظهار روابط التنقّل" title="روابط التنقّل">
+            <ChevronLeft size={17} aria-hidden="true" />
+          </button>
+          {!isCollapsed && <div className="app-drawer-brand">
+            <Logo variant="white" height={30} to="/dashboard" onClick={() => setMobileOpen(false)} className="app-drawer-wordmark" />
+          </div>}
         </div>
-        <p className="px-6 pt-1 text-sm text-ink-muted">{t("common:brand.tagline")}</p>
 
-        <nav className="mt-8 flex-1 overflow-y-auto px-3">
+        <nav aria-label="التنقّل الرئيسي" className="mt-8 flex-1 px-3">
           <ul className="space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -107,6 +154,8 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
                     type="button"
                     onClick={() => goTo(item.path)}
                     aria-current={isActive ? "page" : undefined}
+                    aria-label={t(item.id)}
+                    title={isCollapsed ? t(item.id) : undefined}
                     className={`group relative flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-start transition-colors duration-base ${
                       isActive ? "bg-primary-tint text-primary" : "text-ink-muted hover:bg-surface-alt hover:text-ink"
                     }`}
@@ -119,30 +168,13 @@ export default function Sidebar({ activeItem = "aiTutor" }) {
               );
             })}
           </ul>
-
-          <div className="mx-1 mt-3 border-t border-border pt-3">
-            <button type="button" onClick={() => goTo("/subscription")} className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-start text-ink-muted hover:bg-surface-alt"><CreditCard size={19} />اشتراكي</button>
-            <button
-              type="button"
-              className="flex w-full items-center gap-3 rounded-md px-4 py-2.5 text-start text-ink-muted transition-colors duration-base hover:bg-surface-alt hover:text-ink"
-            >
-              <Settings size={19} className="shrink-0" />
-              <span className="text-[15px] font-medium">{t("settings")}</span>
-            </button>
-          </div>
         </nav>
-
-        <div className="border-t border-border px-4 py-4">
-          <div className="flex items-center gap-3">
-            <span aria-hidden="true" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-tint font-bold text-primary">{userName.slice(0, 1)}</span>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-ink">{userName}</p>
-              <p className="truncate text-xs text-ink-muted">{userTrack}</p>
-            </div>
-          </div>
-          {auth.user && <button type="button" className="mt-3 text-sm text-ink-muted underline" onClick={() => { signOut(); navigate("/login"); }}>تسجيل الخروج</button>}
+        <div className="app-drawer-account">
+          <NiprasMascotMenu art={mascotArt || <Suspense fallback={null}><TeacherCharacter idleOnly /></Suspense>} enabled={wide || mobileOpen} onOpenChange={setAccountOpen} onNavigate={() => setMobileOpen(false)} />
+          <StudentBadge onNavigate={() => setMobileOpen(false)} />
         </div>
       </aside>
+      </div>
     </>
   );
 }

@@ -13,6 +13,7 @@ import AITutor from "../pages/AITutor";
 import Lesson from "../pages/Lesson";
 import InteractiveLesson from "../pages/InteractiveLesson";
 import ProtectedRoute from "./ProtectedRoute";
+import { useAuth } from "../context/AuthContext";
 const Subscription = lazy(() => import("../pages/Subscription"));
 const Admin = lazy(() => import("../pages/Admin"));
 const Coupons = lazy(() => import("../pages/Admin/Coupons"));
@@ -20,10 +21,17 @@ const loadingPage = <p role="status" className="p-8 text-center text-ink-muted">
 
 const privatePage = (page) => <ProtectedRoute>{page}</ProtectedRoute>;
 
+function PublicHome() {
+  const { auth } = useAuth();
+  if (auth.loading) return <p role="status" className="p-8 text-center text-ink-muted">جارٍ استعادة جلستك…</p>;
+  if (auth.user) return <Navigate to={auth.user.role === "admin" ? "/admin" : "/dashboard"} replace />;
+  return <Landing />;
+}
+
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<PublicHome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/subscription" element={<ProtectedRoute allowExpired><Suspense fallback={loadingPage}><Subscription /></Suspense></ProtectedRoute>} />
