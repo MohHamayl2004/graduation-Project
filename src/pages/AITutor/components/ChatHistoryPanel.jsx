@@ -1,12 +1,10 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import { History, Plus, Sigma, Trash2, X } from "lucide-react";
-import MathSymbolPalette from "./MathSymbolPalette";
+import { History, Plus, Trash2, X } from "lucide-react";
 
-export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew, onDelete, isOpen, onToggle, onModeChange, onClose, onInsertSymbol }) {
+export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew, onDelete, isOpen, onToggle, onModeChange, onClose }) {
   const [wide, setWide] = useState(() => window.matchMedia("(min-width:1280px)").matches);
   const panel = useRef(null);
   const historyCard = useRef(null);
-  const mathCard = useRef(null);
   const id = useId();
   const modal = isOpen && !wide;
   useEffect(() => {
@@ -17,12 +15,12 @@ export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew,
   }, [onModeChange]);
   useLayoutEffect(() => {
     const measure = () => {
-      const first = historyCard.current, second = mathCard.current;
-      const y = (first.offsetTop + first.offsetHeight + second.offsetTop) / 2;
+      const card = historyCard.current;
+      const y = card.offsetTop + card.offsetHeight / 2;
       panel.current.parentElement.style.setProperty("--tutor-panel-grip-y", `${y}px`);
     };
     const observer = new ResizeObserver(measure);
-    [panel.current, historyCard.current, mathCard.current].forEach((element) => observer.observe(element));
+    [panel.current, historyCard.current].forEach((element) => observer.observe(element));
     measure();
     return () => observer.disconnect();
   }, []);
@@ -53,9 +51,9 @@ export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew,
   };
   return <>
     {modal && <div data-tutor-backdrop className="tutor-panel-backdrop" onClick={onClose} aria-hidden="true" />}
-    <div className="tutor-panel-slot" data-open={isOpen} role={modal ? "dialog" : undefined} aria-modal={modal || undefined} aria-label={modal ? "المحادثات والرموز الرياضية" : undefined} onKeyDown={onKeyDown}>
-      <aside ref={panel} id="tutor-study-panel" className="tutor-side-panel" aria-label="المحادثات والرموز الرياضية" aria-hidden={!isOpen} {...(!isOpen ? { inert: "" } : {})}>
-        <button type="button" aria-label="إغلاق المحادثات والرموز الرياضية" onClick={onClose} className="tutor-panel-close"><X size={19} /></button>
+    <div className="tutor-panel-slot" data-open={isOpen} role={modal ? "dialog" : undefined} aria-modal={modal || undefined} aria-label={modal ? "المحادثات" : undefined} onKeyDown={onKeyDown}>
+      <aside ref={panel} id="tutor-study-panel" className="tutor-side-panel" aria-label="المحادثات" aria-hidden={!isOpen} {...(!isOpen ? { inert: "" } : {})}>
+        <button type="button" aria-label="إغلاق المحادثات" onClick={onClose} className="tutor-panel-close"><X size={19} /></button>
         <section ref={historyCard} className="tutor-panel-section" aria-labelledby={`${id}-history-title`}>
           <div className="tutor-section-heading">
             <h2 id={`${id}-history-title`} className="tutor-section-label"><History size={20} aria-hidden="true" />المحادثات</h2>
@@ -69,12 +67,8 @@ export default function ChatHistoryPanel({ chats, activeId, busy, onOpen, onNew,
             </li>)}</ul>
           </div>
         </section>
-        <section ref={mathCard} className="tutor-panel-section" aria-labelledby={`${id}-math-title`}>
-          <div className="tutor-section-heading"><h2 id={`${id}-math-title`} className="tutor-section-label"><Sigma size={20} aria-hidden="true" />رموز رياضية</h2></div>
-          <div id={`${id}-symbols`} className="tutor-section-body"><MathSymbolPalette onInsert={onInsertSymbol} /></div>
-        </section>
       </aside>
-      <button type="button" className="tutor-panel-toggle" aria-expanded={isOpen} aria-controls="tutor-study-panel" aria-label={isOpen ? "إخفاء المحادثات والرموز الرياضية" : "إظهار المحادثات والرموز الرياضية"} onClick={onToggle}>
+      <button type="button" className="tutor-panel-toggle" aria-expanded={isOpen} aria-controls="tutor-study-panel" aria-label={isOpen ? "إخفاء المحادثات" : "إظهار المحادثات"} onClick={onToggle}>
         <svg viewBox="0 0 44 116" aria-hidden="true" focusable="false">
           <path d="M0 0 C0 18 42 22 42 58 C42 94 0 98 0 116 Z" fill="currentColor" />
           <path d="M9 50H28 M9 58H28 M9 66H28" fill="none" stroke="#000" strokeWidth="3" strokeLinecap="round" />
