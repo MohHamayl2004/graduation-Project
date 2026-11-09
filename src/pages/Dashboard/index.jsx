@@ -1,291 +1,153 @@
-import { CirclePlay, FlaskConical, Zap, Calculator, ArrowRight, Pencil, CircleCheck, Sparkles } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowLeft, ArrowUpLeft, BookOpen, CalendarDays, Clock3, FileText, MessageCircle, RefreshCw } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/layout/Sidebar";
-import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
-import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
-import ProgressBar from "../../components/common/ProgressBar";
 import { useAuth } from "../../context/AuthContext";
+import { useDashboard } from "../../hooks/useDashboard";
+import { materialStatusLabel } from "../../services/materialStatus.js";
 import { streamLabel } from "../../../shared/academicStreams";
-import { dashboardStats } from "../../data/mockDashboard";
+import { dashboardSchedule, STUDY_TIME_ZONE, planUrl, chatUrl } from "./dashboardModel.js";
+import "./dashboard.css";
 
-const weeklyActivity = [
-  { day: "ن", minutes: 42 },
-  { day: "ث", minutes: 68 },
-  { day: "ر", minutes: 35 },
-  { day: "خ", minutes: 74 },
-  { day: "ج", minutes: 50 },
-  { day: "س", minutes: 20 },
-  { day: "ح", minutes: 58 }
-];
-const dailyGoalMinutes = 60;
-const weeklyMax = Math.max(dailyGoalMinutes, ...weeklyActivity.map((d) => d.minutes));
-
-const studyPlanItems = [
-  {
-    title: "درس الكيمياء",
-    detail: "الفصل الرابع: القواعد العضوية — 45 دقيقة",
-    icon: FlaskConical,
-    tone: "bg-primary-tint text-primary",
-    action: CirclePlay
-  },
-  {
-    title: "اختبار الفيزياء",
-    detail: "مراجعة الكهرومغناطيسية — 20 سؤالًا",
-    icon: Zap,
-    tone: "bg-accent-tint text-accent",
-    action: Pencil
-  },
-  {
-    title: "تدريب الرياضيات",
-    detail: "أساليب التكامل — 10 مسائل",
-    icon: Calculator,
-    tone: "bg-warning-tint text-warning",
-    action: CircleCheck
-  }
-];
-
-const TOPIC_TEXT_TONE = {
-  error: "text-error",
-  warning: "text-warning",
-  accent: "text-accent"
+const number = (value) => value.toLocaleString("ar-PS");
+const stamp = (value) => {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toLocaleDateString("ar-PS", { month: "short", day: "numeric", timeZone: STUDY_TIME_ZONE });
 };
+const newest = (items, field) => [...items].sort((a, b) => (Date.parse(b[field]) || 0) - (Date.parse(a[field]) || 0));
 
-const focusTopics = [
-  { label: "التفاضل والتكامل: التكاملات", mastery: 42, tone: "error" },
-  { label: "الكيمياء العضوية", mastery: 58, tone: "warning" },
-  { label: "الديناميكا الحرارية", mastery: 65, tone: "accent" }
-];
+function ResourceContent({ resource, onRetry, empty, children }) {
+  if (resource.loading) return <p role="status" className="dashboard-state">جارٍ تحميل بياناتك…</p>;
+  if (resource.error) return <div role="alert" className="dashboard-state dashboard-error">
+    <p>{resource.error.message}</p>
+    <button type="button" className="dashboard-text-link" onClick={onRetry}>إعادة المحاولة</button>
+  </div>;
+  if (!resource.data.length) return <p className="dashboard-state">{empty}</p>;
+  return children;
+}
 
-const upcomingAssessments = [
-  { date: { month: "تشرين أول", day: "26" }, title: "امتحان الأحياء النصفي", detail: "09:00 صباحًا — القاعة الرئيسية", filled: true },
-  { date: { month: "تشرين أول", day: "28" }, title: "اختبار توقّعي ذكي", detail: "عبر الإنترنت — الفيزياء", filled: false }
-];
-
-const continueLearning = [
-  {
-    subject: "الفيزياء",
-    title: "الدرس 7: التدفق والحث المغناطيسي",
-    progress: 45,
-    timeLeft: "باقي 12:45",
-    from: "from-primary",
-    to: "to-[#2A4C9E]"
-  },
-  {
-    subject: "الكيمياء",
-    title: "تركيب الذرة: نموذج بور",
-    progress: 60,
-    timeLeft: "باقي 08:20",
-    from: "from-accent",
-    to: "to-[#2E9C52]"
+function NextAction({ resource, schedule, onRefresh, navigate }) {
+  const { nextSession, todayPlan, weeklyPlan, staleToday } = schedule;
+  let eyebrow = "خطوتك التالية", title = "يومك الدراسي يبدأ بخطة.", detail = "اختَر دروسك ووقتك، ورتّب يومًا يناسبك.", action = "جهّز خطتك الدراسية", path = "/study-plan";
+  if (todayPlan) {
+    title = nextSession ? nextSession.lessonTitle : "خطتك لليوم محفوظة.";
+    eyebrow = nextSession ? nextSession.start <= schedule.clock ? "جلسة مجدولة الآن" : "جلستك القادمة" : "راجع جدولك";
+    detail = nextSession ? `${nextSession.subjectTitle} · ${nextSession.minutes} دقيقة مخصصة في الخطة` : "راجع جلسات اليوم وأوقاتها. مرور الموعد لا يعني إتمام الدراسة.";
+    action = "افتح الجلسة في خطتك"; path = planUrl(todayPlan._id);
+  } else if (weeklyPlan) {
+    title = "من خطة الأسبوع إلى يومك.";
+    detail = "لديك دروس موزّعة لهذا اليوم. حدّد وقتك لتجهيز جدول يومي.";
+    action = "جهّز يومك من خطة الأسبوع"; path = planUrl(weeklyPlan._id);
+  } else if (staleToday) {
+    title = "حدّث خطتك قبل أن تبدأ.";
+    detail = "تغيّرت اختياراتك. أعد توليد خطة اليوم لتظهر جلساتك الحالية.";
+    action = "راجع اختيارات اليوم";
   }
-];
+  if (resource.loading) { title = "نحضّر مساحة دراستك."; detail = "جارٍ تحميل خططك المحفوظة."; }
+  if (resource.error) { title = "خطتك لم تُحمّل بعد."; detail = "أعد المحاولة لاستعادة جدولك. ما زال بإمكانك فتح الخطط مباشرة."; }
+  return <section className="dashboard-next" aria-labelledby="next-action-title">
+    <div className="dashboard-next-copy">
+      <span className="dashboard-eyebrow">{eyebrow}</span>
+      <h2 id="next-action-title">{title}</h2>
+      <p>{detail}</p>
+      {resource.error ? <div className="dashboard-next-actions"><Button press onClick={onRefresh}>إعادة تحميل البيانات</Button><Link to="/study-plan">افتح الخطط</Link></div>
+        : <Button press loading={resource.loading} onClick={() => navigate(path)} className="dashboard-start">{resource.loading ? "جارٍ التحميل" : action}<ArrowLeft size={18} aria-hidden="true" /></Button>}
+    </div>
+    <div className="dashboard-next-note" aria-label="موعد الجلسة">
+      <CalendarDays size={25} strokeWidth={1.6} aria-hidden="true" />
+      {nextSession && !resource.loading && !resource.error ? <><strong dir="ltr">{nextSession.start}</strong><span>حتى <bdi>{nextSession.end}</bdi></span><small>موعد مخطط · بتوقيت فلسطين</small></>
+        : <><strong className="dashboard-note-label">على مهل، وبوضوح.</strong><span>خطوة واحدة تقرّبك من الفهم.</span></>}
+    </div>
+  </section>;
+}
 
-export default function Dashboard() {
+export function DashboardScreen({ user, resources, now, onRefresh }) {
   const navigate = useNavigate();
-  const { auth } = useAuth();
+  const { plans, materials, chats } = resources;
+  const schedule = dashboardSchedule(plans.data, now);
+  const recentMaterials = newest(materials.data, "uploadedAt").slice(0, 3);
+  const recentChats = newest(chats.data, "updatedAt").slice(0, 3);
+  const recentPlans = newest(plans.data, "updatedAt").slice(0, 3);
+  const dateLabel = now.toLocaleDateString("ar-PS", { weekday: "long", day: "numeric", month: "long", timeZone: STUDY_TIME_ZONE });
+  const busy = Object.values(resources).some((resource) => resource.loading);
 
-  return (
-    <div className="app-screen bg-surface text-ink">
-      <div className="mx-auto flex h-full max-w-[1600px]">
-        <Sidebar activeItem="dashboard" />
+  return <div className="app-screen dashboard-screen bg-surface text-ink" dir="rtl">
+    <div className="mx-auto flex h-full max-w-[1600px]">
+      <Sidebar activeItem="dashboard" />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="dashboard-topbar">
+          <span className="dashboard-topbar-label">مساحتك الدراسية <span>/ الصفحة الرئيسية</span></span>
+        </header>
+        <main className="dashboard-scroll" id="dashboard-main">
+          <div className="dashboard-content">
+            <div className="dashboard-greeting">
+              <div><p className="dashboard-date">{dateLabel}</p><h1>أهلًا، {user.fullName.split(" ")[0]}.</h1><p className="dashboard-subtitle">خلّينا نبدأ بما يهمّك اليوم.</p></div>
+              <Button variant="ghost" size="sm" onClick={onRefresh} disabled={busy} aria-label="تحديث بيانات الصفحة الرئيسية"><RefreshCw size={16} aria-hidden="true" />{busy ? "جارٍ التحديث" : "تحديث البيانات"}</Button>
+            </div>
+            {user.schoolBenefit?.discountPercent ? <p className="dashboard-benefit">خصم مدرستك: {user.schoolBenefit.discountPercent}% · {user.schoolBenefit.schoolName}</p> : null}
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          <Navbar searchPlaceholder="ابحث عن درس أو اختبار أو مساعدة..." showNotificationDot />
+            <NextAction resource={plans} schedule={schedule} onRefresh={onRefresh} navigate={navigate} />
 
-          <main className="min-h-0 flex-1 overflow-y-auto px-5 py-7 sm:px-8">
-            <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">
-              أهلًا، {auth.user.fullName.split(" ")[0]}
-            </h1>
-            <p className="mt-1 text-base text-ink-muted">{new Date().toLocaleDateString("ar-PS")} — الفرع {streamLabel(auth.user.stream)}</p>
-            {auth.user.schoolBenefit?.discountPercent && <p className="mt-3 rounded-lg bg-accent-tint p-3 text-sm text-accent">خصم مدرستك: {auth.user.schoolBenefit.discountPercent}% — {auth.user.schoolBenefit.schoolName}</p>}
+            <div className="dashboard-columns">
+              <div className="dashboard-primary-column">
+                <section className="dashboard-agenda" aria-labelledby="today-title">
+                  <div className="dashboard-section-heading"><div><span className="dashboard-eyebrow">رتّب وقتك</span><h2 id="today-title">على جدول اليوم</h2></div><Link to={schedule.todayPlan ? planUrl(schedule.todayPlan._id) : "/study-plan"} className="dashboard-text-link">كل الخطط <ArrowUpLeft size={16} aria-hidden="true" /></Link></div>
+                  <ResourceContent resource={plans} onRetry={onRefresh} empty="لا توجد خطط محفوظة بعد. ابدأ باختيار أيامك ودروسك.">
+                    {schedule.sessions.length ? <>
+                      <div className="dashboard-plan-summary"><Clock3 size={16} aria-hidden="true" /><span>{number(schedule.plannedMinutes)} دقيقة مخططة</span><span aria-hidden="true">·</span><span>{number(schedule.lessonCount)} دروس في الجدول</span></div>
+                      <ol className="dashboard-session-list">
+                        {schedule.sessions.map((session) => <li key={session.id} className={session.id === schedule.nextSession?.id ? "is-next" : ""}>
+                          <div className="dashboard-session-time"><bdi>{session.start}</bdi><span><bdi>{session.end}</bdi></span></div>
+                          <div className="dashboard-session-copy"><p>{session.subjectTitle}</p><h3>{session.lessonTitle}</h3><span>{number(session.minutes)} دقيقة مخصصة{session.end <= schedule.clock ? " · مرّ الموعد" : session.start <= schedule.clock ? " · موعدها الآن" : ""}</span></div>
+                          <Link to={planUrl(schedule.todayPlan._id)} aria-label={`عرض جلسة ${session.lessonTitle} في الخطة`} className="dashboard-session-link"><ArrowLeft size={18} aria-hidden="true" /></Link>
+                        </li>)}
+                      </ol>
+                      <p className="dashboard-footnote">هذه أوقات الدراسة المخططة؛ لا تُحتسب كإنجاز أو وقت دراسة فعلي.</p>
+                    </> : <div className="dashboard-agenda-empty"><CalendarDays size={30} strokeWidth={1.4} aria-hidden="true" /><h3>{schedule.staleToday ? "خطة اليوم تحتاج تحديثًا" : schedule.weeklyPlan ? "دروس اليوم بانتظار تحديد الوقت" : "مساحة ليومٍ تختاره أنت"}</h3><p>{schedule.staleToday ? "راجع اختياراتك وأعد توليد الجدول." : "لا يوجد جدول يومي مولّد لهذا اليوم. خططك الأخرى تبقى محفوظة."}</p><Link to={schedule.weeklyPlan ? planUrl(schedule.weeklyPlan._id) : "/study-plan"} className="dashboard-text-link">رتّب جدولك <ArrowLeft size={16} aria-hidden="true" /></Link></div>}
+                  </ResourceContent>
+                </section>
 
-            <section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {dashboardStats.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Card key={item.title}>
-                    <div className="flex items-center justify-between">
-                      <Icon size={19} style={{ color: item.accent }} />
-                      <p className="text-sm text-ink-muted">{item.title}</p>
-                    </div>
-                    <p className="mt-2 text-3xl font-semibold text-ink">{item.value}</p>
-                    <p className={`text-sm ${item.title === "متوسط العلامات" ? "text-accent" : "text-ink-muted"}`}>{item.note}</p>
-                    {item.bar ? (
-                      <div className="mt-3">
-                        <ProgressBar value={item.bar} size="sm" />
-                      </div>
-                    ) : null}
-                  </Card>
-                );
-              })}
-            </section>
-
-            <section className="mt-6 grid gap-4 xl:grid-cols-[2fr_1fr]">
-              <Card>
-                <div className="mb-4 flex items-center justify-between">
-                  <h2 className="font-display text-2xl font-semibold text-ink">خطّة دراسة اليوم</h2>
-                  <button type="button" className="text-sm font-semibold text-primary hover:underline">
-                    عرض التقويم
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  {studyPlanItems.map((item) => {
-                    const Icon = item.icon;
-                    const Action = item.action;
-                    return (
-                      <div
-                        key={item.title}
-                        className="flex items-center justify-between rounded-md border border-border px-4 py-3"
-                      >
-                        <div className="flex min-w-0 items-center gap-4">
-                          <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-full ${item.tone}`}>
-                            <Icon size={19} />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="truncate text-base font-semibold text-ink">{item.title}</p>
-                            <p className="truncate text-sm text-ink-muted">{item.detail}</p>
-                          </div>
-                        </div>
-                        <Action size={19} className="shrink-0 text-ink-muted" />
-                      </div>
-                    );
-                  })}
-                </div>
-              </Card>
-
-              <div className="space-y-4">
-                <div className="rounded-lg bg-primary p-5 text-white shadow-md">
-                  <h3 className="flex items-center gap-2 font-display text-xl font-semibold">
-                    <Sparkles size={18} /> مساعدة المعلّم الذكي
-                  </h3>
-                  <p className="mt-2 text-sm text-white/80">واقف معك سؤال؟ اسأل نبراس وخذ تلميح أو شرح خطوة خطوة.</p>
-                  <textarea
-                    placeholder="اكتب سؤالك هون..."
-                    aria-label="اسأل المعلّم الذكي"
-                    className="mt-4 h-24 w-full resize-none rounded-md border border-white/20 bg-white/10 p-3 text-sm text-white outline-none placeholder:text-white/60 focus:border-white/40"
-                  />
-                  <Button
-                    variant="secondary"
-                    fullWidth
-                    className="mt-4 border-none bg-white text-primary hover:bg-white/90"
-                    onClick={() => navigate("/ai-tutor")}
-                  >
-                    اسأل نبراس <ArrowRight size={17} className="rtl:-scale-x-100" />
-                  </Button>
-                </div>
-
-                <Card>
-                  <h3 className="font-display text-xl font-semibold text-ink">مواضيع بدها تركيز</h3>
-                  <div className="mt-3 space-y-3 text-sm">
-                    {focusTopics.map((topic) => (
-                      <div key={topic.label}>
-                        <div className="mb-1 flex items-center justify-between">
-                          <span className="text-ink">{topic.label}</span>
-                          <span className={`font-semibold ${TOPIC_TEXT_TONE[topic.tone]}`}>إتقان {topic.mastery}%</span>
-                        </div>
-                        <ProgressBar value={topic.mastery} tone={topic.tone} size="sm" />
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card>
-                  <h3 className="font-display text-xl font-semibold text-ink">الاختبارات القادمة</h3>
-                  <div className="mt-3 space-y-3">
-                    {upcomingAssessments.map((item) => (
-                      <div
-                        key={item.title}
-                        className={`flex items-center gap-3 rounded-md p-3 ${
-                          item.filled ? "bg-surface-alt" : "border border-border"
-                        }`}
-                      >
-                        <div
-                          className={`rounded-md px-3 py-2 text-center ${item.filled ? "bg-surface-raised" : "border border-border bg-surface-raised"}`}
-                        >
-                          <p className="text-xs text-ink-muted">{item.date.month}</p>
-                          <p className="text-2xl font-semibold text-ink">{item.date.day}</p>
-                        </div>
-                        <div>
-                          <p className="text-base font-semibold text-ink">{item.title}</p>
-                          <p className="text-sm text-ink-muted">{item.detail}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              </div>
-            </section>
-
-            <section className="mt-6 grid gap-4 xl:grid-cols-[2fr_1fr]">
-              <div>
-                <h2 className="font-display text-2xl font-semibold text-ink">كمّل تعلّمك</h2>
-                <div className="mt-3 grid gap-4 md:grid-cols-2">
-                  {continueLearning.map((item) => (
-                    <article key={item.title} className="overflow-hidden rounded-lg border border-border bg-surface-raised shadow-sm">
-                      <div className={`relative h-36 bg-gradient-to-br ${item.from} ${item.to}`}>
-                        <span className="absolute bottom-2 end-2 rounded bg-ink/60 px-2 py-1 text-xs text-white">
-                          {item.timeLeft}
-                        </span>
-                      </div>
-                      <div className="p-4">
-                        <p className="text-sm font-semibold text-primary">{item.subject}</p>
-                        <p className="text-base text-ink">{item.title}</p>
-                        <div className="mt-3">
-                          <ProgressBar value={item.progress} size="sm" />
-                        </div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
+                <section className="dashboard-materials" aria-labelledby="materials-title">
+                  <div className="dashboard-section-heading"><div><span className="dashboard-eyebrow">ارجع إلى موادك</span><h2 id="materials-title">آخر ما حفظته</h2></div><Link to="/analysis" className="dashboard-text-link">المواد المحفوظة <ArrowUpLeft size={16} aria-hidden="true" /></Link></div>
+                  <ResourceContent resource={materials} onRetry={onRefresh} empty="لا توجد مواد محفوظة بعد. ستجد ملفاتك هنا عند إضافتها إلى حسابك.">
+                    <ul className="dashboard-material-list">{recentMaterials.map((material) => <li key={material._id}><span className="dashboard-file-icon"><FileText size={21} strokeWidth={1.6} aria-hidden="true" /></span><div><h3>{material.title}</h3><p>{materialStatusLabel(material.status)}</p></div>{stamp(material.uploadedAt) && <time dateTime={material.uploadedAt}>{stamp(material.uploadedAt)}</time>}</li>)}</ul>
+                    <p className="dashboard-footnote">حفظ الملف لا يعني إنشاء درس أو اختبار منه. معالجة الملفات غير متاحة بعد.</p>
+                  </ResourceContent>
+                </section>
               </div>
 
-              <div />
-            </section>
+              <div className="dashboard-secondary-column">
+                <section className="dashboard-tutor" aria-labelledby="tutor-title">
+                  <div className="dashboard-tutor-label"><MessageCircle size={18} strokeWidth={1.6} aria-hidden="true" />معلّمك الذكي</div>
+                  <h2 id="tutor-title">الفكرة مش واضحة؟<br />نأخذها خطوة خطوة.</h2>
+                  <p>افتح محادثة لطرح سؤالك أو ارجع إلى شرح سابق.</p>
+                  <Button press onClick={() => navigate("/ai-tutor")}>افتح المعلّم الذكي <ArrowLeft size={17} aria-hidden="true" /></Button>
+                  <div className="dashboard-chat-history"><h3>محادثاتك الأخيرة</h3><ResourceContent resource={chats} onRetry={onRefresh} empty="لا توجد محادثات محفوظة بعد.">
+                    <ul>{recentChats.map((chat) => <li key={chat.id}><Link to={chatUrl(chat.id)}><span>{chat.title}</span><ArrowUpLeft size={15} aria-hidden="true" /></Link>{stamp(chat.updatedAt) && <time dateTime={chat.updatedAt}>{stamp(chat.updatedAt)}</time>}</li>)}</ul>
+                  </ResourceContent></div>
+                </section>
 
-            <Card className="mt-6">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h2 className="font-display text-2xl font-semibold text-ink">نشاطك الدراسي الأسبوعي</h2>
-                  <p className="text-sm text-ink-muted">متابعة وقت تركيزك خلال الأسبوع</p>
-                </div>
-                <div className="flex items-center gap-4 rounded-full bg-surface-alt px-4 py-2 text-xs text-ink-muted">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-primary" />
-                    وقت الدراسة
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-                    هدف اليوم ({dailyGoalMinutes} دقيقة)
-                  </span>
-                </div>
+                <section className="dashboard-saved-plans" aria-labelledby="saved-title">
+                  <div className="dashboard-section-heading"><h2 id="saved-title">خطط ترجع لها</h2><BookOpen size={18} strokeWidth={1.6} aria-hidden="true" /></div>
+                  <ResourceContent resource={plans} onRetry={onRefresh} empty="خطتك الأولى تبدأ باختيار أيامك ودروسك.">
+                    <ul>{recentPlans.map((plan) => <li key={plan._id}><Link to={planUrl(plan._id)}><span>{plan.title}</span><ArrowUpLeft size={15} aria-hidden="true" /></Link><p>{plan.type === "weekly" ? "خطة أسبوعية" : "خطة يومية"} · {plan.generatedStale ? "تحتاج تحديثًا" : plan.generated ? "جدول محفوظ" : "اختيارات محفوظة"}</p></li>)}</ul>
+                  </ResourceContent>
+                </section>
+
+                <aside className="dashboard-progress-note" aria-label="حالة متابعة الإنجاز"><span className="dashboard-eyebrow">خطوة بخطوة</span><h2>الفهم أهمّ من الرقم.</h2><p>إحصاءات الإنجاز والدرجات ليست متاحة بعد. حاليًا، تابع خططك وموادك ومحادثاتك المحفوظة.</p><span>الفرع {streamLabel(user.stream)}</span></aside>
               </div>
-
-              <div className="mt-6 flex h-52 items-end gap-3 sm:gap-5">
-                {weeklyActivity.map((item) => (
-                  <div key={item.day} className="flex flex-1 flex-col items-center gap-2">
-                    <div className="relative flex h-full w-full max-w-10 items-end justify-center rounded-t-sm bg-surface-alt">
-                      <span
-                        className="w-full rounded-t-sm bg-primary transition-[height] duration-slow ease-out"
-                        style={{ height: `${(item.minutes / weeklyMax) * 100}%` }}
-                      />
-                      <span
-                        className="absolute left-1/2 w-full max-w-10 -translate-x-1/2 border-t-2 border-dashed border-border-strong"
-                        style={{ bottom: `${(dailyGoalMinutes / weeklyMax) * 100}%` }}
-                      />
-                    </div>
-                    <span className="text-xs text-ink-muted">{item.day}</span>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </main>
-
+            </div>
+          </div>
           <Footer />
-        </div>
+        </main>
       </div>
     </div>
-  );
+  </div>;
+}
+
+export default function Dashboard() {
+  const { auth } = useAuth();
+  const { resources, now, refresh } = useDashboard(auth.token);
+  return <DashboardScreen user={auth.user} resources={resources} now={now} onRefresh={refresh} />;
 }

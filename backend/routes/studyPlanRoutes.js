@@ -9,10 +9,14 @@ import { ApiError } from "../errors/ApiError.js";
 import mongoose from "mongoose";
 import { generateStudySchedule } from "../../shared/studySchedule.js";
 
-const planDto = (document) => {
+export const assessmentChanged = (plan, assessment) => Boolean(plan.generated && assessment?.completedAt !== null && assessment && (
+  plan.generated.assessment?.version !== assessment.version ||
+  ["V", "A", "R", "K"].some((key) => (plan.generated.assessment?.scores?.[key] ?? 0) !== (assessment.scores?.[key] ?? 0))
+));
+const planDto = (document, assessment) => {
   const plan = document.toObject ? document.toObject() : document;
   const studyDays = plan.studyDays?.length ? plan.studyDays : [...new Set((plan.availability || []).map((s) => s.date))];
-  return { ...plan, parentWeeklyId: plan.parentWeeklyId ? String(plan.parentWeeklyId) : null, studyDays, ...(plan.type === "weekly" ? { availability: [], totalMinutes: null } : {}), examDate: plan.examDate ? new Date(plan.examDate).toISOString().slice(0, 10) : null };
+  return { ...plan, generatedStale: Boolean(plan.generatedStale || assessmentChanged(plan, assessment)), parentWeeklyId: plan.parentWeeklyId ? String(plan.parentWeeklyId) : null, studyDays, ...(plan.type === "weekly" ? { availability: [], totalMinutes: null } : {}), examDate: plan.examDate ? new Date(plan.examDate).toISOString().slice(0, 10) : null };
 };
 
 export function createStudyPlanRouter({ guard = protect, model = LearningAssessment, planModel = StudyPlan } = {}) {
@@ -39,11 +43,11 @@ export function createStudyPlanRouter({ guard = protect, model = LearningAssessm
   const revisionFilter = (plan) => (plan.generationRevision || 0) === 0 ? { $or: [{ generationRevision: 0 }, { generationRevision: { $exists: false } }] } : { generationRevision: plan.generationRevision };
   router.post("/plans/:id/generate", asyncHandler(async (req, res) => {
     const plan = await owned(req);
-    if (plan.generated && !plan.generatedStale && req.body.replace !== true) return res.json({ plan: planDto(plan), reused: true });
+    const assessment = await assessmentFor(req.user._id);
+    if (plan.generated && !plan.generatedStale && !assessmentChanged(plan, assessment) && req.body.replace !== true) return res.json({ plan: planDto(plan, assessment), reused: true });
     if (plan.generated && req.body.replace !== true) throw new ApiError(409, "REPLACE_REQUIRED", "أكد استبدال الخطة المولّدة بعد تعديل الاختيارات");
     if (req.body.requestKey && plan.generated?.requestKey === req.body.requestKey) return res.json({ plan: planDto(plan), reused: true });
     if (plan.generated && req.body.expectedRevision !== (plan.generationRevision || 0)) throw new ApiError(409, "PLAN_CHANGED", "تغيّرت الخطة؛ حدّث الصفحة قبل إعادة التوليد");
-    const assessment = await assessmentFor(req.user._id);
     const data = normalize(planDto(plan)); await validateParent(data, req.user._id);
     const generated = { ...generateStudySchedule(data, assessment), requestKey: typeof req.body.requestKey === "string" ? req.body.requestKey.slice(0, 80) : null };
     const updated = await planModel.findOneAndUpdate({ _id: plan._id, owner: req.user._id, ...revisionFilter(plan) }, { $set: { generated, generatedStale: false }, $inc: { generationRevision: 1 } }, { new: true, runValidators: true });
@@ -70,19 +74,23 @@ export function createStudyPlanRouter({ guard = protect, model = LearningAssessm
   }));
   router.put("/assessment", asyncHandler(async (req, res) => {
     const data = validateAssessment(req.body);
+    // Intermediate edits update answers and scores together without revoking completion.
+    if (!req.body.complete) delete data.completedAt;
     const assessment = await model.findOneAndUpdate({ owner: req.user._id }, { $set: data }, { upsert: true, new: true, runValidators: true });
     res.json({ assessment });
   }));
   router.get("/plans", asyncHandler(async (req, res) => {
     const plans = await planModel.find({ owner: req.user._id, type: { $in: ["daily", "weekly"] } }).sort({ createdAt: -1 }).limit(50).lean();
-    res.json({ plans: plans.map(planDto) });
+    const assessment = await model.findOne({ owner: req.user._id }).lean();
+    res.json({ plans: plans.map((plan) => planDto(plan, assessment)) });
   }));
   router.delete("/plans/:id", asyncHandler(async (req, res) => {
     if (!mongoose.isValidObjectId(req.params.id)) throw new ApiError(400, "VALIDATION_ERROR", "معرّف الاختيارات غير صالح");
+    const plan = await owned(req);
+    // Unlink first: an unlink failure leaves the parent available for retry.
+    await planModel.updateMany({ owner: req.user._id, parentWeeklyId: plan._id }, { $set: { parentWeeklyId: null } });
     const removed = await planModel.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
     if (!removed) throw new ApiError(404, "PLAN_NOT_FOUND", "الاختيارات غير موجودة");
-    // Daily preferences remain useful on their own after their weekly parent is removed.
-    await planModel.updateMany({ owner: req.user._id, parentWeeklyId: removed._id }, { $set: { parentWeeklyId: null } });
     res.json({ deleted: true });
   }));
   router.post("/plans", asyncHandler(async (req, res) => {

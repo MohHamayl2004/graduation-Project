@@ -1,4 +1,4 @@
-import { Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { effectiveSubscription } from "../../shared/subscriptions";
 
@@ -14,5 +14,5 @@ export default function ProtectedRoute({ children, redirectTo = "/login", allowE
   if (!adminOnly && auth.user.role === "admin" && !allowExpired) return <Navigate to="/admin" replace />;
   const subscription = effectiveSubscription(auth.user);
   if (!allowExpired && auth.user.role !== "admin" && (!subscription.canAccess || !auth.user.city)) return <Navigate to="/subscription" replace />;
-  return <>{!allowExpired && !adminOnly && subscription.remainingDays <= 3 && <aside className="fixed bottom-4 start-4 z-40 max-w-xs rounded-xl border border-warning/30 bg-surface-raised p-4 text-sm shadow-lg" role="status">اشتراكك بينتهي خلال {subscription.remainingDays} أيام. <Link className="font-semibold text-primary underline" to="/subscription">جدّد من هون</Link></aside>}{children}</>;
+  return children;
 }

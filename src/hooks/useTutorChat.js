@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { createChat, deleteChat, getChat, listChats, streamMessage } from "../services/tutorService";
 import { chatReducer, initialChatState } from "../pages/AITutor/chatState";
@@ -6,6 +7,8 @@ import { chatReducer, initialChatState } from "../pages/AITutor/chatState";
 const CUT_OFF = "انقطع الاتصال قبل أن يكتمل الجواب. حاول مرة ثانية.";
 
 export function useTutorChat() {
+  const [searchParams] = useSearchParams();
+  const requestedChatId = searchParams.get("chat");
   const { auth } = useAuth();
   const token = auth?.token;
   const [state, dispatch] = useReducer(chatReducer, initialChatState);
@@ -18,14 +21,15 @@ export function useTutorChat() {
       .then(async ({ chats }) => {
         if (cancelled) return;
         dispatch({ type: "chatsLoaded", chats });
-        if (chats[0]) {
-          const { chat } = await getChat(token, chats[0].id);
+        const chatId = requestedChatId || chats[0]?.id;
+        if (chatId) {
+          const { chat } = await getChat(token, chatId);
           if (!cancelled) dispatch({ type: "chatOpened", chat });
         }
       })
       .catch((error) => !cancelled && dispatch({ type: "failed", message: error.message }));
     return () => { cancelled = true; };
-  }, [token]);
+  }, [token, requestedChatId]);
 
   // Leaving the page stops the answer (and, through the API, the model).
   useEffect(() => () => controller.current?.abort(), []);

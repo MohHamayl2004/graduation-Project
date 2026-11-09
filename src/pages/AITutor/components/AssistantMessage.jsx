@@ -14,7 +14,7 @@ export default function AssistantMessage({ message }) {
 
   return (
     <div className="chat-message flex min-w-0 gap-2 sm:gap-4">
-      <div className="mt-1 grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary to-ink text-white shadow-md">
+      <div className="tutor-assistant-icon mt-1 grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white">
         <Sparkles size={19} />
       </div>
 

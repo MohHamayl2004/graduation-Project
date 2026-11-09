@@ -1,24 +1,17 @@
-import { Send, Square } from "lucide-react";
-import { useLayoutEffect, useRef, useState } from "react";
+import { Square } from "lucide-react";
+import { useRef } from "react";
 import { STARTER_PROMPTS } from "../chatState";
+import RichMathInput from "./RichMathInput";
 
-const MAX_LENGTH = 2000;
+export const MAX_LENGTH = 2000;
 
 // Enter sends, Shift+Enter starts a new line. While an answer is being
 // written the button becomes "stop".
-export default function Composer({ busy, disabled, onSend, onStop, showStarters }) {
-  const [text, setText] = useState("");
+export default function Composer({ busy, disabled, onSend, onStop, showStarters, text, onTextChange, inputRef }) {
+  const setText = onTextChange;
   const sent = useRef(false);
-  const input = useRef(null);
-  useLayoutEffect(() => {
-    const resize = () => {
-      if (!input.current) return;
-      input.current.style.height = "auto";
-      input.current.style.height = `${Math.min(input.current.scrollHeight, Math.max(44, Math.min(180, (window.visualViewport?.height || window.innerHeight) * .3)))}px`;
-    };
-    resize(); window.addEventListener("resize", resize); window.visualViewport?.addEventListener("resize", resize);
-    return () => { window.removeEventListener("resize", resize); window.visualViewport?.removeEventListener("resize", resize); };
-  }, [text]);
+  const localInput = useRef(null);
+  const input = inputRef || localInput;
   const canSend = !busy && !disabled && text.trim().length > 0;
 
   const submit = () => {
@@ -46,29 +39,18 @@ export default function Composer({ busy, disabled, onSend, onStop, showStarters 
         </div></details>
       )}
 
-      <div className="rounded-2xl border border-border bg-surface-alt p-2 shadow-sm">
-        <div className="flex items-end gap-3 rounded-xl bg-surface-raised/60 px-3 py-1.5 sm:px-4 sm:py-2">
-          <textarea
+      <div className="tutor-composer-shell">
+          <RichMathInput
             ref={input}
             value={text}
-            onChange={(e) => setText(e.target.value.slice(0, MAX_LENGTH))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
-                e.preventDefault();
-                submit();
-              }
-            }}
-            rows={1}
+            onChange={setText}
+            onSubmit={submit}
+            maxLength={MAX_LENGTH}
             disabled={disabled}
-            placeholder="اسأل عن أي شيء بالوحدة الأولى: متوسط التغير، قواعد الاشتقاق، لوبيتال، المماس…"
-            aria-label="سؤالك للمعلّم الذكي"
-            enterKeyHint="send"
-            dir="auto"
-            className="min-h-11 min-w-0 flex-1 resize-none bg-transparent py-2 text-base leading-7 text-ink outline-none placeholder:text-ink-faint"
           />
           {busy ? (
-            <button type="button" onClick={onStop} aria-label="إيقاف الجواب" className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-ink px-4 text-sm font-semibold text-white sm:px-5">
-              <span className="hidden sm:inline">إيقاف</span> <Square size={15} />
+            <button type="button" onClick={onStop} aria-label="إيقاف الجواب" className="tutor-composer-stop">
+              إيقاف <Square size={15} aria-hidden="true" />
             </button>
           ) : (
             <button
@@ -76,17 +58,13 @@ export default function Composer({ busy, disabled, onSend, onStop, showStarters 
               onClick={submit}
               disabled={!canSend}
               aria-label="إرسال السؤال"
-              className={`flex h-11 shrink-0 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition-colors duration-base sm:px-5 ${canSend ? "bg-primary hover:bg-primary-hover" : "bg-border-strong"}`}
+              className="tutor-composer-send"
             >
-              <span className="hidden sm:inline">إرسال</span> <Send size={17} className="rtl:-scale-x-100" />
+              إرسال
             </button>
           )}
-        </div>
       </div>
 
-      <p className="mt-2 text-center text-xs text-ink-faint">
-        معلّم نبراس الذكي يجيب من كتاب الوحدة الأولى ويذكر الصفحة. ممكن يخطئ في الشرح، فارجع للكتاب في المهم.
-      </p>
     </div>
   );
 }

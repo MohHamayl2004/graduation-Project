@@ -1,0 +1,97 @@
+/* Local tokens keep this phase confined to the tutor workspace. */
+.tutor-screen {
+  --app-primary: #22c55e;
+  --app-primary-hover: #16a34a;
+  --app-forest: #07513f;
+  --app-ink: #12382b;
+  --app-muted: #526a5d;
+  --app-link: #16733e;
+  --app-tint: #dcfce7;
+  --app-soft: #eff8f2;
+  --app-background: #f8fcf9;
+  --app-surface: #fff;
+  --app-border: #dcece2;
+  background: var(--app-background);
+  color: var(--app-ink);
+  overflow: hidden;
+}
+.tutor-screen .bg-surface { background: var(--app-background); }
+.tutor-screen .bg-surface-raised { background: var(--app-surface); }
+.tutor-screen :is(.bg-surface-alt, .bg-primary-tint, .bg-accent-tint) { background: var(--app-soft); }
+.tutor-screen :is(.text-primary, .text-accent) { color: var(--app-link); }
+.tutor-screen .text-ink { color: var(--app-ink); }
+.tutor-screen :is(.text-ink-muted, .text-ink-faint) { color: var(--app-muted); }
+.tutor-screen .border-border, .tutor-screen [class~="sm:border-border"] { border-color: var(--app-border); }
+.tutor-screen .chat-main .shadow-sm { box-shadow: 0 2px 8px #07513f0a; }
+.tutor-screen [class~="border-primary/20"] { border-color: var(--app-border); }
+.tutor-screen .bg-primary { background: var(--app-primary); color: var(--app-ink); }
+.tutor-screen [class~="hover:bg-primary-hover"]:hover { background: var(--app-primary-hover); color: #052e16; }
+.tutor-screen [class~="hover:bg-primary-tint"]:hover { background: var(--app-tint); }
+.tutor-screen [class~="hover:text-primary"]:hover { color: var(--app-forest); }
+.tutor-screen [class~="hover:bg-surface-alt"]:hover { background: var(--app-soft); }
+.tutor-screen .bg-border-strong { background: var(--app-border); color: var(--app-muted); }
+.tutor-screen .bg-ink { background: var(--app-forest); }
+.tutor-screen .tutor-user-message, .tutor-screen .app-menu-trigger { background: var(--app-forest); color: white; }
+.tutor-screen .tutor-assistant-icon { background: var(--app-forest); color: var(--app-tint); }
+.tutor-screen :is(.chat-main, .tutor-side-panel) :focus-visible { outline: 2px solid var(--app-link); outline-offset: 3px; box-shadow: none; }
+.tutor-screen .tutor-rich-input:focus-visible { outline: none; }
+.tutor-screen .chat-composer { margin-bottom: var(--tutor-math-keyboard-space, 0px); }
+.tutor-rich-input { flex: 1; min-width: 0; min-height: 44px; max-height: min(180px, 30dvh); overflow-y: auto; padding-block: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.75; }
+.tutor-rich-input:empty::before { content: attr(data-placeholder); color: var(--app-muted); pointer-events: none; }
+.tutor-inline-math { display: inline-block; max-width: 100%; vertical-align: middle; direction: ltr; unicode-bidi: isolate; margin-inline: 3px; padding: 3px 5px; border: 1px solid var(--app-border); border-radius: 6px; background: var(--app-soft); color: var(--app-ink); font-size: 1.15em; --caret-color: var(--app-link); --selection-background-color: #bbf7d0; }
+.tutor-inline-math::part(menu-toggle) { display: none; }
+.tutor-math-atom { display: inline-block; max-width: 100%; vertical-align: middle; unicode-bidi: isolate; direction: ltr; }
+.tutor-inline-math:focus-within { outline: 2px solid var(--app-link); outline-offset: 1px; }
+.tutor-rendered-math { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: middle; unicode-bidi: isolate; }
+.tutor-display-math { display: block; }
+.tutor-rendered-math .katex-display { margin-block: .4em; }
+.tutor-composer-shell { display: flex; align-items: flex-end; gap: 10px; padding: 8px 10px; border: 1px solid #dfe4e1; border-radius: 20px; background: var(--app-surface); transition: border-color 160ms; }
+.tutor-screen .tutor-composer-shell:focus-within { border-color: #93b7a2; box-shadow: 0 0 0 1px #dce8df; }
+.tutor-composer-send, .tutor-composer-stop { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; min-height: 44px; padding: 6px 12px; border: 0; border-radius: 12px; background: var(--app-forest); color: white; font-size: 13px; font-weight: 700; transition: background-color 160ms; }
+.tutor-composer-send:hover:not(:disabled), .tutor-composer-stop:hover { background: #0b684e; }
+.tutor-screen button:disabled { cursor: not-allowed; opacity: .55; }
+.tutor-new-chat { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 0; border-radius: 12px; background: var(--app-primary); color: var(--app-ink); padding: 10px 14px; font-size: 14px; font-weight: 700; transition: background-color 180ms; }
+.tutor-new-chat:hover:not(:disabled) { background: var(--app-primary-hover); color: #052e16; }
+.tutor-screen .tutor-new-chat svg { color: inherit; }
+
+.tutor-screen .chat-workspace {
+  min-width: 0;
+  margin: 12px;
+  border: 1px solid #dce8df;
+  border-radius: 32px;
+  overflow: hidden;
+  background-color: #f8faf8;
+  background-image: linear-gradient(rgba(7, 81, 63, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(7, 81, 63, .08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center top;
+}
+/* The workspace owns the grid; only its message list scrolls. */
+.chat-scroll-region { position: relative; display: flex; flex-direction: column; flex: 1; min-height: 0; min-width: 0; }
+.tutor-screen { --chat-gutter: 12px; }
+.tutor-screen[data-left-sidebar-open="false"] .chat-workspace { margin-left: 0; }
+.tutor-screen[data-left-sidebar-open="false"] .chat-scroll-region { margin-inline: calc(-1 * var(--chat-gutter)); }
+.tutor-screen[data-left-sidebar-open="false"] .chat-messages { max-width: none; padding-inline: var(--chat-gutter); }
+.chat-messages[data-custom-scrollbar="true"] { scrollbar-width: none; }
+.chat-messages[data-custom-scrollbar="true"]::-webkit-scrollbar { width: 0; height: 0; }
+.chat-scrollbar { position: absolute; left: 0; width: 12px; z-index: 2; cursor: pointer; touch-action: none; }
+.chat-scrollbar[hidden] { display: none; }
+.chat-scrollbar::before { content: ""; position: absolute; top: 0; bottom: 0; left: 5px; width: 1px; background: var(--app-border); pointer-events: none; }
+.chat-scrollbar-thumb { position: absolute; top: 0; left: 0; width: 12px; cursor: grab; touch-action: none; }
+.chat-scrollbar-thumb::before { content: ""; position: absolute; inset: 0 3px; border-radius: 999px; background: var(--app-forest); opacity: .65; pointer-events: none; }
+.chat-scrollbar-thumb:hover::before, .chat-scrollbar-thumb:focus-visible::before { opacity: 1; }
+.chat-scrollbar-thumb:active { cursor: grabbing; }
+@media (min-width: 640px) { .tutor-screen { --chat-gutter: 32px; } }
+@media (max-width: 639px) { .tutor-screen .chat-workspace { margin: 8px; border-radius: 22px; } }
+
+/* Reserve the enlarged model's full canvas so it never clips against the drawer. */
+.tutor-screen .app-drawer-account { flex-direction: column; }
+.tutor-teacher { position: relative; display: block; width: 100%; height: 100%; }
+.tutor-teacher-canvas { position: absolute; inset: 0; }
+.tutor-teacher-flight { position: fixed; top: 0; left: 0; z-index: 45; display: block; visibility: hidden; pointer-events: none; background: transparent; }
+.tutor-teacher-flight[hidden] { display: none; }
+.tutor-teacher-flight canvas { display: block; width: 100%; height: 100%; }
+.tutor-screen .chat-messages { margin-block-start: var(--teacher-clearance, 0px); }
+.tutor-teacher > img { position: absolute; inset: 0; object-fit: contain; }
+.tutor-screen .nipras-mascot-trigger { transition: background-color 180ms, box-shadow 180ms; }
+.tutor-screen .nipras-mascot-trigger:has([data-state="processing"]) { box-shadow: inset 0 -3px #facc15; }
+.tutor-screen .nipras-mascot-trigger:has([data-state="speaking"]) { box-shadow: inset 0 -3px #86efac; }

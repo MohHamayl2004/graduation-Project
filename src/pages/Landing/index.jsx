@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import Button from "../../components/common/Button";
 import SchoolShowcase from "../../components/journey/SchoolShowcase";
+import "../public-theme.css";
 
 const features = [
   {
@@ -83,7 +84,7 @@ export default function Landing() {
   };
 
   return (
-    <div className="app-min-screen bg-surface text-ink">
+    <div className="public-theme landing-theme app-min-screen bg-surface text-ink">
       <header className="sticky top-0 z-30 border-b border-border bg-surface-raised/95 backdrop-blur">
         <div className="mx-auto flex w-full max-w-[1280px] items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
           <Logo height={28} />
@@ -187,8 +188,8 @@ export default function Landing() {
         </section>
 
         <section id="students" className="mx-auto grid w-full max-w-[1280px] scroll-mt-28 gap-8 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="rounded-xl bg-gradient-to-br from-[#ece2d2] to-[#d7c4a4] p-6">
-            <div className="h-[300px] rounded-lg bg-gradient-to-br from-primary via-[#3f5a99] to-accent sm:h-[360px]" />
+          <div className="rounded-xl bg-gradient-to-br from-[#e7f4ec] to-[#c9e6d5] p-6">
+            <div className="h-[300px] rounded-lg bg-gradient-to-br from-[#064c3b] via-[#147053] to-[#22c96b] sm:h-[360px]" />
           </div>
           <div>
             <h2 className="font-display text-4xl font-semibold text-ink sm:text-5xl">مصمّم لطلبة التوجيهي في فلسطين</h2>

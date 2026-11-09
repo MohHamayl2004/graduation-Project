@@ -80,12 +80,12 @@ test("time selection rejects equal, reversed, midnight and contained intervals; 
   assert.equal(studySlotError([slot("23:58", "23:59")], 0), "");
 });
 test("plan routes require completed assessment, save only for logged-in owner, and isolate saved plans", async () => {
-  const records = [], completed = new Set(["alice", "bob"]);
+  const records = [], completed = new Set(["alice", "bob"]); let failUnlink = false;
   const model = { findOne: ({ owner }) => ({ lean: async () => completed.has(owner) ? { version: "v1", completedAt: new Date(), scores: { V: 2, A: 1, R: 0, K: 2 } } : null }) };
   const planModel = {
     findOneAndDelete: async ({ _id, owner }) => { const i = records.findIndex((r) => r._id === _id && r.owner === owner); return i < 0 ? null : records.splice(i, 1)[0]; },
-    updateMany: async ({ owner, parentWeeklyId }) => { records.filter((r) => r.owner === owner && r.parentWeeklyId === parentWeeklyId).forEach((r) => { r.parentWeeklyId = null; }); },
-    findOne: ({ _id, owner, type }) => ({ lean: async () => records.find((r) => r._id === _id && r.owner === owner && r.type === type) || null }),
+    updateMany: async ({ owner, parentWeeklyId }) => { if (failUnlink) throw new Error("unlink failed"); records.filter((r) => r.owner === owner && r.parentWeeklyId === parentWeeklyId).forEach((r) => { r.parentWeeklyId = null; }); },
+    findOne: ({ _id, owner, type }) => ({ lean: async () => records.find((r) => r._id === _id && r.owner === owner && (!type || r.type === type)) || null }),
     create: async (data) => { const plan = { ...data, _id: String(records.length + 1).padStart(24, "0") }; records.push(plan); return plan; },
     find: ({ owner }) => ({ sort: () => ({ limit: () => ({ lean: async () => records.filter((r) => r.owner === owner) }) }) })
   };
@@ -112,6 +112,10 @@ test("plan routes require completed assessment, save only for logged-in owner, a
   assert.equal((await request(app).delete(`/plans/${week.body.plan._id}`)).status, 401);
   assert.equal((await request(app).delete(`/plans/${week.body.plan._id}`).set("X-Test-User", "bob")).status, 404);
   assert.equal((await request(app).delete("/plans/bad-id").set("X-Test-User", "alice")).status, 400);
+  failUnlink = true;
+  assert.equal((await request(app).delete(`/plans/${week.body.plan._id}`).set("X-Test-User", "alice")).status, 500);
+  assert.ok(records.some((r) => r._id === week.body.plan._id));
+  failUnlink = false;
   assert.equal((await request(app).delete(`/plans/${week.body.plan._id}`).set("X-Test-User", "alice")).status, 200);
   const remaining = (await request(app).get("/plans").set("X-Test-User", "alice")).body.plans;
   assert.equal(remaining.length, 2); assert.ok(remaining.every((p) => !p.parentWeeklyId));

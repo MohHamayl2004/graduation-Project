@@ -1,0 +1,49 @@
+.nipras-mascot { width: var(--mascot-size); height: var(--mascot-size); flex-shrink: 0; }
+.nipras-mascot-trigger { display: grid; place-items: center; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 16px; color: var(--app-tint); background: transparent; transition: background-color 180ms; }
+.nipras-mascot-trigger:hover, .nipras-mascot-trigger[aria-expanded="true"] { background: #ffffff10; }
+.nipras-mascot-art { display: grid; place-items: center; width: 100%; height: 100%; pointer-events: none; }
+.nipras-mascot-art[data-floating="true"] { animation: nipras-mascot-float var(--mascot-float-duration) ease-in-out infinite alternate; }
+.nipras-mascot-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.sidebar-teacher { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; }
+.sidebar-teacher-canvas { position: absolute; inset: 0; }
+.sidebar-teacher-canvas canvas { display: block; width: 100%; height: 100%; }
+.sidebar-teacher > img { position: absolute; inset: 0; }
+.nipras-mascot-trigger:is(:hover, :focus-visible) .nipras-mascot-art { animation-play-state: paused; }
+@keyframes nipras-mascot-float { from { transform: translateY(0); } to { transform: translateY(var(--mascot-float-distance)); } }
+
+.nipras-account-menu {
+  --dropdown-duration: 180ms;
+  --dropdown-ease: cubic-bezier(.22, 1, .36, 1);
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  width: 208px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(var(--app-height, 100dvh) - 24px);
+  overflow-y: auto;
+  padding: 6px;
+  border: 1px solid var(--app-border);
+  border-radius: 18px;
+  background: var(--app-surface);
+  color: var(--app-ink);
+  box-shadow: 0 4px 8px #064e3b08, 0 14px 36px #064e3b24;
+  text-align: start;
+  transform-origin: top right;
+  opacity: 0;
+  transform: scale(.97);
+  transition: opacity var(--dropdown-duration) var(--dropdown-ease), transform var(--dropdown-duration) var(--dropdown-ease), display var(--dropdown-duration) allow-discrete, overlay var(--dropdown-duration) allow-discrete;
+}
+.nipras-account-menu:popover-open { opacity: 1; transform: scale(1); }
+.nipras-account-menu[data-placement="top"] { transform-origin: bottom right; }
+@starting-style { .nipras-account-menu:popover-open { opacity: 0; transform: scale(.97); } }
+.nipras-account-menu button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 10px; border: 0; border-radius: 12px; background: transparent; color: var(--app-ink); font: inherit; font-size: 14px; text-align: start; transition: background-color 160ms; }
+.nipras-account-menu button svg { flex-shrink: 0; }
+.nipras-account-menu button:hover:not(:disabled) { background: var(--app-soft); }
+.nipras-account-menu button:disabled { color: var(--app-muted); cursor: not-allowed; }
+.nipras-account-menu button small { margin-inline-start: auto; font-size: 11px; }
+.nipras-account-menu button:last-child { border-top: 1px solid var(--app-border); border-start-start-radius: 0; border-start-end-radius: 0; }
+.nipras-account-menu button:focus-visible { outline: 2px solid var(--app-link); outline-offset: -2px; box-shadow: none; background: var(--app-soft); }
+@media (prefers-reduced-motion: reduce) {
+  .nipras-mascot-art[data-floating="true"] { animation: none; }
+  .nipras-account-menu, .nipras-mascot-trigger { transition: none; }
+}

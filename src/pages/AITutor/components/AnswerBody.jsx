@@ -1,10 +1,14 @@
 import { layoutAnswer } from "../chatState";
 import MathText from "./MathText";
+import { mathSegments } from "../mathContent";
 
 // Numbered steps as steps, the final answer as the line a student
 // copies into the exam, everything else as a short paragraph.
 export default function AnswerBody({ text }) {
-  const blocks = layoutAnswer(text);
+  // Keep multiline LaTeX together before the answer's prose is split into lines.
+  const blocks = layoutAnswer(mathSegments(text).map((part) => part.type === "math"
+    ? `${part.display ? "\\[" : "\\("}${part.latex.replace(/\r?\n/g, " ")}${part.display ? "\\]" : "\\)"}`
+    : part.text).join(""));
   const out = [];
 
   for (let i = 0; i < blocks.length; i += 1) {

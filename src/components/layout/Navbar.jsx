@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Bell, CircleHelp, Search } from "lucide-react";
-import StudentBadge from "../common/StudentBadge";
 
 export default function Navbar({
   searchPlaceholder,
+  searchValue,
+  onSearchChange,
   showAvatar = false,
   showNotificationDot = false,
   compact = false,
@@ -19,15 +20,17 @@ export default function Navbar({
   const innerWidth = maxWidth ? `mx-auto w-full ${maxWidth}` : "w-full";
 
   return (
-    <header className={`border-b border-border bg-surface-raised ${padding}`}>
+    <header className={`app-navbar border-b border-border bg-surface-raised ${padding}`}>
       <div className={`${innerWidth} flex flex-wrap items-center justify-between gap-3 lg:flex-nowrap`}>
         <div className={`order-2 flex ${height} w-full min-w-0 items-center gap-3 rounded-full border border-border bg-surface-alt px-4 text-ink-muted lg:order-none lg:max-w-[520px]`}>
           <Search size={compact ? 18 : 19} className="shrink-0" />
           <input
             type="text"
             readOnly={compact}
-            value={compact ? "" : undefined}
+            value={compact ? "" : searchValue}
+            onChange={onSearchChange ? (event) => onSearchChange(event.target.value) : undefined}
             placeholder={searchPlaceholder}
+            aria-label={searchPlaceholder || t("nav.search", { defaultValue: "البحث" })}
             className={`w-full min-w-0 bg-transparent ${searchText} text-ink outline-none placeholder:text-ink-faint`}
           />
         </div>
@@ -49,7 +52,6 @@ export default function Navbar({
           >
             <CircleHelp size={compact ? 18 : 19} />
           </button>
-          <StudentBadge />
         </div>
       </div>
     </header>

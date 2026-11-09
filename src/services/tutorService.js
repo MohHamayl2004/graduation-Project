@@ -1,9 +1,9 @@
-import { API_BASE_URL, apiError, apiRequest } from "./api";
-import { readNdjson } from "../utils/ndjson";
+import { API_BASE_URL, apiError, apiRequest } from "./api.js";
+import { readNdjson } from "../utils/ndjson.js";
 
 const auth = (token) => ({ Authorization: `Bearer ${token}` });
 
-export const listChats = (token) => apiRequest("/tutor/chats", { headers: auth(token) });
+export const listChats = (token, { signal } = {}) => apiRequest("/tutor/chats", { signal, headers: auth(token) });
 
 export const getChat = (token, chatId) => apiRequest(`/tutor/chats/${encodeURIComponent(chatId)}`, { headers: auth(token) });
 

@@ -10,6 +10,7 @@ import { academicStreams } from "../../../shared/academicStreams";
 import { useAuth } from "../../context/AuthContext";
 import { palestinianCities } from "../../../shared/subscriptions";
 import { signupFieldErrors } from "../../../shared/signupFields";
+import "../public-theme.css";
 
 const STRENGTH_TONE = {
   weak: "bg-error",
@@ -100,7 +101,7 @@ export default function Signup() {
     "h-12 w-full rounded-md border border-border-strong bg-surface-raised px-4 text-base outline-none transition-colors duration-base focus:border-primary focus:ring-2 focus:ring-primary/15 aria-[invalid=true]:border-error aria-[invalid=true]:bg-error-tint/30 aria-[invalid=true]:focus:border-error aria-[invalid=true]:focus:ring-error/15";
 
   return (
-    <div className="app-min-screen bg-surface text-ink">
+    <div className="public-theme app-min-screen bg-surface text-ink">
       <div className="mx-auto grid app-min-screen max-w-[1600px] lg:grid-cols-[46%_54%]">
         <section className="relative hidden overflow-hidden bg-primary px-10 py-10 text-white lg:flex lg:flex-col lg:px-14 lg:py-12">
           <div className="absolute -end-20 -top-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
