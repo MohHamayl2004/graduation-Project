@@ -1,11 +1,11 @@
-import { lesson } from "../../data/mockLesson.js";
+import { lessonBooks } from "../../../shared/lessonBook.js";
 
 // Only published, working content is listed. The interactive lesson is not a video.
 export const subjects = [{
-  id: "math", name: lesson.subject,
+  id: "math", name: "الرياضيات",
   description: "تعلّم المفاهيم الرياضية من خلال الشرح، والرسوم البيانية، والأمثلة التفاعلية من الكتاب.",
   videos: [],
-  lessons: [{ code: lesson.code, title: lesson.title, to: `/lesson/${lesson.code}` }]
+  lessons: lessonBooks.map(book => ({ code: book.id, title: book.title, to: `/lesson/${book.id}` }))
 }];
 const normalize = value => String(value || "").trim().toLocaleLowerCase("ar").replace(/[\u064b-\u065f\u0670]/g, "").replace(/[أإآ]/g, "ا");
 const matches = (text, query) => normalize(text).includes(normalize(query));

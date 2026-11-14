@@ -11,6 +11,8 @@
     "test:db": "node testConnection.js"
   },
   "dependencies": {
+    "@workspace/boosthis-runtime-node": "file:./lib/boosthis-runtime-node",
+    "boosthis-checklist": "file:./lib/boosthis-checklist",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

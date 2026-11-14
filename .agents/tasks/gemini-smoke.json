@@ -1,0 +1,11 @@
+{
+  "id": "read-only-frontend-manifest",
+  "model": "gemini-4-argon-medium",
+  "readOnly": true,
+  "files": [],
+  "contextFiles": ["package.json"],
+  "task": "Read only package.json. Report its package name, exact build script, and declared React version range. Do not execute tools other than a file read, do not change files, and do not run tests. Return those three facts in one sentence.",
+  "acceptance": ["Name matches package.json", "Build script and React version range match package.json", "No files changed"],
+  "checks": [],
+  "timeoutSeconds": 120
+}

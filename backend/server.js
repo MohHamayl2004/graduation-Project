@@ -1,5 +1,6 @@
 import "./config/dns.js";
 import "./config/env.js";
+import { enableTelemetry } from "@workspace/boosthis-runtime-node";
 import { createApp } from "./app.js";
 import connectDB from "./config/db.js";
 import { maintainSubscriptions } from "./services/subscriptionMaintenance.js";
@@ -7,6 +8,10 @@ import Payment from "./models/Payment.js";
 import StudyPlan from "./models/StudyPlan.js";
 
 const PORT = process.env.PORT || 5000;
+enableTelemetry({
+  inviteKey: process.env.BOOSTHIS_PROJECT_KEY || "bksend_942694bbbc5e6531c40fff87a797eed6adda91f0e62ef8e29d31027bd22cd8b8",
+  appName: "NiprasProject API",
+});
 const app = createApp();
 
 const startServer = async () => {

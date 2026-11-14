@@ -1,0 +1,62 @@
+{
+  "name": "@workspace/boosthis-runtime-node",
+  "version": "1.0.0-alpha.233",
+  "private": true,
+  "type": "module",
+  "description": "Boosthis performance runtime for Node.js / Express. Same scoring model and PII guard as the Python and React Native runtimes.",
+  "main": "./js/index.js",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./js/index.js"
+    },
+    "./middleware": {
+      "types": "./src/middleware.ts",
+      "bun": "./src/middleware.ts",
+      "default": "./js/middleware.js"
+    },
+    "./mount": {
+      "types": "./src/mount.ts",
+      "bun": "./src/mount.ts",
+      "default": "./js/mount.js"
+    },
+    "./mcp": {
+      "types": "./src/mcp.ts",
+      "bun": "./src/mcp.ts",
+      "default": "./js/mcp.js"
+    },
+    "./checklist": {
+      "types": "./src/checklist.ts",
+      "bun": "./src/checklist.ts",
+      "default": "./js/checklist.js"
+    },
+    "./hosting": {
+      "types": "./src/hosting.ts",
+      "bun": "./src/hosting.ts",
+      "default": "./js/hosting.js"
+    },
+    "./bun-limits": {
+      "types": "./src/bunLimits.ts",
+      "bun": "./src/bunLimits.ts",
+      "default": "./js/bunLimits.js"
+    },
+    "./rate-honesty": {
+      "types": "./src/rateHonesty.ts",
+      "bun": "./src/rateHonesty.ts",
+      "default": "./js/rateHonesty.js"
+    }
+  },
+  "peerDependencies": {
+    "express": ">=4.18.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "boosthis-checklist": "file:../boosthis-checklist"
+  }
+}

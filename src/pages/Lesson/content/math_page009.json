@@ -1,0 +1,269 @@
+{
+  "source": "math_book.pdf",
+  "source_document": "math",
+  "page_number": 9,
+  "lesson": {
+    "code": "1-1",
+    "titles": [
+      "حساب التفاضل",
+      "متوسط التغير"
+    ]
+  },
+  "solves": null,
+  "blocks": [
+    {
+      "order": 1,
+      "type": "heading",
+      "topic_title": "section_title",
+      "text": "المعنى الهندسي لمتوسط التغير",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 2,
+      "type": "other",
+      "topic_title": "explanation",
+      "text": "يمثل الشكل منحنى الاقتران ق(س) والمستقيم المار بالنقطتين أ، ب، والذي يسمى قاطعاً للمنحنى، ويكون ميله = Δص/Δس = (ق(س_٢) − ق(س_١))/(س_٢ − س_١).",
+      "latex": "",
+      "needs_figure": true,
+      "figure_description": "رسم بياني على شبكة إحداثية: محور رأسي ص ومحور أفقي س. منحنى أزرق يمثل الاقتران ق(س) يصعد من اليسار إلى اليمين بتقعّر إلى أعلى. عليه نقطتان: أ عند س_١ بارتفاع ق(س_١)، وب عند س_٢ بارتفاع ق(س_٢)، وس_٢ على يمين س_١. مستقيم قاطع لونه أحمر يمر بالنقطتين أ وب ويمتد بسهمين في الطرفين. خطوط منقّطة سوداء تصل ق(س_١) وق(س_٢) بمحور الصادات، وس_١ وس_٢ بمحور السينات. مثلث قائم الزاوية بضلعين منقّطين بالأحمر: الضلع الأفقي معل′ّم Δس بين س_١ وس_٢، والضلع الرأسي معل′ّم Δص. زاوية معل′ّمة بالرمز ي بين القاطع والاتجاه الموجب لمحور السينات عند النقطة أ. الشكل يوضّح أن متوسط التغير Δص/Δس هو ميل القاطع أب، وأنه يساوي ظا ي.",
+      "figure_files": [
+        "page009_fig1.png"
+      ],
+      "uncertain": true
+    },
+    {
+      "order": 3,
+      "type": "definition",
+      "topic_title": "definition",
+      "text": "متوسط التغير للاقتران ق(س) عندما تتغير س من س_١ إلى س_٢ يساوي ميل القاطع المار بالنقطتين (س_١، ق(س_١))، (س_٢، ق(س_٢)). وتسمى الزاوية (ي) التي يصنعها القاطع للمنحنى مع الاتجاه الموجب لمحور السينات بزاوية ميل المستقيم، ويكون ظا ي = ميل القاطع.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 4,
+      "type": "example",
+      "topic_title": "examples[0].id",
+      "text": "مثال ٢",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 5,
+      "type": "example",
+      "topic_title": "examples[0].problem",
+      "text": "إذا قطع المستقيم ل منحنى الاقتران ق(س) = س + جا ٢س في النقطتين (٠، ق(٠))، (π/٢، ق(π/٢))، احسب ميل المستقيم ل، ثم جد قياس زاوية ميله.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 6,
+      "type": "machine",
+      "topic_title": "examples[0].machine_readable_function",
+      "text": "f(x) = x + sin(2*x)",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 7,
+      "type": "example",
+      "topic_title": "examples[0].solution[0]",
+      "text": "ميل المستقيم ل = متوسط تغير ق(س) في الفترة [٠، π/٢].",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 8,
+      "type": "example",
+      "topic_title": "examples[0].solution[1]",
+      "text": "ل = (ق(π/٢) − ق(٠))/(π/٢ − ٠) = ((π/٢ + جا π) − (٠ + جا ٠))/(π/٢) = ١.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 9,
+      "type": "example",
+      "topic_title": "examples[0].solution[2]",
+      "text": "ميل المستقيم ل = ظا ي = ١، ومنه قياس زاوية ميل المستقيم ل هو π/٤.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 10,
+      "type": "example",
+      "topic_title": "examples[0].final_answers.slope",
+      "text": "١",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 11,
+      "type": "example",
+      "topic_title": "examples[0].final_answers.angle_radians",
+      "text": "π/٤",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    }
+  ],
+  "document": {
+    "blocks": [
+      {
+        "order": 1,
+        "type": "heading",
+        "topic_title": "section_title",
+        "text": "المعنى الهندسي لمتوسط التغير",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 2,
+        "type": "other",
+        "topic_title": "explanation",
+        "text": "يمثل الشكل منحنى الاقتران ق(س) والمستقيم المار بالنقطتين أ، ب، والذي يسمى قاطعاً للمنحنى، ويكون ميله = Δص/Δس = (ق(س_٢) − ق(س_١))/(س_٢ − س_١).",
+        "latex": "",
+        "needs_figure": true,
+        "figure_description": "رسم بياني على شبكة إحداثية: محور رأسي ص ومحور أفقي س. منحنى أزرق يمثل الاقتران ق(س) يصعد من اليسار إلى اليمين بتقعّر إلى أعلى. عليه نقطتان: أ عند س_١ بارتفاع ق(س_١)، وب عند س_٢ بارتفاع ق(س_٢)، وس_٢ على يمين س_١. مستقيم قاطع لونه أحمر يمر بالنقطتين أ وب ويمتد بسهمين في الطرفين. خطوط منقّطة سوداء تصل ق(س_١) وق(س_٢) بمحور الصادات، وس_١ وس_٢ بمحور السينات. مثلث قائم الزاوية بضلعين منقّطين بالأحمر: الضلع الأفقي معل′ّم Δس بين س_١ وس_٢، والضلع الرأسي معل′ّم Δص. زاوية معل′ّمة بالرمز ي بين القاطع والاتجاه الموجب لمحور السينات عند النقطة أ. الشكل يوضّح أن متوسط التغير Δص/Δس هو ميل القاطع أب، وأنه يساوي ظا ي.",
+        "figure_files": [
+          "page009_fig1.png"
+        ],
+        "uncertain": true
+      },
+      {
+        "order": 3,
+        "type": "definition",
+        "topic_title": "definition",
+        "text": "متوسط التغير للاقتران ق(س) عندما تتغير س من س_١ إلى س_٢ يساوي ميل القاطع المار بالنقطتين (س_١، ق(س_١))، (س_٢، ق(س_٢)). وتسمى الزاوية (ي) التي يصنعها القاطع للمنحنى مع الاتجاه الموجب لمحور السينات بزاوية ميل المستقيم، ويكون ظا ي = ميل القاطع.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 4,
+        "type": "example",
+        "topic_title": "examples[0].id",
+        "text": "مثال ٢",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 5,
+        "type": "example",
+        "topic_title": "examples[0].problem",
+        "text": "إذا قطع المستقيم ل منحنى الاقتران ق(س) = س + جا ٢س في النقطتين (٠، ق(٠))، (π/٢، ق(π/٢))، احسب ميل المستقيم ل، ثم جد قياس زاوية ميله.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 6,
+        "type": "machine",
+        "topic_title": "examples[0].machine_readable_function",
+        "text": "f(x) = x + sin(2*x)",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 7,
+        "type": "example",
+        "topic_title": "examples[0].solution[0]",
+        "text": "ميل المستقيم ل = متوسط تغير ق(س) في الفترة [٠، π/٢].",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 8,
+        "type": "example",
+        "topic_title": "examples[0].solution[1]",
+        "text": "ل = (ق(π/٢) − ق(٠))/(π/٢ − ٠) = ((π/٢ + جا π) − (٠ + جا ٠))/(π/٢) = ١.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 9,
+        "type": "example",
+        "topic_title": "examples[0].solution[2]",
+        "text": "ميل المستقيم ل = ظا ي = ١، ومنه قياس زاوية ميل المستقيم ل هو π/٤.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 10,
+        "type": "example",
+        "topic_title": "examples[0].final_answers.slope",
+        "text": "١",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 11,
+        "type": "example",
+        "topic_title": "examples[0].final_answers.angle_radians",
+        "text": "π/٤",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      }
+    ]
+  },
+  "consistency_check": "",
+  "reviewed_by": "mohammad",
+  "reviewed_at": "2026-09-19T11:49:24",
+  "edited": true
+}

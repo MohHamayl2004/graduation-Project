@@ -1,0 +1,20 @@
+{
+  "name": "boosthis-checklist",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "118 battle-tested React Native performance rules. Pure data, zero runtime deps. Private workspace package.",
+  "main": "./js/index.js",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./js/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "js"
+  ]
+}

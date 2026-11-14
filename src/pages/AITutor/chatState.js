@@ -8,7 +8,7 @@ export const toArabicDigits = (value) => String(value ?? "").replace(/[0-9]/g, (
 // "الدرس ١-٢ · صفحة ١٦–١٧"  /  "دليل الحلول · صفحة ٨"
 export function sourceLabel(source) {
   const pages = [...new Set((source.pages || []).filter((p) => p != null))].sort((a, b) => a - b);
-  const pageText = pages.length === 0 ? "" : pages.length === 1 ? `صفحة ${toArabicDigits(pages[0])}` : `صفحة ${toArabicDigits(pages[0])}–${toArabicDigits(pages.at(-1))}`;
+  const pageText = pages.length === 0 ? "" : pages.length === 1 ? `صفحة ملف PDF ${toArabicDigits(pages[0])}` : `صفحات ملف PDF ${toArabicDigits(pages[0])}–${toArabicDigits(pages.at(-1))}`;
   const where = source.document === "solutions" ? "دليل الحلول" : source.lesson ? `الدرس ${toArabicDigits(source.lesson)}` : "الكتاب";
   return pageText ? `${where} · ${pageText}` : where;
 }

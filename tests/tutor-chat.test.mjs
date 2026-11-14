@@ -90,9 +90,9 @@ test("the server's message id replaces the temporary one", () => {
 });
 
 test("source labels are book coordinates in Arabic digits", () => {
-  assert.equal(sourceLabel({ document: "math", lesson: "1-2", pages: [16, 17] }), "الدرس ١-٢ · صفحة ١٦–١٧");
-  assert.equal(sourceLabel({ document: "math", lesson: "1-5", pages: [38] }), "الدرس ١-٥ · صفحة ٣٨");
-  assert.equal(sourceLabel({ document: "solutions", lesson: "حل ١-٢", pages: [8] }), "دليل الحلول · صفحة ٨");
+  assert.equal(sourceLabel({ document: "math", lesson: "1-2", pages: [16, 17] }), "الدرس ١-٢ · صفحات ملف PDF ١٦–١٧");
+  assert.equal(sourceLabel({ document: "math", lesson: "1-5", pages: [38] }), "الدرس ١-٥ · صفحة ملف PDF ٣٨");
+  assert.equal(sourceLabel({ document: "solutions", lesson: "حل ١-٢", pages: [8] }), "دليل الحلول · صفحة ملف PDF ٨");
   assert.equal(toArabicDigits("ق′(4) = -7"), "ق′(٤) = -٧");
 });
 

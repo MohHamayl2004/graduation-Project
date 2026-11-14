@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { boosthis, mount } from "@workspace/boosthis-runtime-node";
 import path from "path";
 import { fileURLToPath } from "url";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
@@ -10,6 +11,7 @@ import tutorRoutes from "./routes/tutorRoutes.js";
 import workspaceRoutes from "./routes/workspaceRoutes.js";
 import studyPlanRoutes from "./routes/studyPlanRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
+import lessonBooksRoutes from "./routes/lessonBooksRoutes.js";
 import billingRoutes from "./routes/billingRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import { featureAccess } from "./middleware/subscriptionMiddleware.js";
@@ -26,6 +28,8 @@ export function corsOptions(env = process.env) {
 
 export function createApp() {
   const app = express();
+  app.use(boosthis());
+  mount(app);
   app.use(cors(corsOptions()));
   app.use(express.json());
   app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -39,6 +43,7 @@ export function createApp() {
   app.use("/api/tutor", ...featureAccess, tutorRoutes);
   app.use("/api/study-plan", ...featureAccess, studyPlanRoutes);
   app.use("/api/progress", ...featureAccess, progressRoutes);
+  app.use("/api/lesson-books", ...featureAccess, lessonBooksRoutes);
   app.use(notFound);
   app.use(errorHandler);
   return app;

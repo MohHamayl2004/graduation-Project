@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson 1-1 fixture</title>
+<style>*,::before,::after{box-sizing:border-box}body{margin:0;font-family:Tajawal,sans-serif;line-height:1.5}button,input,select{font:inherit;color:inherit}button{border:0;background:transparent;padding:0;cursor:pointer}button:disabled{cursor:default}p,h1,h2,h3{margin:0}a{color:inherit;text-decoration:none}svg{vertical-align:middle}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}</style></head>
+<body><div id="root"></div><script type="module">
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {MemoryRouter} from 'react-router-dom';
+import '@fontsource/tajawal/400.css';
+import '@fontsource/tajawal/700.css';
+import '/src/i18n/index.js';
+import '/src/index.css';
+import {AuthProvider} from '/src/context/AuthContext.jsx';
+import Sidebar from '/src/components/layout/Sidebar.jsx';
+import {BookStage} from '/src/pages/Lesson/LivingBook.jsx';
+import {lessonBooks} from '/shared/lessonBook.js';
+import * as StPageFlip from 'page-flip';
+window.bookAttempts = [];
+window.bookReads = [];
+window.bookEngines = [];
+const load = StPageFlip.PageFlip.prototype.loadFromHTML;
+StPageFlip.PageFlip.prototype.loadFromHTML = function(...args) { window.bookEngines.push(this); return load.apply(this,args); };
+const h = React.createElement;
+createRoot(document.getElementById('root')).render(h(React.StrictMode, null,
+  h(AuthProvider, null,
+    h(MemoryRouter, {initialEntries:['/lesson/1-1']},
+      h('div', {className:'app-screen living-screen', dir:'rtl'},
+        h(Sidebar, {activeItem:'lectures'}),
+        h('div', {className:'living-workspace'},
+          h('header', {className:'living-header'}, h('a', {href:'#library'},'مكتبة الرياضيات'), h('div', null,h('span',{className:'living-wordmark'},'نِبراس'),h('h1',null,'متوسط التغير ١–١')),h('a',{href:'#pdf'},'الكتاب الأصلي')),
+          h('main',null,h('p',{className:'living-edition'},'الرياضيات · الوحدة الأولى',h('span',null,'نسخة تفاعلية من صفحات الكتاب ٤–٨')),
+            h(BookStage,{book:lessonBooks[0],start:0,completed:false,onRead:id=>window.bookReads.push(id),onAttempt:answer=>window.bookAttempts.push(answer),onAsk:()=>{}}),
+            h('div',{className:'living-save'},'يُحفظ موضع القراءة وإنجاز المثال في حسابك.'))))))));
+</script></body></html>

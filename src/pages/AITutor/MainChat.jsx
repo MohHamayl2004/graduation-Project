@@ -46,7 +46,7 @@ export default function MainChat({ chat, onHistory, historyOpen, draft, onDraftC
               <MessageSquarePlus size={17} className="text-primary" /> محادثة جديدة
             </button>
           )}
-          {signedIn && <button type="button" onClick={onHistory} aria-label="فتح المحادثات والرموز الرياضية" aria-haspopup="dialog" aria-expanded={historyOpen} aria-controls="tutor-study-panel" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-3 text-sm xl:hidden"><History size={18} />المحادثات والرموز</button>}
+          {signedIn && <button type="button" onClick={onHistory} aria-label="فتح المحادثات" aria-haspopup="dialog" aria-expanded={historyOpen} aria-controls="tutor-study-panel" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-3 text-sm xl:hidden"><History size={18} />المحادثات</button>}
         </div>
         <div className="flex items-center gap-2 text-ink-muted">
           <button type="button" aria-label="الإشعارات" className="grid h-11 w-11 place-items-center rounded-full hover:bg-surface-alt">
@@ -78,13 +78,13 @@ export default function MainChat({ chat, onHistory, historyOpen, draft, onDraftC
                 </div>
               )}
 
-              {messages.map((message) =>
+              {messages.map((message, index) =>
                 message.role === "user" ? (
                   <div key={message.id} dir="auto" className="tutor-user-message chat-message ms-auto max-w-[95%] whitespace-pre-wrap break-words rounded-2xl rounded-es-md bg-primary px-4 py-3 text-base leading-8 text-white shadow-sm sm:max-w-[78%] sm:px-6 sm:py-5">
                     <MathText text={message.content} />
                   </div>
                 ) : (
-                  <AssistantMessage key={message.id} message={message} />
+                  <AssistantMessage key={message.id} message={message} isLatest={index === messages.length - 1} actionsDisabled={busy} onAction={send} />
                 )
               )}
               </div>

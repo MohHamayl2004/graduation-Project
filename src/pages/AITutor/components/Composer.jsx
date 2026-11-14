@@ -1,7 +1,8 @@
 import { Square } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { STARTER_PROMPTS } from "../chatState";
 import RichMathInput from "./RichMathInput";
+import MathMenu from "./MathMenu";
 
 export const MAX_LENGTH = 2000;
 
@@ -12,6 +13,7 @@ export default function Composer({ busy, disabled, onSend, onStop, showStarters,
   const sent = useRef(false);
   const localInput = useRef(null);
   const input = inputRef || localInput;
+  const [tooLong, setTooLong] = useState(false);
   const canSend = !busy && !disabled && text.trim().length > 0;
 
   const submit = () => {
@@ -40,6 +42,7 @@ export default function Composer({ busy, disabled, onSend, onStop, showStarters,
       )}
 
       <div className="tutor-composer-shell">
+          <MathMenu disabled={disabled} onInsert={(template) => setTooLong(input.current.insertTemplate(template) === false)} />
           <RichMathInput
             ref={input}
             value={text}
@@ -64,6 +67,7 @@ export default function Composer({ busy, disabled, onSend, onStop, showStarters,
             </button>
           )}
       </div>
+      {tooLong && <p role="alert" className="math-toolbar-error">السؤال طويل؛ اختصره قليلًا قبل إضافة الرمز.</p>}
 
     </div>
   );

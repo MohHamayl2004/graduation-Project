@@ -32,24 +32,41 @@
 .tutor-screen .bg-border-strong { background: var(--app-border); color: var(--app-muted); }
 .tutor-screen .bg-ink { background: var(--app-forest); }
 .tutor-screen .tutor-user-message, .tutor-screen .app-menu-trigger { background: var(--app-forest); color: white; }
+.tutor-explanation-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.tutor-explanation-actions button { min-height: 40px; padding: 6px 10px; border: 1px solid var(--app-border); border-radius: 10px; background: var(--app-surface); color: var(--app-forest); font-size: 13px; transition: background-color 120ms, border-color 120ms; }
+.tutor-explanation-actions button:hover:not(:disabled) { border-color: #93b7a2; background: var(--app-tint); }
+@media (prefers-reduced-motion: reduce) { .tutor-explanation-actions button { transition: none; } }
 .tutor-screen .tutor-assistant-icon { background: var(--app-forest); color: var(--app-tint); }
 .tutor-screen :is(.chat-main, .tutor-side-panel) :focus-visible { outline: 2px solid var(--app-link); outline-offset: 3px; box-shadow: none; }
 .tutor-screen .tutor-rich-input:focus-visible { outline: none; }
-.tutor-screen .chat-composer { margin-bottom: var(--tutor-math-keyboard-space, 0px); }
-.tutor-rich-input { flex: 1; min-width: 0; min-height: 44px; max-height: min(180px, 30dvh); overflow-y: auto; padding-block: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.75; }
+.tutor-rich-input { direction: rtl; text-align: right; flex: 1; min-width: 0; min-height: 44px; max-height: min(180px, 30dvh); overflow-y: auto; padding-block: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.75; }
 .tutor-rich-input:empty::before { content: attr(data-placeholder); color: var(--app-muted); pointer-events: none; }
-.tutor-inline-math { display: inline-block; max-width: 100%; vertical-align: middle; direction: ltr; unicode-bidi: isolate; margin-inline: 3px; padding: 3px 5px; border: 1px solid var(--app-border); border-radius: 6px; background: var(--app-soft); color: var(--app-ink); font-size: 1.15em; --caret-color: var(--app-link); --selection-background-color: #bbf7d0; }
-.tutor-inline-math::part(menu-toggle) { display: none; }
-.tutor-math-atom { display: inline-block; max-width: 100%; vertical-align: middle; unicode-bidi: isolate; direction: ltr; }
+.tutor-inline-math { display: inline-block; max-width: 100%; vertical-align: middle; direction: rtl; unicode-bidi: isolate; margin-inline: 3px; padding: 3px 5px; border: 1px solid var(--app-border); border-radius: 6px; background: var(--app-soft); color: var(--app-ink); font-size: 1.15em; --caret-color: var(--app-link); --selection-background-color: #bbf7d0; --text-highlight-background-color: transparent; }
+.tutor-inline-math::part(menu-toggle), .tutor-inline-math::part(virtual-keyboard-toggle) { display: none; }
+.tutor-math-atom { display: inline-block; max-width: 100%; vertical-align: middle; unicode-bidi: isolate; direction: rtl; }
 .tutor-inline-math:focus-within { outline: 2px solid var(--app-link); outline-offset: 1px; }
-.tutor-rendered-math { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: middle; unicode-bidi: isolate; }
+.tutor-rendered-math { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; padding-block: 2px; vertical-align: middle; unicode-bidi: isolate; }
 .tutor-display-math { display: block; }
 .tutor-rendered-math .katex-display { margin-block: .4em; }
-.tutor-composer-shell { display: flex; align-items: flex-end; gap: 10px; padding: 8px 10px; border: 1px solid #dfe4e1; border-radius: 20px; background: var(--app-surface); transition: border-color 160ms; }
+.tutor-rtl-math .katex { direction: rtl; }
+.tutor-rtl-math .op-symbol { display: inline-block; transform: scaleX(-1); }
+.tutor-rtl-math .sqrt .svg-align > .mord { padding-left: 0 !important; padding-right: .833em; }
+.tutor-rtl-math .sqrt .hide-tail { transform: scaleX(-1); }
+.tutor-composer-shell { position: relative; display: flex; align-items: flex-end; gap: 10px; padding: 8px 10px; border: 1px solid #dfe4e1; border-radius: 20px; background: var(--app-surface); transition: border-color 160ms; }
 .tutor-screen .tutor-composer-shell:focus-within { border-color: #93b7a2; box-shadow: 0 0 0 1px #dce8df; }
 .tutor-composer-send, .tutor-composer-stop { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; min-height: 44px; padding: 6px 12px; border: 0; border-radius: 12px; background: var(--app-forest); color: white; font-size: 13px; font-weight: 700; transition: background-color 160ms; }
 .tutor-composer-send:hover:not(:disabled), .tutor-composer-stop:hover { background: #0b684e; }
 .tutor-screen button:disabled { cursor: not-allowed; opacity: .55; }
+.math-menu { flex-shrink: 0; }
+.math-menu-trigger { min-height: 44px; padding: 6px 14px; border: 1px solid var(--app-border); border-radius: 12px; background: var(--app-soft); color: var(--app-forest); font-size: 13px; font-weight: 700; transition: background-color 160ms; }
+.math-menu-trigger:hover:not(:disabled), .math-menu-trigger[aria-expanded="true"] { background: var(--app-tint); }
+.math-menu-panel { position: absolute; bottom: calc(100% + 8px); inset-inline-start: 0; z-index: 30; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; width: min(520px, 100%); padding: 8px; border: 1px solid var(--app-border); border-radius: 16px; background: var(--app-surface); box-shadow: 0 12px 32px #07513f2e; user-select: none; }
+.math-menu-option { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 0; min-height: 66px; padding: 6px 2px; border-radius: 10px; color: var(--app-forest); }
+.math-menu-option:hover { background: var(--app-tint); }
+.math-menu-option:active { background: #bbf7d0; }
+.math-menu-preview { display: grid; place-items: center; min-height: 28px; font-size: 13px; line-height: 1; }
+.math-menu-name { max-width: 100%; font-size: 11px; line-height: 1.3; }
+.math-toolbar-error { margin: 6px 4px 0; color: #b91c1c; font-size: 12px; }
 .tutor-new-chat { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 0; border-radius: 12px; background: var(--app-primary); color: var(--app-ink); padding: 10px 14px; font-size: 14px; font-weight: 700; transition: background-color 180ms; }
 .tutor-new-chat:hover:not(:disabled) { background: var(--app-primary-hover); color: #052e16; }
 .tutor-screen .tutor-new-chat svg { color: inherit; }
@@ -85,13 +102,13 @@
 
 /* Reserve the enlarged model's full canvas so it never clips against the drawer. */
 .tutor-screen .app-drawer-account { flex-direction: column; }
-.tutor-teacher { position: relative; display: block; width: 100%; height: 100%; }
+.tutor-teacher { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; }
+.tutor-teacher-visual { position: absolute; inset: 0; transform-origin: center bottom; transition: transform 300ms ease; }
+.tutor-teacher[data-state="speaking"] .tutor-teacher-visual { transform: scale(1.25); }
 .tutor-teacher-canvas { position: absolute; inset: 0; }
-.tutor-teacher-flight { position: fixed; top: 0; left: 0; z-index: 45; display: block; visibility: hidden; pointer-events: none; background: transparent; }
-.tutor-teacher-flight[hidden] { display: none; }
-.tutor-teacher-flight canvas { display: block; width: 100%; height: 100%; }
-.tutor-screen .chat-messages { margin-block-start: var(--teacher-clearance, 0px); }
-.tutor-teacher > img { position: absolute; inset: 0; object-fit: contain; }
-.tutor-screen .nipras-mascot-trigger { transition: background-color 180ms, box-shadow 180ms; }
-.tutor-screen .nipras-mascot-trigger:has([data-state="processing"]) { box-shadow: inset 0 -3px #facc15; }
-.tutor-screen .nipras-mascot-trigger:has([data-state="speaking"]) { box-shadow: inset 0 -3px #86efac; }
+.tutor-teacher-canvas canvas { display: block; width: 100%; height: 100%; }
+.tutor-teacher-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+@media (prefers-reduced-motion: reduce) {
+  .tutor-teacher-visual { transition: none; }
+  .tutor-teacher[data-state="speaking"] .tutor-teacher-visual { transform: none; }
+}
