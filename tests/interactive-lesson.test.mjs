@@ -74,3 +74,17 @@ test("the player embeds YouTube and never downloads the video", async () => {
   // The comment says "never downloaded"; what matters is that no code fetches the file.
   assert.doesNotMatch(hook, /ytdl|videoplayback|\.mp4/i);
 });
+
+const stickman = JSON.parse(await readFile(new URL("../src/data/interactive/1-1-stickman.json", import.meta.url), "utf8"));
+
+test("the NIPRAS stickman lesson asks one question after each idea, inside the video", () => {
+  const times = stickman.checkpoints.map((cp) => cp.at);
+  assert.equal(stickman.source.kind, "video");
+  assert.equal(times.length, 6);
+  assert.deepEqual([...times].sort((a, b) => a - b), times, "questions are in video order");
+  assert.ok(times.every((t) => t > 0 && t < stickman.source.duration));
+  for (const cp of stickman.checkpoints) {
+    assert.equal(cp.choices.filter((c) => c.correct).length, 1, cp.id);
+    assert.ok(cp.choices.every((c) => c.feedback), `${cp.id} explains every option`);
+  }
+});

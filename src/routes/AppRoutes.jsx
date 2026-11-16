@@ -48,6 +48,7 @@ export default function AppRoutes() {
       <Route path="/quizzes" element={privatePage(<Quizzes />)} />
       <Route path="/ai-tutor" element={privatePage(<AITutor />)} />
       <Route path="/interactive" element={privatePage(<InteractiveLesson />)} />
+      <Route path="/interactive/:id" element={privatePage(<InteractiveLesson />)} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

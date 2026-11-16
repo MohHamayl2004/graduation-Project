@@ -4,7 +4,12 @@ import { lesson } from "../../data/mockLesson.js";
 export const subjects = [{
   id: "math", name: lesson.subject,
   description: "تعلّم المفاهيم الرياضية من خلال الشرح، والرسوم البيانية، والأمثلة التفاعلية من الكتاب.",
-  videos: [],
+  // Lessons NIPRAS made itself: a video that stops for questions as it explains.
+  videos: [{
+    id: "1-1-stickman", code: "1-1", title: "متوسط التغير — رحلة سامي على المنحنى",
+    to: "/interactive/1-1-stickman", poster: "lectures/1-1-stickman/poster.jpg",
+    summary: "مثال واحد من الكتاب بأربع دقائق، مع ٦ أسئلة بتوقّف الفيديو بعد كل فكرة."
+  }],
   lessons: [{ code: lesson.code, title: lesson.title, to: `/lesson/${lesson.code}` }]
 }];
 const normalize = value => String(value || "").trim().toLocaleLowerCase("ar").replace(/[\u064b-\u065f\u0670]/g, "").replace(/[أإآ]/g, "ا");

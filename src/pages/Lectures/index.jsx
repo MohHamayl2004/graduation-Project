@@ -48,7 +48,13 @@ export default function Lectures() {
             {visible.length ? <div className="library-grid">{visible.map(item => <SubjectCard key={item.id} subject={item} />)}</div> : <div className="library-empty" role="status"><SearchX size={34} /><h2>لا توجد نتائج مطابقة</h2><p>جرّب اسم مادة أو عنوان درس آخر.</p></div>}
           </> : subject ? <>
             <div className="library-collection-summary"><Counts subject={subject} /><p>{subject.description}</p></div>
-            <section className="library-empty"><Video size={34} /><h2>لا توجد فيديوهات متاحة لهذه المادة حاليًا.</h2><p>يمكنك الاستفادة من الدروس التفاعلية المتاحة أدناه.</p></section>
+            {subject.videos.length ? <>
+              <div className="library-section-heading"><h2>فيديوهات تفاعلية</h2><span role="status">{number(subject.videos.length)} فيديو</span></div>
+              <div className="library-grid">{subject.videos.map(item => <Link key={item.id} to={item.to} className="library-subject">
+                <div className="library-thumbnail"><img src={`${import.meta.env.BASE_URL}${item.poster}`} alt="" loading="lazy" width="960" height="540" /><span className="library-play" aria-hidden="true"><Play size={23} fill="currentColor" /></span></div>
+                <div className="library-card-body"><span className="library-eyebrow">فيديو بأسئلة تفاعلية</span><h2>{item.title}<ChevronLeft size={20} className="library-card-arrow" aria-hidden="true" /></h2><p>{item.summary}</p></div>
+              </Link>)}</div>
+            </> : <section className="library-empty"><Video size={34} /><h2>لا توجد فيديوهات متاحة لهذه المادة حاليًا.</h2><p>يمكنك الاستفادة من الدروس التفاعلية المتاحة أدناه.</p></section>}
             <div className="library-section-heading"><h2>الدروس التفاعلية المتاحة</h2><span role="status">{number(lessons.length)} درس</span></div>
             <div className="library-grid">{lessons.map(item => <Link key={item.code} to={item.to} className="library-subject">
               <div className="library-thumbnail"><img src={thumbnail} alt="" loading="lazy" width="960" height="540" /><span className="library-play" aria-hidden="true"><BookOpen size={23} /></span></div>

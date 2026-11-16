@@ -31,6 +31,16 @@ One shape for a lesson the student *does*, not only watches. The source can be a
 - `feedback` is written per option: a wrong option names the mistake ("نسيت تشتق الداخل"), it does not just say "خطأ".
 - `source` lets every checkpoint point back at the book page it came from.
 
+## A video NIPRAS made
+
+`source` can also be a video NIPRAS produced itself, served from the site:
+
+```json
+"source": { "kind": "video", "src": "lectures/1-1-stickman/film.mp4", "poster": "lectures/1-1-stickman/poster.jpg", "duration": 248, "credits": ["…"] }
+```
+
+`src` and `poster` are relative to the site's base path. The player is a plain `<video>` that follows the same rules below; pressing play while a question is open does not run past it. `credits` lists every licensed piece inside the video (music, sounds, fonts) and is shown under the player.
+
 ## Rights
 
 A `youtube` source is **embedded through YouTube's own player**, never downloaded or re-hosted, and the channel is credited with a link. A video whose owner disabled embedding cannot be used. Permission from the teacher is what makes a video part of the product; without it, the lesson falls back to NIPRAS slides.
