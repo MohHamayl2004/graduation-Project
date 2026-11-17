@@ -5,11 +5,10 @@
   "source": {
     "kind": "video",
     "src": "lectures/1-1-stickman/film.mp4",
-    "duration": 248,
-    "made_with": "Stickman Video Director (B1) — نبراس",
+    "duration": 253.2,
+    "made_with": "Stickman Video Director (B1) — نبراس، بصوت ElevenLabs",
     "credits": [
       "موسيقى: Easy Lemon لـ Kevin MacLeod من incompetech.com، بترخيص CC BY 4.0، ومكررة تحت صوت الشرح.",
-      "صوت الطبيعة: AMB Outside 1 لـ Kresiek The Furry، بترخيص CC0.",
       "الخطوط: Marhey و Noto Sans Arabic، بترخيص SIL OFL."
     ],
     "poster": "lectures/1-1-stickman/poster.jpg"
@@ -17,7 +16,7 @@
   "checkpoints": [
     {
       "id": "cp1",
-      "at": 78.4,
+      "at": 81.39,
       "question": "متوسط التغير بين نقطتين بيعتمد على شو؟",
       "kind": "choice",
       "choices": [
@@ -47,7 +46,7 @@
     },
     {
       "id": "cp2",
-      "at": 103.2,
+      "at": 104.94,
       "question": "إذا تغيّرت س من ٣ إلى ٧، كم Δس؟",
       "kind": "choice",
       "choices": [
@@ -77,7 +76,7 @@
     },
     {
       "id": "cp3",
-      "at": 148.5,
+      "at": 149.24,
       "question": "لنفس الاقتران ق(س) = س³ − ٥س + ٣، كم ق(٠)؟",
       "kind": "choice",
       "choices": [
@@ -107,7 +106,7 @@
     },
     {
       "id": "cp4",
-      "at": 166.3,
+      "at": 168.86,
       "question": "طلع عنا Δص = −٦. شو معنى الإشارة السالبة؟",
       "kind": "choice",
       "choices": [
@@ -137,7 +136,7 @@
     },
     {
       "id": "cp5",
-      "at": 194.8,
+      "at": 198.77,
       "question": "إذا كان Δص = ٨ و Δس = ٤، كم متوسط التغير؟",
       "kind": "choice",
       "choices": [
@@ -166,8 +165,38 @@
       }
     },
     {
+      "id": "cp-solve",
+      "at": 198.77,
+      "question": "حل: إذا كان ق(س) = س² + ١ ، جد متوسط التغير لما تتغير س من ١ إلى ٣.",
+      "kind": "choice",
+      "choices": [
+        {
+          "id": "a",
+          "text": "٤",
+          "correct": true,
+          "feedback": "ممتاز: Δس = ٣ − ١ = ٢ ، ق(٣) = ١٠ و ق(١) = ٢ فـ Δص = ٨ ، والمتوسط = ٨ ÷ ٢ = ٤."
+        },
+        {
+          "id": "b",
+          "text": "٨",
+          "feedback": "هاد Δص بس. لازم تقسمه على Δس = ٢ ، فبيطلع ٤."
+        },
+        {
+          "id": "c",
+          "text": "−٤",
+          "feedback": "انتبه لترتيب الطرح: النهاية ناقص البداية، يعني ق(٣) − ق(١) = ١٠ − ٢ = ٨ ، مش العكس."
+        }
+      ],
+      "source": {
+        "lesson": "1-1",
+        "pages": [
+          8
+        ]
+      }
+    },
+    {
       "id": "cp6",
-      "at": 221.8,
+      "at": 226.68,
       "question": "لنفس الاقتران، كم متوسط التغير لما تتغير س من ٠ إلى ٢؟",
       "kind": "choice",
       "choices": [

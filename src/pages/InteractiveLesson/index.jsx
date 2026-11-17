@@ -92,6 +92,7 @@ export default function InteractiveLesson({ lesson: given }) {
                       disablePictureInPicture
                       playsInline
                       preload="metadata"
+                      onDoubleClick={toggleFullscreen}
                     />
                   ) : (
                     <div ref={youtube.mount} className="h-full w-full" />
