@@ -48,7 +48,10 @@ export default function Lectures() {
             {visible.length ? <div className="library-grid">{visible.map(item => <SubjectCard key={item.id} subject={item} />)}</div> : <div className="library-empty" role="status"><SearchX size={34} /><h2>لا توجد نتائج مطابقة</h2><p>جرّب اسم مادة أو عنوان درس آخر.</p></div>}
           </> : subject ? <>
             <div className="library-collection-summary"><Counts subject={subject} /><p>{subject.description}</p></div>
-            <section className="library-empty"><Video size={34} /><h2>لا توجد فيديوهات متاحة لهذه المادة حاليًا.</h2><p>يمكنك الاستفادة من الدروس التفاعلية المتاحة أدناه.</p></section>
+            {subject.videos.filter(v => !query || v.title.includes(query.trim()) || subject.name.includes(query.trim())).map(v =>
+              <Link key={v.code} className="library-subject" to={v.to}>
+                <div className="library-card-body"><h2><Play size={20} />{v.title}</h2><p>شاهد الشرح وأجب عن أسئلة المعلم أثناء المشاهدة.</p></div>
+              </Link>)}
             <div className="library-section-heading"><h2>الدروس التفاعلية المتاحة</h2><span role="status">{number(lessons.length)} درس</span></div>
             <div className="library-grid">{lessons.map(item => <Link key={item.code} to={item.to} className="library-subject">
               <div className="library-thumbnail"><img src={thumbnail} alt="" loading="lazy" width="960" height="540" /><span className="library-play" aria-hidden="true"><BookOpen size={23} /></span></div>

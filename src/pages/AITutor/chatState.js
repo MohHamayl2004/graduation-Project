@@ -1,3 +1,4 @@
+import { normalizeGesture } from '../../character-engine/gestureContract.js';
 // The AI Tutor chat as plain data: every change is a pure function, so what
 // the student sees for each stream event is testable without a browser.
 // Contract: docs/contracts/tutor-stream-v1.md
@@ -46,7 +47,7 @@ export function applyStreamEvent(message, event) {
     case "delta":
       return { ...message, content: message.content + (event.text || "") };
     case "done":
-      return { ...message, content: event.answer ?? message.content, status: event.refused ? "refused" : "complete" };
+      return { ...message, ...normalizeGesture(event), content: event.answer ?? message.content, status: event.refused ? "refused" : "complete" };
     case "error":
       return { ...message, status: message.content ? "interrupted" : "failed", errorMessage: event.message || "صار خطأ، حاول مرة ثانية" };
     default:

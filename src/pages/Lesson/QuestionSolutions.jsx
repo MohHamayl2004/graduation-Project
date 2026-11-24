@@ -15,7 +15,7 @@ export default function QuestionSolutions({ question, initialMode = 'solution', 
   useEffect(() => {
     if (revealed > 1 && scroll.current) scroll.current.scrollTop = scroll.current.scrollHeight;
   }, [revealed]);
-  return <section ref={panel} className="leaf-solution" role="dialog" aria-modal="false" aria-labelledby={title} tabIndex={-1} data-question-id={question.id} onKeyDown={event => {
+  return <section ref={panel} className="leaf-solution" role="dialog" aria-modal="false" aria-labelledby={title} tabIndex={-1} data-question-id={question.id} data-voice-question={question.prompt} onKeyDown={event => {
     event.stopPropagation();
     if (event.key === 'Escape') { event.preventDefault(); onClose(); }
   }}>

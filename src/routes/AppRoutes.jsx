@@ -6,6 +6,7 @@ import Signup from "../pages/Signup";
 import Analysis from "../pages/Analysis";
 import Dashboard from "../pages/Dashboard";
 import Lectures from "../pages/Lectures";
+import LessonVideoPage from "../pages/Lectures/AssessmentPlayer";
 import StudyPlan from "../pages/StudyPlan";
 import Progress from "../pages/Progress";
 import Quizzes from "../pages/Quizzes";
@@ -15,6 +16,7 @@ import InteractiveLesson from "../pages/InteractiveLesson";
 import ProtectedRoute from "./ProtectedRoute";
 import { useAuth } from "../context/AuthContext";
 const Subscription = lazy(() => import("../pages/Subscription"));
+const MathUnit = lazy(() => import('../pages/MathUnit'));
 const Admin = lazy(() => import("../pages/Admin"));
 const Coupons = lazy(() => import("../pages/Admin/Coupons"));
 const loadingPage = <p role="status" className="p-8 text-center text-ink-muted">جاري تحميل الصفحة…</p>;
@@ -41,8 +43,11 @@ export default function AppRoutes() {
       <Route path="/analysis" element={privatePage(<Analysis />)} />
       <Route path="/dashboard" element={privatePage(<Dashboard />)} />
       <Route path="/lectures" element={privatePage(<Lectures />)} />
+      <Route path="/lectures/videos/:id" element={privatePage(<LessonVideoPage />)} />
       <Route path="/lesson/:code" element={privatePage(<Lesson />)} />
       <Route path="/lesson" element={privatePage(<Lesson />)} />
+      <Route path="/math-unit" element={privatePage(<Suspense fallback={loadingPage}><MathUnit /></Suspense>)} />
+      <Route path="/math-unit/:code" element={privatePage(<Suspense fallback={loadingPage}><MathUnit /></Suspense>)} />
       <Route path="/study-plan" element={privatePage(<StudyPlan />)} />
       <Route path="/progress" element={privatePage(<Progress />)} />
       <Route path="/quizzes" element={privatePage(<Quizzes />)} />

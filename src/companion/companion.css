@@ -1,0 +1,320 @@
+.nipras-companion {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 65;
+  isolation: isolate;
+  pointer-events: none;
+  contain: layout style;
+  direction: rtl;
+}
+.nipras-companion-model {
+  position: absolute;
+  inset: 0 0 34px;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+.nipras-companion.is-dragging .nipras-companion-model {
+  cursor: grabbing;
+}
+.nipras-companion-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.nipras-companion.has-glow .nipras-companion-canvas {
+  filter: drop-shadow(0 0 5px rgb(255 255 255 / 0.5));
+}
+.nipras-companion.has-shadow::before {
+  content: "";
+  position: absolute;
+  bottom: 35px;
+  left: 24%;
+  right: 24%;
+  height: 12px;
+  border-radius: 50%;
+  background: rgb(32 43 36 / 0.22);
+  filter: blur(7px);
+  pointer-events: none;
+}
+.nipras-companion.has-shadow .nipras-companion-canvas {
+  filter: drop-shadow(3px 6px 5px rgb(0 0 0 / 0.12));
+}
+.nipras-companion.has-glow.has-shadow .nipras-companion-canvas {
+  filter: drop-shadow(0 0 4px rgb(255 255 255 / 0.65))
+    drop-shadow(3px 6px 5px rgb(0 0 0 / 0.12));
+}
+.nipras-companion-menu-trigger,
+.nipras-companion-restore {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 24px;
+  background: #172d26;
+  color: #fff;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.13);
+  min-height: 34px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 12px;
+}
+.nipras-companion-menu-trigger {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.nipras-companion-restore {
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  z-index: 65;
+  min-height: 44px;
+}
+.nipras-companion-panel {
+  position: fixed;
+  z-index: 80;
+  width: min(292px, calc(100vw - 16px));
+  max-height: calc(100dvh - 16px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: #18231f;
+  color: #f5f8f6;
+  border: 1px solid rgb(255 255 255 / 0.13);
+  border-radius: 18px;
+  box-shadow:
+    0 18px 50px rgb(0 0 0 / 0.25),
+    0 2px 8px rgb(0 0 0 / 0.15);
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px;
+  animation: nipras-menu-in 140ms ease-out;
+}
+.nipras-companion-panel header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 4px 14px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+.nipras-companion-panel header div {
+  flex: 1;
+  display: grid;
+  gap: 3px;
+}
+.nipras-companion-panel small {
+  font-size: 11px;
+  color: #aabdb3;
+}
+.nipras-companion-avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  background: #294b3d;
+  border: 1px solid #618975;
+  border-radius: 50%;
+  font-size: 22px;
+}
+.nipras-companion-panel button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  border-radius: 9px;
+  padding: 8px;
+  cursor: pointer;
+  font: inherit;
+  transition:
+    background-color 120ms ease,
+    scale 120ms ease;
+}
+.nipras-companion-panel button:hover {
+  background: rgb(255 255 255 / 0.07);
+}
+.nipras-companion-panel button:active {
+  scale: 0.96;
+}
+.nipras-companion-panel button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.nipras-companion-panel button:focus-visible,
+.nipras-companion-menu-trigger:focus-visible,
+.nipras-companion-restore:focus-visible {
+  outline: 2px solid #a4d7bb;
+  outline-offset: 2px;
+}
+.nipras-companion-actions {
+  display: grid;
+  padding-top: 8px;
+}
+.nipras-companion-actions > button {
+  width: 100%;
+  text-align: right;
+}
+.nipras-companion-actions button span,
+.nipras-companion-actions kbd {
+  margin-inline-start: auto;
+  font-size: 10px;
+  color: #aabdb3;
+}
+.nipras-companion-actions kbd {
+  direction: ltr;
+  font-family: inherit;
+}
+.nipras-companion-panel label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.nipras-companion-panel select {
+  min-width: 95px;
+  max-width: 135px;
+  background: #26392f;
+  color: #f5f8f6;
+  border: 1px solid #466151;
+  border-radius: 7px;
+  padding: 5px;
+  font: inherit;
+  font-size: 12px;
+}
+.nipras-companion-panel input[type="checkbox"] {
+  accent-color: #81b795;
+  width: 17px;
+  height: 17px;
+}
+.nipras-companion-panel input[type="range"] {
+  width: 125px;
+  accent-color: #81b795;
+}
+.nipras-companion-settings {
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+  margin-top: 6px;
+  padding-top: 6px;
+}
+.nipras-companion-panel footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+  padding-top: 6px;
+}
+.nipras-companion-panel footer button {
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+.nipras-companion-panel [aria-pressed="true"] {
+  background: #345441;
+  color: #bcf5d1;
+}
+.nipras-companion-error {
+  padding: 8px;
+  color: #ffd8af;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.nipras-companion-resume {
+  width: 100%;
+  justify-content: center;
+  background: #345441 !important;
+}
+.nipras-companion-failed {
+  position: absolute;
+  inset: 30% 8px auto;
+  text-align: center;
+  font-size: 12px;
+  background: #f1f6f2;
+  color: #173628;
+  padding: 12px;
+  border-radius: 12px;
+}
+.nipras-companion-live {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  z-index: 81;
+  background: #172d26;
+  color: white;
+  border-radius: 20px;
+  padding: 7px 15px;
+  font-size: 12px;
+  pointer-events: none;
+}
+.nipras-companion-live:empty {
+  display: none;
+}
+.nipras-companion-offscreen {
+  position: fixed;
+  left: -1000px;
+  top: -1000px;
+  width: 230px;
+  height: 350px;
+  visibility: hidden;
+  pointer-events: none;
+}
+@keyframes nipras-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nipras-companion-panel {
+    animation: none;
+  }
+  .nipras-companion-panel button {
+    transition: none;
+  }
+}
+.nipras-voice-notice {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  max-width: min(90vw, 600px);
+  padding: 12px 22px;
+  border: 1px solid #bbd4c2;
+  border-radius: 16px;
+  background: #f2f8f0;
+  color: #215a46;
+  box-shadow: 0 8px 28px #193c2d18;
+  pointer-events: none;
+  text-align: center;
+}
+.nipras-wake-indicator {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  max-width: 90vw;
+  min-height: 44px;
+  border: 1px solid #215a46;
+  border-radius: 14px;
+  padding: 9px 18px;
+  background: #215a46;
+  color: white;
+  box-shadow: 0 6px 24px #193c2d25;
+  font-size: 14px;
+}

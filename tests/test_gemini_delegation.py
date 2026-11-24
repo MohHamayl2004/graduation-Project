@@ -27,10 +27,11 @@ class DelegationTests(unittest.TestCase):
         self.fake.write_text('''import json, pathlib, sys, time
 args=sys.argv[1:]
 if args == ['models']:
- print('gemini-4-argon-medium\\tArgon Medium'); sys.exit(0)
+ print('gemini-4-argon-medium\\tArgon Medium\\ngemini-3.8-flash-high\\tGemini Flash High'); sys.exit(0)
 prompt=args[args.index('-p')+1]
 assert '--dangerously-skip-permissions' not in args
-assert args[args.index('--model')+1]=='gemini-4-argon-medium'
+assert args[args.index('--model')+1] in ['gemini-4-argon-medium','gemini-3.8-flash-high']
+if 'MAX_EFFORT_TEST' in prompt: assert args[args.index('--effort')+1]=='max'
 assert 'graphify query' in prompt
 if 'SLEEP_TEST' in prompt: time.sleep(30)
 if 'CLI_ERROR_TEST' in prompt:
@@ -122,6 +123,18 @@ print(json.dumps({'status':'SUCCESS','response':'fixture answer','usage':{'total
     def test_high_model_needs_explicit_reason(self):
         with self.assertRaises(ValueError):
             self.run_task(model='gemini-4-argon-high')
+
+    def test_explicitly_authorized_flash_supports_max_effort(self):
+        result = self.run_task('MAX_EFFORT_TEST', model='gemini-3.8-flash-high',
+            effort='max', modelAuthorization='User explicitly selected this available model',
+            complexityReason='Arabic and English intent disambiguation')
+        self.assertEqual(result['status'], 'needs_review')
+
+    def test_alternate_model_and_invalid_effort_require_valid_configuration(self):
+        with self.assertRaises(ValueError):
+            self.run_task(model='gemini-3.8-flash-high', complexityReason='review')
+        with self.assertRaises(ValueError):
+            self.run_task(effort='unbounded')
 
 
 if __name__ == '__main__':

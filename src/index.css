@@ -32,7 +32,7 @@ body,
 body {
   font-family: "Tajawal", system-ui, sans-serif;
   background: #fafaf9;
-  color: #1b2136;
+  color: #182522;
 }
 
 @layer base {
@@ -43,7 +43,7 @@ body {
   p, h1, h2, h3, h4, h5, h6, dd, li { overflow-wrap: anywhere; }
   input, textarea, select, button, a { -webkit-tap-highlight-color: transparent; }
   input, textarea, select { scroll-margin-block: 5rem; }
-  input[type="checkbox"], input[type="radio"] { flex-shrink: 0; accent-color: #152a63; }
+  input[type="checkbox"], input[type="radio"] { flex-shrink: 0; accent-color: var(--app-link, #16733e); }
   button, a, input, select, textarea { touch-action: manipulation; }
   button:disabled { cursor: not-allowed; }
   button:active:not(:disabled) { filter: brightness(.94); }
@@ -108,7 +108,7 @@ button {
 :focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: 1px;
-  box-shadow: 0 0 0 4px #152a63;
+  box-shadow: 0 0 0 4px var(--app-link, #16733e);
   border-radius: 4px;
 }
 

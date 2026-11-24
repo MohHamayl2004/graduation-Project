@@ -12,6 +12,7 @@ import time
 import uuid
 
 MODELS = {'gemini-4-argon-medium', 'gemini-4-argon-high'}
+USER_AUTHORIZED_MODELS = {'gemini-3.8-flash-high', 'gemini-3.8-flash-medium', 'gemini-3.8-flash-low'}
 
 
 def execute(argv, cwd, timeout=120):
@@ -111,8 +112,11 @@ def classify(result, envelope):
 def delegate(task, repo, agy=None):
     repo = Path(repo).resolve()
     model = task.get('model', 'gemini-4-argon-medium')
-    if model not in MODELS:
-        raise ValueError('Only explicitly requested Argon models are allowed; no substitution.')
+    if model not in MODELS and not (model in USER_AUTHORIZED_MODELS and task.get('modelAuthorization', '').strip()):
+        raise ValueError('Model requires explicit user authorization; no substitution.')
+    effort = task.get('effort')
+    if effort is not None and effort not in {'low', 'medium', 'high', 'xhigh', 'max'}:
+        raise ValueError('Unsupported CLI reasoning effort.')
     if model.endswith('-high') and not task.get('complexityReason', '').strip():
         raise ValueError('Argon High requires complexityReason.')
     if not task.get('task', '').strip() or not task.get('acceptance'):
@@ -208,7 +212,8 @@ def delegate(task, repo, agy=None):
         (run_dir / 'prompt.txt').write_text(prompt, encoding='utf-8')
         (run_dir / 'task.json').write_text(json.dumps(task, indent=2), encoding='utf-8')
         mode = 'plan' if readonly else 'auto'
-        outcome = execute([*cli, '-p', prompt, '--model', model, '--mode', mode,
+        effort_args = ['--effort', effort] if effort else []
+        outcome = execute([*cli, '-p', prompt, '--model', model, *effort_args, '--mode', mode,
                            '--sandbox', '--output-format', 'json', '--print-timeout', f'{timeout}s'],
                           worktree, timeout + 10)
         for stream in ['stdout', 'stderr']:

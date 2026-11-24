@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>Teacher policy browser checks</title>
+<style>body {font:16px system-ui; margin:24px; background:#e9eef6} #checks {white-space:pre-wrap} video {min-height:220px} button {cursor:pointer}</style>
+<h1>Teacher policy browser checks</h1><pre id="checks">Running…</pre><div id="root"></div>
+<script type="module">
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { MemoryRouter } from 'react-router-dom';
+import { AssessmentPlayer } from '/src/pages/Lectures/AssessmentPlayer.jsx';
+import { useTutorCharacter } from '/src/hooks/useTutorCharacter.js';
+
+const checks = document.querySelector('#checks'), root = createRoot(document.querySelector('#root'));
+const lines = [];
+const assert = (value, message) => { if (!value) throw Error(message); lines.push('PASS ' + message); checks.textContent = lines.join('\n'); };
+const wait = async predicate => {
+  const deadline = Date.now() + 4000;
+  while (!predicate()) { if (Date.now() > deadline) throw Error('Timed out waiting for state'); await new Promise(r => setTimeout(r, 20)); }
+};
+const flush = () => new Promise(r => setTimeout(r, 50));
+let persisted = [], speechRequests = 0, played = 0, release, deferred = false, failSave = true;
+window.Audio = class extends EventTarget {
+  currentTime = 0;
+  async play() { played++; this.dispatchEvent(new Event('playing')); }
+  pause() { this.dispatchEvent(new Event('pause')); }
+};
+window.fetch = async (url, init = {}) => {
+  if (String(url).endsWith('/tutor/speech')) {
+    speechRequests++;
+    if (deferred) await new Promise(r => { release = r; });
+    return new Response(new Blob(['fixture-audio']), { headers: { 'Content-Type': 'audio/wav' } });
+  }
+  if (init.method === 'PUT') {
+    const body = JSON.parse(init.body);
+    assert(body.revision === 'r1' && typeof body.skip === 'boolean' && 'answer' in body, 'existing assessment PUT contract');
+    if (failSave) { failSave = false; return Response.json({ message: 'Fixture save failed; retry' }, { status: 503 }); }
+    const result = { questionId: 'q1', status: body.skip ? 'skipped' : 'correct', feedback: 'Saved feedback' };
+    persisted = [result];
+    return Response.json({ result });
+  }
+  return Response.json({ title: 'اختبار الفيديو', url: '/fixture.mp4', captions: '/fixture.vtt', revision: 'r1', questions: [{ id: 'q1', at: 10, kind: 'choice', prompt: 'ما ناتج ٢ + ٢؟', options: ['٤', '٥'] }], results: persisted });
+};
+const renderPlayer = key => root.render(React.createElement(MemoryRouter, null, React.createElement(AssessmentPlayer, { key, id: 'fixture', token: 'fixture-token' })));
+function mediaFixture(el) {
+  let time = 0;
+  Object.defineProperties(el, { duration: { configurable: true, value: 30 }, currentTime: { configurable: true, get: () => time, set: value => { time = value; } } });
+  el.pause = () => {};
+  el.play = async () => el.dispatchEvent(new Event('play'));
+  return time => { el.currentTime = time; el.dispatchEvent(new Event('timeupdate')); };
+}
+let speech;
+function SpeechHarness({ state, voice = true }) { speech = useTutorCharacter(state, 'fixture-token', { voice }); return React.createElement('p', null, 'Speech harness: ' + speech.playback); }
+const state = (text, status, id = 'u1') => ({ chatId: 'fixture', phase: status === 'streaming' ? 'streaming' : 'idle', messages: [{ id, role: 'user', content: text }, { id: id + '-a', role: 'assistant', content: status === 'complete' ? 'fixture answer ' + id : '', status }] });
+async function renderSpeech(value) { root.render(React.createElement(SpeechHarness, { state: value })); await flush(); }
+
+try {
+  renderPlayer('first');
+  await wait(() => document.querySelector('video'));
+  const video = document.querySelector('video'), seek = mediaFixture(video);
+  seek(10.2);
+  await wait(() => document.querySelector('dialog[open]'));
+  const modal = document.querySelector('dialog');
+  assert(video.currentTime === 10, 'paused video snaps to exact checkpoint');
+  assert(modal.contains(document.activeElement), 'native modal moves keyboard focus inside');
+  assert(modal.dir === 'rtl' && document.querySelector('.has-question'), 'centered RTL overlay darkens video');
+  modal.dispatchEvent(new Event('cancel', { cancelable: true }));
+  assert(modal.open, 'Escape cannot lose an unpersisted answer');
+  [...modal.querySelectorAll('button')].find(b => b.textContent.includes('تخطي')).click();
+  await wait(() => modal.querySelector('[role=alert]'));
+  assert(!modal.querySelector('[data-resume]'), 'failed save keeps quiz open and supports retry');
+  [...modal.querySelectorAll('button')].find(b => b.textContent.includes('تخطي')).click();
+  await wait(() => modal.querySelector('[data-resume]'));
+  assert(document.activeElement === modal.querySelector('[data-resume]'), 'saved result focuses Continue');
+  assert(speechRequests === 0, 'quiz feedback never requests speech');
+  modal.querySelector('[data-resume]').click();
+  await wait(() => !document.querySelector('dialog'));
+  seek(11); await flush();
+  assert(!document.querySelector('dialog'), 'resume does not repeat persisted checkpoint');
+  renderPlayer('reopened'); await wait(() => document.querySelector('video') !== video);
+  mediaFixture(document.querySelector('video'))(15); await flush();
+  assert(!document.querySelector('dialog'), 'reopening honors server-persisted skip');
+
+  await renderSpeech({ chatId: 'fixture', phase: 'idle', messages: [] });
+  await renderSpeech(state('hello', 'streaming'));
+  await renderSpeech(state('hello', 'complete'));
+  assert(speechRequests === 0, 'ordinary chat remains silent with voice enabled');
+  await speech.speakText('feedback');
+  assert(speechRequests === 0, 'unauthorized speakText remains silent');
+  await renderSpeech(state('اشرح لي السؤال', 'streaming', 'u2'));
+  await renderSpeech(state('اشرح لي السؤال', 'complete', 'u2'));
+  assert(speechRequests === 1 && played === 1, 'explicit Arabic explanation speaks once');
+  deferred = true;
+  await renderSpeech(state('explain this', 'streaming', 'u3'));
+  await renderSpeech(state('explain this', 'complete', 'u3'));
+  await wait(() => release);
+  window.dispatchEvent(new Event('nipras:speech-stop')); release(); await flush();
+  assert(played === 1, 'page-stop cancels already queued synthesis');
+  await renderSpeech(state('repeat explanation', 'streaming', 'u4'));
+  window.dispatchEvent(new Event('nipras:speech-stop'));
+  await renderSpeech(state('repeat explanation', 'complete', 'u4'));
+  assert(speechRequests === 2, 'page-stop revokes permission before late completion');
+  deferred = false;
+  await speech.speakText('current question', 'read aloud');
+  assert(speechRequests === 3 && played === 2, 'explicit Read aloud control authorizes speech');
+  checks.textContent += '\nALL CHECKS PASSED';
+} catch (error) { checks.textContent += '\nFAIL ' + error.stack; }
+</script></html>
