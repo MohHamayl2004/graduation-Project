@@ -51,3 +51,12 @@ A `youtube` source is **embedded through YouTube's own player**, never downloade
 2. Seeking backwards replays the video but does not re-ask; seeking past a checkpoint does not skip it — the next pause is the first unanswered checkpoint at or before the current time.
 3. The student can always ask the tutor about the current checkpoint; the lesson stays paused.
 4. Progress is `{ checkpointId, answerId | text, correct, atSeconds }` — enough to show what the student missed, and to tell a focus problem from a misunderstanding.
+
+## Stored progress and the study plan
+
+A lesson that names `studyLessonId` (a lesson id from `shared/studyPlanCatalog.js`) is tracked; one without it (the demo) is not. Each checkpoint may name the `skill` it tests.
+
+- The player sends `POST /api/progress/checkpoints` with `{ interactiveId, checkpointId, choiceId, atSeconds }`, where `interactiveId` is the lesson file's name. The API grades the answer from the same lesson file, so a client cannot report a wrong answer as right. Unknown lessons, questions or choices are `404 CHECKPOINT_NOT_FOUND`.
+- Only the **first** answer to each checkpoint is stored (`LessonResult`, one per student and study lesson); a retry gets `200 { recorded: false }`.
+- `GET /api/progress/mastery` (also `mastery` in `/overview`) gives each lesson `{ answered, correct, share, level, weakSkills }`. The rules are in `shared/lessonMastery.js`: at least 3 answers are needed, below 50% right is `weak`, 85% or more is `strong`, anything between is `steady`.
+- Plan generation reads that mastery. A `weak` lesson gets 50% more practice and quiz time and names the skills to review. A `strong` lesson halves explanation and worked example into a quick review. A `steady` lesson stays as it is. Lesson order never changes. A generated plan stores a snapshot of the answers it used. New answers for its lessons mark it `generatedStale` with `resultsChanged: true`. It is never rewritten silently: the student regenerates it.

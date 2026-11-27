@@ -7,6 +7,7 @@ import { studyLessons, studySubjects } from "../../shared/studyPlanCatalog.js";
 import { lessonDifficulty, difficultyLabels } from "../../shared/studyLessonDifficulty.js";
 import { createStudyPlanRouter } from "../routes/studyPlanRoutes.js";
 import { errorHandler } from "../middleware/errorMiddleware.js";
+const noResults = { find: () => ({ lean: async () => [] }) };
 
 const daily = () => ({ type: "daily", goal: "regular", periodStart: "2026-10-18", lessonIds: [studyLessons[0].lessonId], availability: [{ date: "2026-10-18", start: "17:00", end: "18:30" }] });
 test("catalog has eight subjects, unique lesson IDs and empty English; excluded Arabic activities are absent", () => {
@@ -90,7 +91,7 @@ test("plan routes require completed assessment, save only for logged-in owner, a
     find: ({ owner }) => ({ sort: () => ({ limit: () => ({ lean: async () => records.filter((r) => r.owner === owner) }) }) })
   };
   const app = express(); app.use(express.json());
-  app.use(createStudyPlanRouter({ model, planModel, guard: (req, res, next) => {
+  app.use(createStudyPlanRouter({ model, planModel, resultModel: noResults, guard: (req, res, next) => {
     const owner = req.get("X-Test-User"); if (!owner) return res.sendStatus(401); req.user = { _id: owner }; next();
   } })); app.use(errorHandler);
   assert.equal((await request(app).post("/plans").send(daily())).status, 401);

@@ -8,6 +8,8 @@ import CheckpointCard from "./components/CheckpointCard";
 import LessonSummary from "./components/LessonSummary";
 import { useYouTubeLesson } from "./useYouTubeLesson";
 import { useVideoLesson } from "./useVideoLesson";
+import { useAuth } from "../../context/AuthContext";
+import { recordCheckpoint } from "../../services/progressService";
 
 // A lesson the student does: the video plays, stops at each checkpoint, and
 // only continues once the question is answered. The video is embedded from
@@ -22,6 +24,17 @@ export default function InteractiveLesson({ lesson: given }) {
   const { state, shell, failed, fullscreen, expanded, toggleFullscreen, answer, resume, restart } = isVideo ? local : youtube;
   const hasVideo = isVideo ? Boolean(lesson.source.src) : Boolean(lesson?.source?.videoId);
   const answeredCount = Object.keys(state.answers).length;
+  const { auth } = useAuth() || {};
+  // A lesson from the study catalog sends each first answer to the API, which
+  // grades it and adjusts the student's next study plan. Saving must never
+  // stop the lesson, so a failure is ignored here.
+  const onAnswer = (checkpoint, choiceId) => {
+    const first = !state.answers[checkpoint.id];
+    answer(checkpoint, choiceId);
+    if (first && id && lesson.studyLessonId && auth?.token) {
+      recordCheckpoint(auth.token, { interactiveId: id, checkpointId: checkpoint.id, choiceId, atSeconds: checkpoint.at }).catch(() => {});
+    }
+  };
 
   if (!lesson) {
     return (
@@ -112,7 +125,7 @@ export default function InteractiveLesson({ lesson: given }) {
                   <div className="absolute inset-0 flex items-center justify-center bg-ink/70 p-3 backdrop-blur-sm sm:p-6">
                     <div className="max-h-full w-full max-w-[640px] overflow-y-auto">
                       {state.current ? (
-                        <CheckpointCard checkpoint={state.current} onAnswer={answer} onResume={resume} />
+                        <CheckpointCard checkpoint={state.current} onAnswer={onAnswer} onResume={resume} />
                       ) : (
                         <LessonSummary checkpoints={lesson.checkpoints} answers={state.answers} onRestart={restart} />
                       )}
