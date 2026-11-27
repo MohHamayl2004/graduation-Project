@@ -37,15 +37,6 @@ export default function AITutor() {
     return () => { observer.disconnect(); window.removeEventListener("resize", measure); window.visualViewport?.removeEventListener("resize", measure); };
   }, [signedIn]);
 
-  const insertSymbol = (symbol) => {
-    if (!composer.current?.insertMath(symbol)) return false;
-    closePanel();
-    requestAnimationFrame(() => {
-      composer.current?.focus();
-    });
-    return true;
-  };
-
   return (
     <div ref={root} className="app-screen tutor-screen bg-surface text-ink" data-left-sidebar-open={historyOpen} dir="rtl">
       <div className="mx-auto flex h-full max-w-[1600px]">
@@ -63,7 +54,6 @@ export default function AITutor() {
             onOpen={(id) => { openChat(id); closePanel(); }}
             onNew={() => { newChat(); closePanel(); }}
             onDelete={removeChat}
-            onInsertSymbol={insertSymbol}
           />
         )}
       </div>

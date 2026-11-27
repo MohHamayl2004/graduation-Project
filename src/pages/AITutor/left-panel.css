@@ -49,15 +49,6 @@
 .tutor-history li.is-active .tutor-chat-title { font-weight: 700; }
 .tutor-chat-delete { display: grid; place-items: center; flex-shrink: 0; width: 32px; min-height: 40px; border-radius: 9px; color: var(--panel-muted); }
 .tutor-chat-delete:hover:not(:disabled) { color: #b91c1c; background: #fbe7e7; }
-.math-symbol-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-.math-symbol-button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 0; min-height: 72px; padding: 4px 3px; border: 1px solid var(--panel-border); border-radius: 13px; background: var(--panel-surface); color: var(--app-forest); user-select: none; transition: background-color 160ms, border-color 160ms; }
-.math-symbol-button:hover { background: var(--app-tint); border-color: #b9ddc7; }
-.math-symbol-button:active { background: #c8f3d7; }
-.tutor-screen .math-symbol-button:focus-visible { outline: 2px solid var(--app-forest); outline-offset: 2px; background: var(--app-tint); box-shadow: none; }
-.math-symbol-preview { display: grid; place-items: center; min-height: 27px; direction: ltr; pointer-events: none; }
-.math-symbol-preview math { font-size: 27px; margin: 0; }
-.math-symbol-label { max-width: 100%; font-size: 11px; line-height: 1.4; text-wrap: balance; }
-.math-symbol-error { margin: 8px 0 0; color: #b91c1c; font-size: 12px; }
 .tutor-panel-section:last-child .tutor-section-body { scrollbar-width: thin; scrollbar-color: #9cafaa transparent; }
 .tutor-panel-section:last-child .tutor-section-body::-webkit-scrollbar { width: 5px; }
 .tutor-panel-section:last-child .tutor-section-body::-webkit-scrollbar-track { background: transparent; }
@@ -77,4 +68,4 @@
   .tutor-panel-backdrop { position: fixed; inset: 0; bottom: var(--tutor-composer-space, 180px); z-index: 40; background: #12382b30; }
   .tutor-section-label, .tutor-screen .tutor-side-panel .tutor-new-chat { min-height: 44px; }
 }
-@media (prefers-reduced-motion: reduce) { .tutor-panel-slot, .tutor-screen .tutor-side-panel, .math-symbol-button { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tutor-panel-slot, .tutor-screen .tutor-side-panel { transition: none; } }
