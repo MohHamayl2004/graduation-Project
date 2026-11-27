@@ -2,10 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { subjects, filterSubjects, filterLessons } from "../src/pages/Lectures/library.js";
 
-test("library exposes the existing lesson without fabricated videos or progress", () => {
+test("library exposes the existing lesson and NIPRAS's own interactive video, without fabricated progress", () => {
   assert.equal(subjects.length, 1);
   assert.equal(subjects[0].name, "الرياضيات");
-  assert.equal(subjects[0].videos.length, 0);
+  assert.deepEqual(subjects[0].videos.map((video) => video.to), ["/interactive/1-1-stickman"]);
   assert.equal(subjects[0].lessons[0].to, "/lesson/1-1");
   assert.equal(subjects[0].lessons[0].title, "متوسط التغير");
 });
