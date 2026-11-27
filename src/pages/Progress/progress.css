@@ -32,3 +32,14 @@
 .progress-content :focus-visible { outline: 3px solid #22c96b; outline-offset: 3px; box-shadow: none; }
 @media (max-width: 1100px) { .progress-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 639px) { .progress-heading { flex-direction: column; } .progress-metrics, .progress-columns { grid-template-columns: minmax(0, 1fr); } .progress-panel, .progress-strategy { padding: 18px; } }
+
+.progress-mastery { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.progress-mastery p { margin: 4px 0 0; color: #586e61; font-size: 13px; line-height: 1.8; }
+.progress-mastery-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.progress-mastery-level { border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 700; background: #eef2ef; color: #586e61; }
+.progress-mastery-level.is-weak { background: #fdf0dc; color: #8a5300; }
+.progress-mastery-level.is-steady { background: #e6f0fb; color: #1d4f86; }
+.progress-mastery-level.is-strong { background: #dff3ea; color: #064c3b; }
+.progress-mastery-bar { margin-top: 6px; height: 6px; border-radius: 999px; background: #e3e9e5; overflow: hidden; }
+.progress-mastery-bar span { display: block; height: 100%; background: #0b6850; border-radius: inherit; }
+.progress-mastery .progress-mastery-skills { color: #8a5300; }

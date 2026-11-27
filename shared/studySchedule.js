@@ -1,5 +1,6 @@
 import { normalizeStudyPlan, timeMinutes } from "./studyPlanRules.js";
 import { studyLessons } from "./studyPlanCatalog.js";
+import { adaptActivities, masteryRules, masterySnapshot } from "./lessonMastery.js";
 
 // Project heuristics, not official VARK prescriptions. All values are minutes.
 export const scheduleRules = {
@@ -38,16 +39,20 @@ export function lessonActivities(lesson, profile) {
   return scheduleRules.activityIds.map((id, i) => ({ id, title: activityLabels[id], minutes: minutes[i], guidance: profile.preferred.map((key) => guidance[key][i]).join(" "), highlighted: profile.weights[i] >= 25 }));
 }
 const clock = (minutes) => `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
-export function generateStudySchedule(input, assessment, now = new Date()) {
+// masteryByLesson: lessonId → lessonMastery(...) from the student's answers to in-video
+// questions; a weak lesson gets more practice, a mastered one a quick review.
+export function generateStudySchedule(input, assessment, now = new Date(), masteryByLesson = {}) {
   const preferences = normalizeStudyPlan(input);
   const profile = varkProfile(assessment?.scores);
   // Canonical catalog order preserves prerequisites even if the student clicked in reverse order.
   const lessons = studyLessons.filter((l) => preferences.lessonIds.includes(l.lessonId)).map((lesson) => {
-    const activities = lessonActivities(lesson, profile);
-    return { ...lesson, activities, minutes: activities.reduce((n, a) => n + a.minutes, 0) };
+    const mastery = masteryByLesson[lesson.lessonId];
+    const activities = adaptActivities(lessonActivities(lesson, profile), mastery);
+    return { ...lesson, activities, minutes: activities.reduce((n, a) => n + a.minutes, 0),
+      ...(mastery?.answered ? { mastery: { level: mastery.level, answered: mastery.answered, correct: mastery.correct, weakSkills: mastery.weakSkills } } : {}) };
   });
   const requiredStudyMinutes = lessons.reduce((n, l) => n + l.minutes, 0);
-  const base = { version: scheduleRules.version, generatedAt: new Date(now).toISOString(), assessment: { version: assessment?.version || null, ...profile }, rules: structuredClone(scheduleRules), requiredStudyMinutes, lessons, sessions: [], breaks: [], days: [], remaining: [] };
+  const base = { version: scheduleRules.version, generatedAt: new Date(now).toISOString(), assessment: { version: assessment?.version || null, ...profile }, mastery: { version: masteryRules.version, snapshot: masterySnapshot(masteryByLesson, preferences.lessonIds) }, rules: structuredClone(scheduleRules), requiredStudyMinutes, lessons, sessions: [], breaks: [], days: [], remaining: [] };
   if (preferences.type === "weekly") {
     let cursor = 0, remainingLoad = requiredStudyMinutes;
     base.days = preferences.studyDays.map((date, dayIndex, days) => {

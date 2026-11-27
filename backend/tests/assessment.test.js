@@ -6,6 +6,7 @@ import { validateAssessment } from "../validation/assessmentValidation.js";
 import { emptyVarkAnswers, scoreVark, varkQuestions, VARK_VERSION } from "../../shared/varkQuestionnaire.js";
 import { createStudyPlanRouter, assessmentChanged } from "../routes/studyPlanRoutes.js";
 import { errorHandler } from "../middleware/errorMiddleware.js";
+const noResults = { find: () => ({ lean: async () => [] }) };
 
 const payload = () => ({ version: VARK_VERSION, answers: emptyVarkAnswers(), cursor: 0, complete: false });
 
@@ -28,7 +29,7 @@ test("changed assessment flags stored plans and requires confirmation before rep
     findOne: () => ({ lean: async () => plan })
   };
   const app = express(); app.use(express.json());
-  app.use(createStudyPlanRouter({ model, planModel, guard: (req, res, next) => { req.user = { _id: owner }; next(); } }));
+  app.use(createStudyPlanRouter({ model, planModel, resultModel: noResults, guard: (req, res, next) => { req.user = { _id: owner }; next(); } }));
   app.use(errorHandler);
   const list = await request(app).get("/plans");
   assert.equal(list.body.plans[0].generatedStale, true);
@@ -73,7 +74,7 @@ test("routes require login, isolate owners, and resume saved answers", async () 
     findOneAndUpdate: async ({ owner }, { $set }) => { records.set(owner, { ...records.get(owner), ...$set, owner }); return records.get(owner); }
   };
   const app = express(); app.use(express.json());
-  app.use("/assessment", createStudyPlanRouter({ model, guard: (req, res, next) => {
+  app.use("/assessment", createStudyPlanRouter({ model, resultModel: noResults, guard: (req, res, next) => {
     const owner = req.get("X-Test-User");
     if (!owner) return res.sendStatus(401);
     req.user = { _id: owner }; next();

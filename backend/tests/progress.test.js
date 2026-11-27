@@ -4,12 +4,13 @@ import express from "express";
 import request from "supertest";
 import { createProgressRouter } from "../routes/progressRoutes.js";
 import { errorHandler } from "../middleware/errorMiddleware.js";
+const noResults = { find: () => ({ lean: async () => [] }) };
 
 test("overview validates period, isolates plans by owner, and never invents activity", async () => {
   const plans = [{ _id: "p1", owner: "alice", type: "daily", periodStart: "2026-11-08", generated: { sessions: [{ id: "1" }, { id: "2" }] } }];
   const model = { findOne: (query) => ({ sort: () => ({ lean: async () => plans.find((p) => p.owner === query.owner) || null }) }) };
   const app = express();
-  app.use(createProgressRouter({ planModel: model, guard: (req, res, next) => {
+  app.use(createProgressRouter({ planModel: model, resultModel: noResults, guard: (req, res, next) => {
     if (!req.get("X-User")) return res.sendStatus(401);
     req.user = { _id: req.get("X-User") }; next();
   } }));
@@ -30,7 +31,7 @@ test("overview validates period, isolates plans by owner, and never invents acti
 test("database failures return an error instead of an empty overview", async () => {
   const model = { findOne: () => ({ sort: () => ({ lean: async () => { throw new Error("database unavailable"); } }) }) };
   const app = express();
-  app.use(createProgressRouter({ planModel: model, guard: (req, res, next) => { req.user = { _id: "alice" }; next(); } }));
+  app.use(createProgressRouter({ planModel: model, resultModel: noResults, guard: (req, res, next) => { req.user = { _id: "alice" }; next(); } }));
   app.use(errorHandler);
   assert.equal((await request(app).get("/overview")).status, 500);
 });

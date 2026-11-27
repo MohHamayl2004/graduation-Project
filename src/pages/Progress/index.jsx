@@ -6,7 +6,19 @@ import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
 import { useAuth } from "../../context/AuthContext";
 import { getProgressOverview } from "../../services/progressService";
+import { masteryLabels } from "../../../shared/lessonMastery.js";
 import "./progress.css";
+
+// Mastery of each lesson from first answers to its in-video questions.
+function MasteryPanel({ mastery = [] }) {
+  if (!mastery.length) return <div className="progress-empty"><BookOpen size={25} /><p>أجب عن أسئلة فيديوهات الدروس ليظهر هنا مستواك في كل درس.</p></div>;
+  return <ul className="progress-mastery">{mastery.map((m) => <li key={m.lessonId}>
+    <div className="progress-mastery-row"><strong>{m.lessonTitle || m.lessonId}</strong><span className={`progress-mastery-level is-${m.level || "pending"}`}>{m.level ? masteryLabels[m.level] : "يحتاج إجابات أكثر"}</span></div>
+    <p>{m.subjectTitle ? `${m.subjectTitle} · ` : ""}{new Intl.NumberFormat("ar").format(m.correct)} من {new Intl.NumberFormat("ar").format(m.answered)} إجابات صحيحة من أول محاولة</p>
+    <div className="progress-mastery-bar" aria-hidden="true"><span style={{ width: `${Math.round((m.share || 0) * 100)}%` }} /></div>
+    {m.weakSkills?.length > 0 && <p className="progress-mastery-skills">راجع: {m.weakSkills.join("، ")}</p>}
+  </li>)}</ul>;
+}
 
 const metrics = [
   ["معدل الإنجاز العام", Target, "لا يوجد مقياس مكتمل بعد"],
@@ -17,6 +29,7 @@ const metrics = [
 
 export function ProgressContent({ data, loading, error, days, onDaysChange, onRetry }) {
   const plan = data?.plan;
+  const weak = (data?.mastery || []).filter((m) => m.level === "weak");
   return <div className="progress-content" dir="rtl">
     <header className="progress-heading"><div><h1><span className="progress-heading-icon"><Activity size={24} /></span>متابعة التقدم</h1><p>نظرة شاملة على إنجازك في التعلّم والخطة الدراسية.</p></div>
       <label className="progress-period">الفترة <select value={days} onChange={(e) => onDaysChange(Number(e.target.value))} aria-label="الفترة الزمنية"><option value={7}>آخر 7 أيام</option><option value={30}>آخر 30 يومًا</option><option value={90}>آخر 90 يومًا</option></select></label>
@@ -24,13 +37,13 @@ export function ProgressContent({ data, loading, error, days, onDaysChange, onRe
     {loading ? <div className="progress-state" role="status" aria-busy="true">جارٍ تحميل بيانات التقدم…</div> : error ? <div className="progress-state" role="alert"><p>تعذّر تحميل بيانات التقدم: {error}</p><button type="button" onClick={onRetry}>إعادة المحاولة</button></div> : <>
       <section className="progress-metrics" aria-label="ملخص التقدم">{metrics.map(([label, Icon, explanation]) => <article className="progress-card progress-metric" key={label}><span className="progress-icon"><Icon size={21} /></span><h2>{label}</h2><strong>غير متاح</strong><p>{explanation}</p></article>)}</section>
       <div className="progress-columns">
-        <section className="progress-card progress-panel"><h2>التقدم حسب المادة</h2><div className="progress-empty"><BookOpen size={25} /><p>لا تتوفر سجلات إكمال موثوقة للمواد بعد.</p></div></section>
+        <section className="progress-card progress-panel"><h2>إتقان الدروس</h2><MasteryPanel mastery={data?.mastery} /></section>
         <section className="progress-card progress-panel"><h2>التقدم عبر الوقت</h2><div className="progress-empty"><Activity size={25} /><p>سيظهر نشاطك هنا عند توفر سجل إنجاز موثوق.</p></div></section>
         <section className="progress-card progress-panel"><h2>الخطة الدراسية</h2>{plan ? <div className="progress-plan"><span className="progress-icon"><CalendarDays size={21} /></span><h3>{plan.type === "daily" ? "خطة يومية" : "خطة أسبوعية"} · <bdi>{plan.periodStart}</bdi></h3><p>{plan.scheduledSessions === null ? "لم تُجدول جلسات يومية لهذه الخطة بعد." : `الجلسات في آخر جدول محفوظ: ${new Intl.NumberFormat("ar").format(plan.scheduledSessions)}`}</p><p>تم إعداد الخطة، ولم يبدأ تتبع إنجاز الجلسات بعد.</p><Link to={`/study-plan?plan=${encodeURIComponent(plan.id)}`}>عرض الخطة</Link></div> : <div className="progress-plan"><p>لم تنشئ خطة دراسية بعد.</p><Link to="/study-plan">إنشاء خطة دراسية</Link></div>}</section>
         <section className="progress-card progress-panel"><h2>الإنجازات</h2><div className="progress-empty"><Award size={25} /><p>ستظهر الإنجازات عندما تتوفر أنشطة تعليمية موثقة.</p></div></section>
       </div>
       <section className="progress-card progress-activity"><h2>آخر الأنشطة</h2><p>تتبع الأنشطة التعليمية غير متاح بعد.</p></section>
-      <section className="progress-strategy"><span className="progress-strategy-icon"><Sparkles size={22} /></span><div><h2>تحديث استراتيجية الدراسة</h2><p>نحتاج إلى أنشطة تعليمية موثقة قبل تقديم توصيات شخصية مناسبة.</p><p>ستتوفر إجراءات الدروس والاختبارات المقترحة عند وجود محتوى وبيانات موثوقة.</p></div></section>
+      <section className="progress-strategy"><span className="progress-strategy-icon"><Sparkles size={22} /></span><div><h2>تحديث استراتيجية الدراسة</h2>{weak.length ? <><p>تحتاج تقوية في: {weak.map((m) => m.lessonTitle || m.lessonId).join("، ")}. أعد توليد خطتك لتزيد وقت التدريبات والاختبار في هذه الدروس.</p><p><Link to="/study-plan">الذهاب للخطة الدراسية</Link></p></> : <><p>تتكيّف خطتك الدراسية مع إجاباتك في أسئلة فيديوهات الدروس: تدريب أكثر حيث تحتاج، ومراجعة سريعة لما أتقنته.</p><p>ستتوفر إجراءات الدروس والاختبارات المقترحة عند وجود محتوى وبيانات موثوقة.</p></>}</div></section>
     </>}
   </div>;
 }
