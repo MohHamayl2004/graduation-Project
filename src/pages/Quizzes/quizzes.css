@@ -1,0 +1,56 @@
+/* «ضع دائرة» questions in the site's style: a pen circle goes round the chosen letter. */
+.qz-math { line-height: 2.2; }
+.qz-frac { display: inline-flex; flex-direction: column; align-items: center; margin: 0 .2em; vertical-align: middle; line-height: 1.25; font-size: .92em; }
+.qz-num { padding: 0 .25em .08em; border-bottom: 1.5px solid currentColor; }
+.qz-den { padding: .08em .25em 0; }
+.qz-sub { font-size: .7em; }
+.qz-stem { font-size: 1.25rem; font-weight: 700; line-height: 2.1; color: var(--color-ink, #182522); }
+@media (min-width: 640px) { .qz-stem { font-size: 1.45rem; } }
+.qz-rule { padding: .5rem .8rem; border-radius: .6rem; background: #f3faf6; color: #0b4d36; font-size: .95rem; }
+
+.qz-choice { position: relative; display: flex; align-items: center; gap: 1rem; min-height: 64px; padding: .75rem 1.1rem; border: 1.5px solid #dcece2; border-radius: .85rem; background: #fff; text-align: start; transition: border-color .15s, background .15s, box-shadow .15s; }
+.qz-choice:hover:not(:disabled) { border-color: #9fd6b6; background: #f6fbf8; }
+.qz-choice:focus-visible { outline: 3px solid #22c96b55; outline-offset: 2px; }
+.qz-choice:disabled { cursor: default; }
+.qz-choice-picked { border-color: #16a34a; box-shadow: 0 0 0 3px #22c96b22; }
+.qz-choice-right, .qz-choice-answer { border-color: #16a34a; background: #effaf3; }
+.qz-choice-wrong { border-color: #dc2626; background: #fef2f2; }
+.qz-choice-text { flex: 1; font-size: 1.15rem; font-weight: 600; color: #182522; }
+.qz-mark { flex: none; }
+
+.qz-letter { position: relative; display: grid; place-items: center; flex: none; width: 2.6rem; height: 2.6rem; font-size: 1.15rem; font-weight: 800; color: #586e61; }
+.qz-choice-picked .qz-letter, .qz-choice-right .qz-letter, .qz-choice-answer .qz-letter { color: #166534; }
+.qz-choice-wrong .qz-letter { color: #b91c1c; }
+.qz-circle { position: absolute; inset: -.35rem; width: calc(100% + .7rem); height: calc(100% + .7rem); overflow: visible; pointer-events: none; }
+.qz-circle path { fill: none; stroke-width: 3.2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: qz-draw .45s ease-out forwards; }
+.qz-circle-primary path { stroke: #16a34a; }
+.qz-circle-right path { stroke: #16a34a; }
+.qz-circle-wrong path { stroke: #dc2626; }
+@keyframes qz-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .qz-circle path { animation: none; stroke-dashoffset: 0; } }
+
+.qz-feedback { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: 1.25rem; padding: .75rem 1rem; border-radius: .75rem; font-weight: 700; }
+.qz-feedback.is-right { background: #effaf3; color: #166534; }
+.qz-feedback.is-wrong { background: #fef2f2; color: #991b1b; }
+.qz-link { margin-inline-start: auto; color: #16733e; font-weight: 700; text-decoration: underline; }
+.qz-solution { margin-top: .75rem; padding: 1rem 1.1rem; border: 1px dashed #9fd6b6; border-radius: .75rem; background: #f8fcf9; }
+.qz-solution-title { display: flex; align-items: center; gap: .4rem; margin: 0 0 .25rem; font-weight: 800; color: #0b4d36; }
+.qz-solution ol { margin: 0; padding-inline-start: 1.3rem; color: #233; font-size: 1.05rem; }
+.qz-solution li { padding: .1rem 0; }
+
+.qz-dot { width: .7rem; height: .7rem; border-radius: 999px; background: #c9d8cf; }
+.qz-dot.is-right { background: #16a34a; }
+.qz-dot.is-wrong { background: #dc2626; }
+.qz-dot.is-current { background: #064c3b; box-shadow: 0 0 0 3px #22c96b44; }
+
+.qz-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+.qz-score { --share: 0; display: grid; place-items: center; align-content: center; width: 8.5rem; height: 8.5rem; flex: none; border-radius: 50%; background: radial-gradient(closest-side, #fff 78%, transparent 79%), conic-gradient(#16a34a calc(var(--share) * 360deg), #e5efe9 0); }
+.qz-score strong { font-size: 2.4rem; line-height: 1; color: #064c3b; }
+.qz-score span { font-size: .85rem; color: #586e61; }
+.qz-summary > div:last-child { flex: 1; min-width: 240px; }
+.qz-review { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+.qz-review button { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .7rem; border-radius: 999px; font-size: .85rem; font-weight: 700; }
+.qz-review .is-right { background: #effaf3; color: #166534; }
+.qz-review .is-wrong { background: #fef2f2; color: #991b1b; }
+.qz-card { display: block; border-radius: .5rem; }
+.qz-card:focus-visible { outline: 3px solid #22c96b55; outline-offset: 2px; }
