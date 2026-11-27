@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#edf5ef"/>
+  <defs><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#ccded3" stroke-width="1"/></pattern></defs>
+  <rect width="960" height="540" fill="url(#grid)"/>
+  <circle cx="750" cy="120" r="135" fill="#d9ebe0"/>
+  <g fill="none" stroke="#07513f" stroke-linecap="round" stroke-linejoin="round" stroke-width="10">
+    <path d="M250 150H420M520 150H690V400H560M440 400H250V150"/>
+    <path d="M420 150l18-30 24 60 24-60 24 60 10-30" stroke-width="9"/>
+    <path d="M440 365V435M462 380V420M484 365V435M506 380V420" stroke-width="8"/>
+    <path d="M506 400H560"/>
+  </g>
+  <circle cx="690" cy="275" r="46" fill="#fff" stroke="#07513f" stroke-width="9"/>
+  <text x="690" y="295" text-anchor="middle" fill="#07513f" font-family="Arial,sans-serif" font-weight="700" font-size="52">A</text>
+  <g fill="#22c55e"><circle cx="330" cy="150" r="10"/><circle cx="610" cy="150" r="10"/><circle cx="250" cy="300" r="10"/><circle cx="620" cy="400" r="10"/><circle cx="360" cy="400" r="10"/></g>
+  <path d="M300 115h70m-16-12 16 12-16 12" fill="none" stroke="#22c55e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#07513f" font-family="Georgia,serif" font-style="italic" font-size="50"><text x="78" y="125">V = IR</text><text x="330" y="95">I</text></g>
+</svg>

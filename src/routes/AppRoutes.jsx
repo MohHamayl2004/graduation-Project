@@ -17,6 +17,7 @@ import { useAuth } from "../context/AuthContext";
 const Subscription = lazy(() => import("../pages/Subscription"));
 const Admin = lazy(() => import("../pages/Admin"));
 const Coupons = lazy(() => import("../pages/Admin/Coupons"));
+const InteractiveBook = lazy(() => import("../pages/InteractiveBook"));
 const loadingPage = <p role="status" className="p-8 text-center text-ink-muted">جاري تحميل الصفحة…</p>;
 
 const privatePage = (page) => <ProtectedRoute>{page}</ProtectedRoute>;
@@ -49,6 +50,7 @@ export default function AppRoutes() {
       <Route path="/ai-tutor" element={privatePage(<AITutor />)} />
       <Route path="/interactive" element={privatePage(<InteractiveLesson />)} />
       <Route path="/interactive/:id" element={privatePage(<InteractiveLesson />)} />
+      <Route path="/book/physics" element={privatePage(<Suspense fallback={loadingPage}><InteractiveBook /></Suspense>)} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
