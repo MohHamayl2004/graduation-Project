@@ -1,6 +1,8 @@
 import { aiServiceConfig } from "../config/aiService.js";
 import { ApiError } from "../errors/ApiError.js";
 import { readNdjson } from "../utils/ndjson.js";
+import { openQwenTutorStream } from "./qwenTutorClient.js";
+import { openGeminiTutorStream } from "./geminiTutorClient.js";
 
 const unavailable = () => new ApiError(503, "AI_UNAVAILABLE", "المدرّس الذكي غير متاح الآن. حاول بعد قليل.");
 
@@ -8,6 +10,8 @@ const unavailable = () => new ApiError(503, "AI_UNAVAILABLE", "المدرّس ا
 // student, so "the AI service is down" is still a normal JSON 503 and not a
 // half-started stream. Returns an async iterator of contract-v1 events.
 export async function openTutorStream({ question, history = [], signal, config = aiServiceConfig() }) {
+  if (config.provider === "qwen") return openQwenTutorStream({ question, history, signal, config });
+  if (config.provider === "gemini") return openGeminiTutorStream({ question, history, signal, config });
   if (!config.key) throw new ApiError(503, "AI_MISCONFIGURED", "المدرّس الذكي غير مُعدّ على الخادم");
   let response;
   try {

@@ -32,10 +32,14 @@
 .tutor-screen .bg-border-strong { background: var(--app-border); color: var(--app-muted); }
 .tutor-screen .bg-ink { background: var(--app-forest); }
 .tutor-screen .tutor-user-message, .tutor-screen .app-menu-trigger { background: var(--app-forest); color: white; }
+.tutor-explanation-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.tutor-explanation-actions button { min-height: 40px; padding: 6px 10px; border: 1px solid var(--app-border); border-radius: 10px; background: var(--app-surface); color: var(--app-forest); font-size: 13px; transition: background-color 120ms, border-color 120ms; }
+.tutor-explanation-actions button:hover:not(:disabled) { border-color: #93b7a2; background: var(--app-tint); }
+@media (prefers-reduced-motion: reduce) { .tutor-explanation-actions button { transition: none; } }
 .tutor-screen .tutor-assistant-icon { background: var(--app-forest); color: var(--app-tint); }
 .tutor-screen :is(.chat-main, .tutor-side-panel) :focus-visible { outline: 2px solid var(--app-link); outline-offset: 3px; box-shadow: none; }
 .tutor-screen .tutor-rich-input:focus-visible { outline: none; }
-.tutor-rich-input { flex: 1; min-width: 0; min-height: 44px; max-height: min(180px, 30dvh); overflow-y: auto; padding-block: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.75; }
+.tutor-rich-input { direction: rtl; text-align: right; flex: 1; min-width: 0; min-height: 44px; max-height: min(180px, 30dvh); overflow-y: auto; padding-block: 8px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.75; }
 .tutor-rich-input:empty::before { content: attr(data-placeholder); color: var(--app-muted); pointer-events: none; }
 .tutor-inline-math { display: inline-block; max-width: 100%; vertical-align: middle; direction: rtl; unicode-bidi: isolate; margin-inline: 3px; padding: 3px 5px; border: 1px solid var(--app-border); border-radius: 6px; background: var(--app-soft); color: var(--app-ink); font-size: 1.15em; --caret-color: var(--app-link); --selection-background-color: #bbf7d0; --text-highlight-background-color: transparent; }
 .tutor-inline-math::part(menu-toggle), .tutor-inline-math::part(virtual-keyboard-toggle) { display: none; }
@@ -98,13 +102,13 @@
 
 /* Reserve the enlarged model's full canvas so it never clips against the drawer. */
 .tutor-screen .app-drawer-account { flex-direction: column; }
-.tutor-teacher { position: relative; display: block; width: 100%; height: 100%; }
+.tutor-teacher { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; }
+.tutor-teacher-visual { position: absolute; inset: 0; transform-origin: center bottom; transition: transform 300ms ease; }
+.tutor-teacher[data-state="speaking"] .tutor-teacher-visual { transform: scale(1.25); }
 .tutor-teacher-canvas { position: absolute; inset: 0; }
-.tutor-teacher-flight { position: fixed; top: 0; left: 0; z-index: 45; display: block; visibility: hidden; pointer-events: none; background: transparent; }
-.tutor-teacher-flight[hidden] { display: none; }
-.tutor-teacher-flight canvas { display: block; width: 100%; height: 100%; }
-.tutor-screen .chat-messages { margin-block-start: var(--teacher-clearance, 0px); }
-.tutor-teacher > img { position: absolute; inset: 0; object-fit: contain; }
-.tutor-screen .nipras-mascot-trigger { transition: background-color 180ms, box-shadow 180ms; }
-.tutor-screen .nipras-mascot-trigger:has([data-state="processing"]) { box-shadow: inset 0 -3px #facc15; }
-.tutor-screen .nipras-mascot-trigger:has([data-state="speaking"]) { box-shadow: inset 0 -3px #86efac; }
+.tutor-teacher-canvas canvas { display: block; width: 100%; height: 100%; }
+.tutor-teacher-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+@media (prefers-reduced-motion: reduce) {
+  .tutor-teacher-visual { transition: none; }
+  .tutor-teacher[data-state="speaking"] .tutor-teacher-visual { transform: none; }
+}

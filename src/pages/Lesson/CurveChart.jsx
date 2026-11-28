@@ -53,19 +53,19 @@ export default function CurveChart({ curve }) {
                   stroke="#E2E5EE" strokeWidth="1" />
           ))}
 
-          <line x1={PAD.l} x2={W - PAD.r} y1={sy(0)} y2={sy(0)} stroke="#5B6478" strokeWidth="1.5" />
-          <line x1={PAD.l} x2={PAD.l} y1={PAD.t} y2={H - PAD.b} stroke="#5B6478" strokeWidth="1.5" />
+          <line x1={PAD.l} x2={W - PAD.r} y1={sy(0)} y2={sy(0)} stroke="#586E61" strokeWidth="1.5" />
+          <line x1={PAD.l} x2={PAD.l} y1={PAD.t} y2={H - PAD.b} stroke="#586E61" strokeWidth="1.5" />
 
           {ticksX.map((t) => (
             <text key={`tx${t}`} x={sx(t)} y={H - PAD.b + 17} textAnchor="middle"
-                  fontSize="11" fill="#5B6478">{t}</text>
+                  fontSize="11" fill="#586E61">{t}</text>
           ))}
           {ticksY.map((t) => (
             <text key={`ty${t}`} x={PAD.l - 8} y={sy(t) + 4} textAnchor="end"
-                  fontSize="11" fill="#5B6478">{t}</text>
+                  fontSize="11" fill="#586E61">{t}</text>
           ))}
 
-          <path d={path} fill="none" stroke="#152A63" strokeWidth="2.5"
+          <path d={path} fill="none" stroke="#16733E" strokeWidth="2.5"
                 strokeLinejoin="round" strokeLinecap="round" />
 
           {/* the secant — its slope is the answer */}
@@ -81,7 +81,7 @@ export default function CurveChart({ curve }) {
 
           <circle cx={sx(a)} cy={sy(ya)} r="5" fill="#1E7A3C" />
           <circle cx={sx(b)} cy={sy(yb)} r="5" fill="#1E7A3C" />
-          <text x={W - PAD.r} y={H - 6} textAnchor="end" fontSize="11" fill="#6B7280">{curve.xLabel}</text>
+          <text x={W - PAD.r} y={H - 6} textAnchor="end" fontSize="11" fill="#64766B">{curve.xLabel}</text>
         </svg>
       </div>
 

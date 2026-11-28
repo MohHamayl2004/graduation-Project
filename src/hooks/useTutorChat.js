@@ -6,7 +6,9 @@ import { chatReducer, initialChatState } from "../pages/AITutor/chatState";
 
 const CUT_OFF = "انقطع الاتصال قبل أن يكتمل الجواب. حاول مرة ثانية.";
 
-export function useTutorChat() {
+// autoOpen: open the latest chat on load (the tutor page). A lesson panel passes
+// false and a title, so its questions start a chat of their own.
+export function useTutorChat({ autoOpen = true, title } = {}) {
   const [searchParams] = useSearchParams();
   const requestedChatId = searchParams.get("chat");
   const { auth } = useAuth();
@@ -15,7 +17,7 @@ export function useTutorChat() {
   const controller = useRef(null);
 
   useEffect(() => {
-    if (!token) return undefined;
+    if (!token || !autoOpen) return undefined;
     let cancelled = false;
     listChats(token)
       .then(async ({ chats }) => {
@@ -29,7 +31,7 @@ export function useTutorChat() {
       })
       .catch((error) => !cancelled && dispatch({ type: "failed", message: error.message }));
     return () => { cancelled = true; };
-  }, [token, requestedChatId]);
+  }, [token, requestedChatId, autoOpen]);
 
   // Leaving the page stops the answer (and, through the API, the model).
   useEffect(() => () => controller.current?.abort(), []);
@@ -47,14 +49,14 @@ export function useTutorChat() {
   const newChat = useCallback(async () => {
     if (state.phase === "streaming") return null;
     try {
-      const { chat } = await createChat(token);
+      const { chat } = await createChat(token, title);
       dispatch({ type: "chatCreated", chat });
       return chat.id;
     } catch (error) {
       dispatch({ type: "failed", message: error.message });
       return null;
     }
-  }, [token, state.phase]);
+  }, [token, state.phase, title]);
 
   const removeChat = useCallback(async (chatId) => {
     try {

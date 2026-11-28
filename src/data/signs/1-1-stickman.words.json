@@ -1,0 +1,29 @@
+{
+ "_about": "Which spoken words of the 1-1 lecture each sign stands for, over its first 21 seconds. The signs come from an AI-generated picture sheet (tools/sign-capture/sources/ai-grid-1-1-first-20s.webp) and are trial signs, not verified sign language. Build the track with tools/sign-capture/build_track.mjs.",
+ "source": "صورة مولّدة بالذكاء الاصطناعي — إشارات تجريبية غير معتمدة",
+ "captions": "src/data/interactive/1-1-stickman.captions.json",
+ "until": 21,
+ "signs": [
+  { "clip": "this", "gloss": "هذا", "forms": ["هاد"] },
+  { "gloss": "سامي", "forms": ["سامي"], "spell": ["seen", "alif", "meem", "yaa"] },
+  { "clip": "trip", "gloss": "رحلة", "forms": ["برحلة"] },
+  { "clip": "road", "gloss": "طريق", "forms": ["طريق", "لطريق"] },
+  { "clip": "mountain", "gloss": "جبل", "forms": ["جبلي"] },
+  { "clip": "strange", "gloss": "غريب", "forms": ["غريب"] },
+  { "clip": "before", "gloss": "قبل", "forms": ["وقبل"] },
+  { "clip": "ask", "gloss": "سأل", "forms": ["سأله"] },
+  { "clip": "teacher", "gloss": "أستاذ", "forms": ["أستاذه"] },
+  { "clip": "question", "gloss": "سؤال", "forms": ["سؤال"] },
+  { "clip": "one", "gloss": "واحد", "forms": ["واحد"] },
+  { "clip": "rate", "gloss": "معدل", "forms": ["معدل"] },
+  { "clip": "change", "gloss": "تغيّر", "forms": ["تغير"] },
+  { "clip": "height", "gloss": "ارتفاع", "forms": ["ارتفاعك"] },
+  { "clip": "laugh", "gloss": "ضحك", "forms": ["ضحك"] },
+  { "clip": "say", "gloss": "قال", "forms": ["وقال"] },
+  { "clip": "easy", "gloss": "سهل", "forms": ["سهلة"] },
+  { "clip": "straight", "gloss": "مستقيم", "forms": ["مستقيم"] },
+  { "clip": "how", "gloss": "كيف", "forms": ["فكيف"] },
+  { "clip": "answer", "gloss": "جواب", "forms": ["جواب"] },
+  { "clip": "down", "gloss": "نزول", "forms": ["نزلات"] }
+ ]
+}

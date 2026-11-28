@@ -1,0 +1,3 @@
+{
+  "_about": "Signs recorded for words of the lesson narration. Each word maps to { source, keyframes: [{ at, right: [x, y, z], left: [x, y, z] }] } with hand targets in metres in the character's space. Empty until signs are recorded from a verified source; the companion never invents a sign."
+}

@@ -1,4 +1,4 @@
-import { Bell, CircleHelp, LogIn, MessageSquarePlus, History } from "lucide-react";
+import { Bell, CircleHelp, LogIn, MessageSquarePlus, History, Volume2, Square } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import AssistantMessage from "./components/AssistantMessage";
@@ -10,7 +10,7 @@ import ChatScrollbar from "./components/ChatScrollbar";
 // scrolling up to reread must not be yanked back by every new word.
 const NEAR_BOTTOM_PX = 120;
 
-export default function MainChat({ chat, onHistory, historyOpen, draft, onDraftChange, composerRef }) {
+export default function MainChat({ chat, speech, onHistory, historyOpen, draft, onDraftChange, composerRef }) {
   const { state, signedIn, send, stop, newChat } = chat;
   const { messages, phase, error } = state;
   const busy = phase === "streaming";
@@ -49,6 +49,13 @@ export default function MainChat({ chat, onHistory, historyOpen, draft, onDraftC
           {signedIn && <button type="button" onClick={onHistory} aria-label="فتح المحادثات" aria-haspopup="dialog" aria-expanded={historyOpen} aria-controls="tutor-study-panel" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-3 text-sm xl:hidden"><History size={18} />المحادثات</button>}
         </div>
         <div className="flex items-center gap-2 text-ink-muted">
+          {signedIn && speech?.speechEnabled && <button type="button"
+            disabled={busy || (!['playing', 'loading', 'blocked'].includes(speech.playback) && !messages.some(m => m.role === 'assistant' && ['complete', 'refused'].includes(m.status) && m.content))}
+            onClick={['playing', 'loading'].includes(speech.playback) ? speech.interrupt : speech.playLatest}
+            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-3 text-sm disabled:opacity-50">
+            {['playing', 'loading'].includes(speech.playback) ? <Square size={17} aria-hidden="true" /> : <Volume2 size={17} aria-hidden="true" />}
+            {speech.playback === 'loading' ? 'إلغاء تجهيز الصوت' : speech.playback === 'playing' ? 'إيقاف الصوت' : speech.playback === 'blocked' ? 'تشغيل الصوت' : 'قراءة الإجابة'}
+          </button>}
           <button type="button" aria-label="الإشعارات" className="grid h-11 w-11 place-items-center rounded-full hover:bg-surface-alt">
             <Bell size={19} />
           </button>
@@ -78,13 +85,13 @@ export default function MainChat({ chat, onHistory, historyOpen, draft, onDraftC
                 </div>
               )}
 
-              {messages.map((message) =>
+              {messages.map((message, index) =>
                 message.role === "user" ? (
                   <div key={message.id} dir="auto" className="tutor-user-message chat-message ms-auto max-w-[95%] whitespace-pre-wrap break-words rounded-2xl rounded-es-md bg-primary px-4 py-3 text-base leading-8 text-white shadow-sm sm:max-w-[78%] sm:px-6 sm:py-5">
                     <MathText text={message.content} />
                   </div>
                 ) : (
-                  <AssistantMessage key={message.id} message={message} />
+                  <AssistantMessage key={message.id} message={message} isLatest={index === messages.length - 1} actionsDisabled={busy} onAction={send} />
                 )
               )}
               </div>
@@ -93,6 +100,7 @@ export default function MainChat({ chat, onHistory, historyOpen, draft, onDraftC
             </div>
 
             {error && <p className="mx-auto mt-3 w-full max-w-[900px] text-sm text-error" role="alert">{error}</p>}
+            {speech?.speechError && <p className="mx-auto mt-2 w-full max-w-[900px] text-sm text-warning" role="status">{speech.speechError}</p>}
 
             <Composer text={draft} onTextChange={onDraftChange} inputRef={composerRef} busy={busy} onSend={send} onStop={stop} showStarters={messages.length === 0} />
           </>

@@ -67,8 +67,8 @@ export default function Lectures() {
             {subject.books?.length && !subject.videos.length && !subject.lessons.length ? null : <>
             {subject.videos.length ? <>
               <div className="library-section-heading"><h2>فيديوهات تفاعلية</h2><span role="status">{number(subject.videos.length)} فيديو</span></div>
-              <div className="library-grid">{subject.videos.map(item => <Link key={item.id} to={item.to} className="library-subject">
-                <div className="library-thumbnail"><img src={`${import.meta.env.BASE_URL}${item.poster}`} alt="" loading="lazy" width="960" height="540" /><span className="library-play" aria-hidden="true"><Play size={23} fill="currentColor" /></span></div>
+              <div className="library-grid">{subject.videos.map(item => <Link key={item.id || item.code} to={item.to} className="library-subject">
+                <div className="library-thumbnail"><img src={item.poster ? `${import.meta.env.BASE_URL}${item.poster}` : thumbnail} alt="" loading="lazy" width="960" height="540" /><span className="library-play" aria-hidden="true"><Play size={23} fill="currentColor" /></span></div>
                 <div className="library-card-body"><span className="library-eyebrow">فيديو بأسئلة تفاعلية</span><h2>{item.title}<ChevronLeft size={20} className="library-card-arrow" aria-hidden="true" /></h2><p>{item.summary}</p></div>
               </Link>)}</div>
             </> : <section className="library-empty"><Video size={34} /><h2>لا توجد فيديوهات متاحة لهذه المادة حاليًا.</h2><p>يمكنك الاستفادة من الدروس التفاعلية المتاحة أدناه.</p></section>}

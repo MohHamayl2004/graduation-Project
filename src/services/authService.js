@@ -21,6 +21,10 @@ export const getMe = (token, options = {}) =>
     }
   });
 
+export const updateAvatar = (avatarUrl,token) => apiRequest('/auth/me/avatar',{
+  method:'PATCH',headers:{Authorization:`Bearer ${token}`},body:JSON.stringify({avatarUrl})
+});
+
 export const getWorkspaces = (token) => apiRequest("/workspaces", { headers: { Authorization: `Bearer ${token}` } });
 
 export const joinSchool = (schoolCode, token) => apiRequest("/schools/join", {

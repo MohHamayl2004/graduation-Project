@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><title>Lesson 1-1 browser verification</title>
+<style>body{font:14px system-ui;background:#f7f8f2;color:#24372b;margin:20px}pre{white-space:pre-wrap;line-height:1.7}iframe{display:block;border:1px solid #bccbb2;margin-top:12px}button{padding:8px;margin-right:8px}</style></head>
+<body><h1>Lesson 1-1 browser verification</h1><p>Isolated UI fixture; progress callbacks are recorded locally. No backend requests.</p><pre id="results">Running…</pre><div id="frames"></div>
+<script type="module">
+import {lesson11Questions} from '/src/pages/Lesson/content/lesson11Questions.js';
+const output=document.querySelector('#results');
+const lines=[];
+const report=text=>{lines.push(text);output.textContent=lines.join('\n')};
+const check=(condition,message)=>{if(!condition)throw Error(message)};
+const delay=()=>new Promise(resolve=>setTimeout(resolve,25));
+async function until(condition,message){const end=Date.now()+7000;while(!condition()){if(Date.now()>end)throw Error(message);await delay()}}
+async function settle(win){await new Promise(resolve=>win.setTimeout(resolve,50))}
+function change(win,element,value){const type=element.tagName==='SELECT'?win.HTMLSelectElement:win.HTMLInputElement;Object.getOwnPropertyDescriptor(type.prototype,'value').set.call(element,String(value));element.dispatchEvent(new win.Event(element.tagName==='SELECT'?'change':'input',{bubbles:true}))}
+function bounds(element,win){const r=element.getBoundingClientRect();return r.width>0&&r.height>0&&r.left>=-1&&r.top>=-1&&r.right<=win.innerWidth+1&&r.bottom<=win.innerHeight+1}
+try{
+const requested = new URLSearchParams(location.search).get('width');
+for(const [width,height] of [[1366,768],[1920,1080],[390,844],[360,640]].filter(([width])=>!requested||width===Number(requested))){
+  report(`Checking ${width}×${height}…`);
+  const frame=document.createElement('iframe');frame.width=width;frame.height=height;frame.title=`Book ${width} by ${height}`;frame.src='/tests/fixtures/lesson11-book.html';document.querySelector('#frames').append(frame);
+  await new Promise(resolve=>frame.onload=resolve);const win=frame.contentWindow,doc=win.document;
+  await until(()=>doc.querySelectorAll('.living-leaf[aria-hidden="false"]').length,'Book did not initialize');await until(()=>doc.fonts.status==='loaded','Fonts did not load');await settle(win);
+  const visible=()=>[...doc.querySelectorAll('.living-leaf[aria-hidden="false"]:not([data-animation-copy])')];
+  const nav=doc.querySelector('.living-navigation select');
+  async function go(index){change(win,nav,index);await settle(win);await until(()=>!nav.disabled,'Page turn did not finish');await settle(win)}
+  function screenFits(){check(doc.documentElement.scrollHeight<=height+1,`Document scrolls: ${doc.documentElement.scrollHeight}>${height}`);check(visible().every(leaf=>bounds(leaf,win)),'Book page is outside viewport');check(bounds(doc.querySelector('.living-navigation'),win),'Navigation is outside viewport')}
+  screenFits();check(visible().length===(width>=680?2:1),'Wrong page orientation');
+  const sidebar=doc.querySelector('#app-sidebar');check(sidebar,'Right sidebar is missing');
+  if(width>=1024){
+    const slot=doc.querySelector('.app-sidebar-slot'),stage=doc.querySelector('.living-stage');
+    const sRect=sidebar.getBoundingClientRect(),bRect=doc.querySelector('.living-engine').getBoundingClientRect();
+    check(sRect.width>=70&&sRect.left>=bRect.right-1,'Sidebar overlaps or is mispositioned beside the book');
+    const collapsedBookWidth=bRect.width;
+    const navBtn=sidebar.querySelector('nav button');navBtn.focus();await settle(win);
+    await until(()=>sidebar.getAttribute('data-collapsed')==='false','Sidebar did not expand on focus');
+    await until(()=>Math.abs(doc.querySelector('.living-engine').getBoundingClientRect().width-collapsedBookWidth)>20,'Book did not resize when sidebar expanded');
+    const expSidebar=sidebar.getBoundingClientRect(),expBook=doc.querySelector('.living-engine').getBoundingClientRect();
+    check(expSidebar.left>=expBook.right-1,'Expanded sidebar overlaps the book');
+    navBtn.blur();stage.focus();await settle(win);
+    await until(()=>sidebar.getAttribute('data-collapsed')==='true','Sidebar did not collapse on blur');
+    await until(()=>Math.abs(doc.querySelector('.living-engine').getBoundingClientRect().width-collapsedBookWidth)<2,'Book did not restore size when sidebar collapsed');
+  }
+  await go(3);const graphLeaf=doc.querySelector('[data-leaf-id="secant"]:not([data-animation-copy])');
+  check(graphLeaf.getAttribute('aria-hidden')==='false',`Graph page not visible; selected=${nav.value}, visible=${visible().map(leaf=>leaf.dataset.leafId).join(',')}, engine=${JSON.stringify(win.bookEngines.map(engine=>({state:engine.getState(),orientation:engine.getOrientation(),index:engine.getCurrentPageIndex(),bounds:engine.getBoundsRect()})))}`);screenFits();
+  const body=graphLeaf.querySelector('.leaf-body');
+  check(body.scrollHeight<=body.clientHeight+1,`Graph needs internal scrolling: ${body.scrollHeight}>${body.clientHeight}`);
+  for(const control of graphLeaf.querySelectorAll('.discovery-graph,.leaf-sliders,.leaf-values,.leaf-actions'))check(bounds(control,win),'Graph controls outside viewport');
+  const point=graphLeaf.querySelector('[role="slider"]');const old=point.getAttribute('aria-valuenow');point.focus();point.dispatchEvent(new win.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));await settle(win);
+  check(point.getAttribute('aria-valuenow')!==old,'Graph keyboard point did not move');check(graphLeaf.getAttribute('aria-hidden')==='false','Graph keyboard turned the page');
+  const range=graphLeaf.querySelector('input[type="range"]');change(win,range,0);await settle(win);check(point.getAttribute('aria-valuenow')==='0','Range did not update graph point');
+  for(const pdfPage of [1,2,3,4,5]){
+    await go((pdfPage-1)*2);const leaf=doc.querySelector(`[data-leaf-id="text-${pdfPage+3}"]:not([data-animation-copy])`);const select=leaf.querySelector('.leaf-question-picker select');
+    const leftLeaf=width>=680?visible().find(item=>item!==leaf):leaf;
+    const leftBody=leftLeaf.querySelector('.leaf-body');
+    const expected=lesson11Questions.filter(q=>q.pdfPage===pdfPage);check(select.options.length===expected.length,'Missing page questions');
+    for(const question of expected){
+      leftBody.scrollTop=120;
+      change(win,select,question.id);await settle(win);
+      if(width>=680){
+        check(!leaf.querySelector('.leaf-solution'),'Right textbook page should remain uncovered');
+        check(leftBody.scrollTop===0,'Left page did not scroll to top on question selection');
+      }
+      leaf.querySelector('.leaf-question-picker button').click();await settle(win);
+      let panel=leftLeaf.querySelector('.leaf-solution');check(panel?.dataset.questionId===question.id,'Hint opened the wrong question');check(!panel.querySelector('.solution-steps'),'Hint revealed solution');
+      [...panel.querySelectorAll('button')].find(button=>button.textContent==='الحل').click();await settle(win);
+      panel=leftLeaf.querySelector('.leaf-solution');check(panel.querySelectorAll('.solution-steps li').length===1,'Solution did not start with one step');
+      for(let step=1;step<question.steps.length;step++){[...panel.querySelectorAll('button')].find(button=>button.textContent==='الخطوة التالية').click();await settle(win)}
+      check(panel.querySelectorAll('.solution-steps li').length===question.steps.length,'Missing solution steps');check(!panel.querySelector('.katex-error'),'Equation rendering error');check(bounds(panel,win),'Solution panel outside viewport');screenFits();
+      panel.querySelector('button[aria-label="إخفاء الحل"]').click();await settle(win);check(!leftLeaf.querySelector('.leaf-solution'),'Solution did not close');
+      if(width>=680)check(!leftLeaf.querySelector('.leaf-interactive-content').hidden,'Interactive content did not return after closing solution');
+      leaf.querySelector('.leaf-question-solve').click();await settle(win);panel=leftLeaf.querySelector('.leaf-solution');check(panel?.dataset.questionId===question.id,'Solution opened the wrong question');
+      panel.dispatchEvent(new win.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));await settle(win);check(!leftLeaf.querySelector('.leaf-solution'),'Escape did not close solution');
+    }
+    leaf.querySelector('button[aria-label="تكبير صفحة الكتاب"]').click();await settle(win);const zoomed=leaf.querySelector('.is-zoomed');check(zoomed,'Textbook zoom did not activate');screenFits();
+    zoomed.focus();zoomed.dispatchEvent(new win.KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true,cancelable:true}));await settle(win);check(!nav.disabled&&leaf.getAttribute('aria-hidden')==='false','Zoom scrolling key turned the page');
+    leaf.querySelector('button[aria-label="تصغير صفحة الكتاب"]').click();await settle(win);
+  }
+  check(win.bookAttempts.length===0,'Viewing solutions submitted a student attempt');
+  await go(5);const exercise=doc.querySelector('[data-leaf-id="practice"]:not([data-animation-copy])');
+  exercise.querySelectorAll('.leaf-exercise-steps button')[2].click();await settle(win);change(win,exercise.querySelector('input'),'-2');await settle(win);exercise.querySelector('form').dispatchEvent(new win.Event('submit',{bubbles:true,cancelable:true}));await settle(win);
+  check(win.bookAttempts.length===1&&win.bookAttempts[0]==='-2','Existing answer submission stopped working');
+  // The same engine survives desktop/mobile resizing and keeps the reading spread.
+  if(width===1366){await go(4);const reads=win.bookReads.length;frame.width=390;await until(()=>visible().length===1,'Resize did not switch to one page');check(visible()[0].dataset.leafId==='text-6','Resize lost reading position');frame.width=width;await until(()=>visible().length===2,'Resize did not restore two pages');check(visible().some(leaf=>leaf.dataset.leafId==='text-6'),'Resize lost reading spread');check(win.bookReads.length===reads,'Resize unexpectedly saved progress');}
+  report(`PASS ${width}×${height}: book fit, graph/range/keyboard, page flips, all 26 hints/solutions/steps, zoom, no false attempts, answer submission${width===1366?', resize restoration':''}.`);
+  frame.remove();
+}
+report('ALL BROWSER CHECKS PASSED');document.title='PASS — Lesson 1-1 browser verification';
+}catch(error){report(`FAIL: ${error.stack||error}`);document.title='FAIL — Lesson 1-1 browser verification'}
+</script></body></html>

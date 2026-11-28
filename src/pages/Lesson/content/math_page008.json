@@ -1,0 +1,463 @@
+{
+  "source": "math_book.pdf",
+  "source_document": "math",
+  "page_number": 8,
+  "lesson": {
+    "code": "1-1",
+    "titles": [
+      "حساب التفاضل",
+      "متوسط التغير"
+    ]
+  },
+  "solves": null,
+  "blocks": [
+    {
+      "order": 1,
+      "type": "activity",
+      "topic_title": "activity.id",
+      "text": "نشاط ١",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 2,
+      "type": "activity",
+      "topic_title": "activity.text",
+      "text": "عائلة فلسطينية مكوّنة من: أم محمد وولديها التوأمين أحمد وخالد. كانت كتلة محمد قبل عشر سنوات ٣٢ كغم، وأصبحت اليوم ٦٢ كغم، أما كتلة خالد فكانت ٢٩ كغم، ولكنها اليوم ٥٢ كغم. ارتاحت أم محمد للتغير في كتلة محمد، بينما ذهبت بابنها خالد إلى الطبيب... برأيك لماذا؟",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 3,
+      "type": "definition",
+      "topic_title": "definition.intro",
+      "text": "إذا كان ص = ق(س) اقتراناً وتغيرت س من س_١ إلى س_٢، س_١ ≠ س_٢، فإن:",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 4,
+      "type": "definition",
+      "topic_title": "definition.change_in_x",
+      "text": "التغير في س يساوي س_٢ − س_١، ويرمز له بالرمز Δس ويقرأ دلتا س.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 5,
+      "type": "definition",
+      "topic_title": "definition.change_in_function",
+      "text": "التغير في الاقتران ق(س) يساوي ق(س_٢) − ق(س_١)، ويرمز له بالرمز Δص.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 6,
+      "type": "definition",
+      "topic_title": "definition.average_rate_of_change",
+      "text": "متوسط التغير في الاقتران ص = ق(س) يساوي Δص/Δس = (ص_٢ − ص_١)/(س_٢ − س_١) = (ق(س_٢) − ق(س_١))/(س_٢ − س_١).",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 7,
+      "type": "definition",
+      "topic_title": "definition.h_form",
+      "text": "Δص/Δس = (ق(س_١ + هـ) − ق(س_١))/هـ، حيث هـ = Δس ≠ ٠، ونسميه اقتران متوسط التغير عند س_١.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 8,
+      "type": "machine",
+      "topic_title": "definition.machine_readable.delta_x",
+      "text": "Δx = x2 - x1",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 9,
+      "type": "machine",
+      "topic_title": "definition.machine_readable.delta_y",
+      "text": "Δy = f(x2) - f(x1)",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 10,
+      "type": "machine",
+      "topic_title": "definition.machine_readable.average_rate",
+      "text": "Δy/Δx = (y2-y1)/(x2-x1) = (f(x2)-f(x1))/(x2-x1)",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 11,
+      "type": "machine",
+      "topic_title": "definition.machine_readable.h_form",
+      "text": "Δy/Δx = (f(x1+h)-f(x1))/h, h=Δx≠0",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 12,
+      "type": "example",
+      "topic_title": "examples[0].id",
+      "text": "مثال ١",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 13,
+      "type": "example",
+      "topic_title": "examples[0].function",
+      "text": "ص = ق(س) = س^٣ − ٥س + ٣",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": false
+    },
+    {
+      "order": 14,
+      "type": "machine",
+      "topic_title": "examples[0].machine_readable_function",
+      "text": "f(x) = x^3 - 5*x + 3",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": false
+    },
+    {
+      "order": 15,
+      "type": "example",
+      "topic_title": "examples[0].questions[0]",
+      "text": "جد Δس عندما تتغير س من −١ إلى ٢.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 16,
+      "type": "example",
+      "topic_title": "examples[0].questions[1]",
+      "text": "جد التغير في ق(س) عندما تتغير س من −١ إلى ٢.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 17,
+      "type": "example",
+      "topic_title": "examples[0].questions[2]",
+      "text": "جد متوسط التغير في ق(س) عندما تتغير س من −١ إلى ٢.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 18,
+      "type": "example",
+      "topic_title": "examples[0].solution[0]",
+      "text": "س_١ = −١، س_٢ = ٢، ومن ثم Δس = س_٢ − س_١ = ٢ − (−١) = ٣.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 19,
+      "type": "example",
+      "topic_title": "examples[0].solution[1]",
+      "text": "Δص = ق(س_٢) − ق(س_١) = ق(٢) − ق(−١) = ١ − ٧ = −٦.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    },
+    {
+      "order": 20,
+      "type": "example",
+      "topic_title": "examples[0].solution[2]",
+      "text": "متوسط التغير = Δص/Δس = −٦/٣ = −٢.",
+      "latex": "",
+      "needs_figure": false,
+      "figure_description": null,
+      "figure_files": [],
+      "uncertain": true
+    }
+  ],
+  "document": {
+    "blocks": [
+      {
+        "order": 1,
+        "type": "activity",
+        "topic_title": "activity.id",
+        "text": "نشاط ١",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 2,
+        "type": "activity",
+        "topic_title": "activity.text",
+        "text": "عائلة فلسطينية مكوّنة من: أم محمد وولديها التوأمين أحمد وخالد. كانت كتلة محمد قبل عشر سنوات ٣٢ كغم، وأصبحت اليوم ٦٢ كغم، أما كتلة خالد فكانت ٢٩ كغم، ولكنها اليوم ٥٢ كغم. ارتاحت أم محمد للتغير في كتلة محمد، بينما ذهبت بابنها خالد إلى الطبيب... برأيك لماذا؟",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 3,
+        "type": "definition",
+        "topic_title": "definition.intro",
+        "text": "إذا كان ص = ق(س) اقتراناً وتغيرت س من س_١ إلى س_٢، س_١ ≠ س_٢، فإن:",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 4,
+        "type": "definition",
+        "topic_title": "definition.change_in_x",
+        "text": "التغير في س يساوي س_٢ − س_١، ويرمز له بالرمز Δس ويقرأ دلتا س.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 5,
+        "type": "definition",
+        "topic_title": "definition.change_in_function",
+        "text": "التغير في الاقتران ق(س) يساوي ق(س_٢) − ق(س_١)، ويرمز له بالرمز Δص.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 6,
+        "type": "definition",
+        "topic_title": "definition.average_rate_of_change",
+        "text": "متوسط التغير في الاقتران ص = ق(س) يساوي Δص/Δس = (ص_٢ − ص_١)/(س_٢ − س_١) = (ق(س_٢) − ق(س_١))/(س_٢ − س_١).",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 7,
+        "type": "definition",
+        "topic_title": "definition.h_form",
+        "text": "Δص/Δس = (ق(س_١ + هـ) − ق(س_١))/هـ، حيث هـ = Δس ≠ ٠، ونسميه اقتران متوسط التغير عند س_١.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 8,
+        "type": "machine",
+        "topic_title": "definition.machine_readable.delta_x",
+        "text": "Δx = x2 - x1",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 9,
+        "type": "machine",
+        "topic_title": "definition.machine_readable.delta_y",
+        "text": "Δy = f(x2) - f(x1)",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 10,
+        "type": "machine",
+        "topic_title": "definition.machine_readable.average_rate",
+        "text": "Δy/Δx = (y2-y1)/(x2-x1) = (f(x2)-f(x1))/(x2-x1)",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 11,
+        "type": "machine",
+        "topic_title": "definition.machine_readable.h_form",
+        "text": "Δy/Δx = (f(x1+h)-f(x1))/h, h=Δx≠0",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 12,
+        "type": "example",
+        "topic_title": "examples[0].id",
+        "text": "مثال ١",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 13,
+        "type": "example",
+        "topic_title": "examples[0].function",
+        "text": "ص = ق(س) = س^٣ − ٥س + ٣",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": false
+      },
+      {
+        "order": 14,
+        "type": "machine",
+        "topic_title": "examples[0].machine_readable_function",
+        "text": "f(x) = x^3 - 5*x + 3",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": false
+      },
+      {
+        "order": 15,
+        "type": "example",
+        "topic_title": "examples[0].questions[0]",
+        "text": "جد Δس عندما تتغير س من −١ إلى ٢.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 16,
+        "type": "example",
+        "topic_title": "examples[0].questions[1]",
+        "text": "جد التغير في ق(س) عندما تتغير س من −١ إلى ٢.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 17,
+        "type": "example",
+        "topic_title": "examples[0].questions[2]",
+        "text": "جد متوسط التغير في ق(س) عندما تتغير س من −١ إلى ٢.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 18,
+        "type": "example",
+        "topic_title": "examples[0].solution[0]",
+        "text": "س_١ = −١، س_٢ = ٢، ومن ثم Δس = س_٢ − س_١ = ٢ − (−١) = ٣.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 19,
+        "type": "example",
+        "topic_title": "examples[0].solution[1]",
+        "text": "Δص = ق(س_٢) − ق(س_١) = ق(٢) − ق(−١) = ١ − ٧ = −٦.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      },
+      {
+        "order": 20,
+        "type": "example",
+        "topic_title": "examples[0].solution[2]",
+        "text": "متوسط التغير = Δص/Δس = −٦/٣ = −٢.",
+        "latex": "",
+        "needs_figure": false,
+        "figure_description": null,
+        "figure_files": [],
+        "uncertain": true
+      }
+    ]
+  },
+  "consistency_check": "",
+  "reviewed_by": "mohammad",
+  "reviewed_at": "2026-09-19T11:49:24",
+  "edited": true
+}

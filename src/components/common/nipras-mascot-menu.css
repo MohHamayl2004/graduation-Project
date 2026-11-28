@@ -4,6 +4,14 @@
 .nipras-mascot-art { display: grid; place-items: center; width: 100%; height: 100%; pointer-events: none; }
 .nipras-mascot-art[data-floating="true"] { animation: nipras-mascot-float var(--mascot-float-duration) ease-in-out infinite alternate; }
 .nipras-mascot-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.nipras-student-avatar { position:relative; }
+.nipras-student-avatar .nipras-mascot-trigger { position:relative;border-radius:50%; }
+.nipras-student-avatar .nipras-mascot-art { overflow:hidden;border-radius:50%;background:rgb(255 255 255 / .1);border:2px solid rgb(255 255 255 / .22); }
+.nipras-student-avatar .nipras-mascot-art img { object-fit:cover; }
+.nipras-profile-initials { display:grid;place-items:center;width:100%;height:100%;font-size:clamp(18px,3vw,42px);font-weight:700;color:#e4fff1; }
+.nipras-profile-camera { position:absolute;inset-inline-end:0;bottom:2px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#d5f7e2;color:#14583c;border:2px solid #14583c;pointer-events:none; }
+.nipras-profile-status,.nipras-profile-error { position:absolute;inset-inline:0;top:100%;z-index:1;font-size:11px;text-align:center;background:var(--app-surface);color:var(--app-ink);border-radius:8px;padding:5px; }
+.nipras-profile-error { color:var(--app-error,#b93f38); }
 .sidebar-teacher { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; }
 .sidebar-teacher-canvas { position: absolute; inset: 0; }
 .sidebar-teacher-canvas canvas { display: block; width: 100%; height: 100%; }

@@ -99,7 +99,7 @@ test("checkpoint answers are graded by the API, first attempts only, per student
   const resultModel = fakeResults();
   const planModel = { findOne: () => ({ sort: () => ({ lean: async () => null }) }) };
   const app = express(); app.use(express.json());
-  app.use(createProgressRouter({ guard: as, planModel, resultModel })); app.use(errorHandler);
+  app.use(createProgressRouter({ guard: as, planModel, resultModel, quizModel: { find: () => ({ lean: async () => [] }) } })); app.use(errorHandler);
   const send = (user, body) => request(app).post("/checkpoints").set("X-User", user).send({ interactiveId: "1-1-stickman", atSeconds: 10, ...body });
   assert.equal((await request(app).post("/checkpoints").send({})).status, 401);
   assert.equal((await send("alice", { checkpointId: "cp1" })).status, 400);

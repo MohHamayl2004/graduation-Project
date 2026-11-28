@@ -25,5 +25,12 @@ test("progress shows loading, error, unavailable and real plan states", async ()
     assert.match(mastered, /يحتاج تقوية/);
     assert.match(mastered, /راجع: حساب Δس/);
     assert.match(mastered, /أعد توليد خطتك/);
+    // Quiz and in-video answers reach the summary cards and the quiz panel.
+    const scored = render({ data: { plan: null, metrics: { quizAttempts: 2, quizAverage: 95, videoAnswered: 7, videoCorrect: 5 }, quizzes: [{ quizId: "rate-of-change", subject: "الرياضيات", title: "متوسط التغير", attempts: 2, best: 100, last: 90, lastCorrect: 9, total: 10 }] } });
+    assert.match(scored, /متوسط العلامة 95٪/);
+    assert.match(scored, /71٪/);
+    assert.match(scored, /آخر علامة 90٪/);
+    assert.match(scored, /quizzes[?]quiz=rate-of-change/);
+    assert.match(empty, /حلّ اختبارًا من صفحة الاختبارات/);
   } finally { await server.close(); }
 });

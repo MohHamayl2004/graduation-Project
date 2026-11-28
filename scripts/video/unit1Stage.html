@@ -1,0 +1,37 @@
+<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8">
+<style>
+@font-face{font-family:Tajawal;src:url('../../../../node_modules/@fontsource/tajawal/files/tajawal-arabic-700-normal.woff2')}
+*{box-sizing:border-box}body{margin:0;background:#f5f7ef;color:#173b2c;font-family:Tajawal,Arial}main{width:1280px;height:720px;padding:42px 60px}header{display:flex;justify-content:space-between;font-size:22px;color:#386f52}h1{font-size:42px;margin:26px 0 14px}section{display:flex;gap:36px;align-items:center}canvas{background:white;border-radius:24px;width:620px;height:390px}aside{width:500px}#formula{direction:ltr;text-align:center;font:30px Georgia;line-height:1.7;white-space:pre-wrap;background:#e1eee0;padding:24px;border-radius:20px}#caption{font-size:24px;line-height:1.65;margin-top:20px}footer{font-size:18px;margin-top:18px;color:#4d6556}#bar{height:5px;background:#18864f;margin-top:16px;transform-origin:right}
+</style><main><header><span>نبراس · الرياضيات · الصف الثاني عشر</span><span id="lesson"></span></header><h1 id="title"></h1><section><canvas width="620" height="390"></canvas><aside><div id="formula"></div><p id="caption"></p></aside></section><footer id="source"></footer><div id="bar"></div></main>
+<script>
+const data=/*LESSON_DATA*/;
+const canvas=document.querySelector('canvas'),c=canvas.getContext('2d');
+const px=x=>70+(x+2)*85,py=y=>310-y*27;
+function line(x1,y1,x2,y2,color='#18864f',width=4){c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(px(x1),py(y1));c.lineTo(px(x2),py(y2));c.stroke()}
+function plot(fn,progress,color){c.strokeStyle=color;c.lineWidth=4;c.beginPath();for(let j=0;j<=240*progress;j++){let x=-2+j/240*5,y=fn(x);if(j===0)c.moveTo(px(x),py(y));else c.lineTo(px(x),py(y))}c.stroke()}
+window.renderFrame=t=>{
+ const s=data.scenes.find(s=>t>=s.start&&t<s.start+s.duration)||data.scenes.at(-1),p=Math.min(1,(t-s.start)/Math.min(4,s.duration));
+ document.querySelector('#lesson').textContent=data.lesson.title;
+ document.querySelector('#title').textContent=s.title;
+ document.querySelector('#formula').textContent=s.formula;
+ document.querySelector('#caption').textContent=s.narration;
+ document.querySelector('#source').textContent='المصدر · '+data.lesson.source+' · صفحات PDF '+data.lesson.pages.join('–')+' · '+data.lesson.unitTitle;
+ document.querySelector('#bar').style.transform='scaleX('+t/data.duration+')';
+ c.clearRect(0,0,620,390);line(-2,0,3.5,0,'#90a89a',1);line(0,-1,0,10,'#90a89a',1);
+ c.font='18px Arial';c.fillStyle='#38634a';c.fillText('x',560,330);c.fillText('y',225,25);
+ if(['curve','triangle','secant'].includes(s.visual)){
+  plot(x=>x*x*x-5*x+3,p,'#16834e');
+  if(s.visual!=='curve'){line(-1,7,2,7,'#dea342',3);line(2,7,2,1,'#dea342',3)}
+  if(s.visual==='secant')line(-1,7,-1+3*p,7-6*p,'#cc603b',5);
+  for(const [x,y]of[[-1,7],[2,1]]){c.fillStyle='#173b2c';c.beginPath();c.arc(px(x),py(y),7,0,7);c.fill();c.fillText('('+x+', '+y+')',px(x)+10,py(y)-12)}
+ }else if(['sine','cosine','product'].includes(s.visual)){
+  plot(x=>3*Math.sin(x),p,'#16834e');plot(x=>3*Math.cos(x),p,'#d3962f');
+  c.fillStyle='#16834e';c.fillText('sin x',420,45);c.fillStyle='#ad7919';c.fillText('cos x',420,73);
+  const x=-2+5*((t-s.start)/s.duration);c.beginPath();c.arc(px(x),py(3*Math.sin(x)),7,0,7);c.fill();
+ }else{
+  if(s.visual==='constant'||s.visual==='compare')plot(()=>5,p,'#d3962f');
+  if(s.visual==='linear'||s.visual==='compare')plot(x=>5*x,p,'#16834e');
+  if(s.visual==='tangent'){plot(x=>x*x,p,'#16834e');const x=Math.min(2,-1+3*(t-s.start)/s.duration);line(x-1,x*x-2*x,x+1,x*x+2*x,'#d3962f')}
+ }
+};window.renderFrame(0);
+</script></html>
