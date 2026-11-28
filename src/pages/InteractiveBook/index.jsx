@@ -110,6 +110,14 @@ export default function InteractiveBook() {
     if (dx > 60) go(first + step); else if (dx < -60) go(first - step);
   };
   const close = useCallback(() => setActive(null), []);
+  // A link from the study plan can open one experiment: /book/physics?page=68&try=series
+  const tried = useRef(false);
+  useEffect(() => {
+    const id = params.get("try");
+    if (tried.current || !id) return;
+    const pageIndex = visible.find((i) => book.pages[i].hotspots.some((h) => h.id === id));
+    if (pageIndex !== undefined) { tried.current = true; setActive({ page: pageIndex, id }); }
+  }, [params, visible, book.pages]);
   // Load the pages around the open ones, so a turning leaf never shows a half-drawn page.
   useEffect(() => {
     for (let i = Math.max(0, first - 2); i < Math.min(book.pages.length, first + 4); i++) {
