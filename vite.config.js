@@ -9,7 +9,10 @@ export default defineConfig(({ mode }) => {
     // workflow sets NIPRAS_BASE_PATH. Local development stays at /.
     base: env.NIPRAS_BASE_PATH || "/",
     plugins: [react()],
-    server: { host: "127.0.0.1", proxy },
+    server: {
+      host: "127.0.0.1", proxy,
+      watch: { ignored: ["**/.agents/**", "**/.local/**", "**/.worktrees/**", "**/graphify-out/**", "**/.tmp*/**", "**/.codex/**"] }
+    },
     preview: { host: "127.0.0.1", proxy }
   };
 });

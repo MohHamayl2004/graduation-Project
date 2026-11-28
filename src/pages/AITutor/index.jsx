@@ -1,20 +1,19 @@
 import Sidebar from "../../components/layout/Sidebar";
-import { useTutorChat } from "../../hooks/useTutorChat";
+import { useTutorCompanion } from '../../companion/TutorCompanionContext.jsx';
 import ChatHistoryPanel from "./components/ChatHistoryPanel";
 import MainChat from "./MainChat";
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./tutor.css";
 import "./left-panel.css";
-import { mascotConfig } from "../../config/mascotConfig";
-import { teacherState } from "./teacherAnimation";
-
-const TeacherCharacter = lazy(() => import("./components/TeacherCharacter"));
 
 export default function AITutor() {
-  const chat = useTutorChat();
+  const { chat, character } = useTutorCompanion();
   const { state, signedIn, openChat, newChat, removeChat } = chat;
   const [historyOpen, setHistoryOpen] = useState(() => window.matchMedia("(min-width:1280px)").matches);
   const [draft, setDraft] = useState("");
+  const location = useLocation();
+  useEffect(() => { if (typeof location.state?.lessonQuestion === "string") setDraft(location.state.lessonQuestion); }, [location.state?.lessonQuestion]);
   const [submitting, setSubmitting] = useState(false);
   const send = async (text) => {
     if (!text.trim() || submitting || state.phase === "streaming") return;
@@ -40,8 +39,8 @@ export default function AITutor() {
   return (
     <div ref={root} className="app-screen tutor-screen bg-surface text-ink" data-left-sidebar-open={historyOpen} dir="rtl">
       <div className="mx-auto flex h-full max-w-[1600px]">
-        <Sidebar activeItem="aiTutor" mascotArt={<Suspense fallback={<img src={mascotConfig.image} alt="" />}><TeacherCharacter state={teacherState(state, submitting)} response={state.messages.at(-1)} /></Suspense>} />
-        <MainChat chat={{ ...chat, send }} onHistory={() => setHistoryOpen(true)} historyOpen={historyOpen} draft={draft} onDraftChange={setDraft} composerRef={composer} />
+        <Sidebar activeItem="aiTutor" />
+        <MainChat speech={character} chat={{ ...chat, send, stop: () => { character.interrupt(); chat.stop(); } }} onHistory={() => setHistoryOpen(true)} historyOpen={historyOpen} draft={draft} onDraftChange={setDraft} composerRef={composer} />
         {signedIn && (
           <ChatHistoryPanel
             chats={state.chats}

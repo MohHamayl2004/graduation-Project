@@ -1,0 +1,21 @@
+.assessment-stage { position: relative; isolation: isolate; border-radius: 1rem; background: #080b12; overflow: hidden; }
+.assessment-stage video { display: block; width: 100%; max-height: 80dvh; }
+.assessment-stage.has-question video { filter: brightness(.3); }
+.assessment-stage:fullscreen { display: grid; place-content: center; width: 100%; height: 100%; border-radius: 0; }
+.assessment-stage:fullscreen video { width: 100vw; max-height: 100dvh; }
+.assessment-player button { min-height: 44px; padding: .65rem 1rem; border-radius: .65rem; }
+.assessment-player button:disabled { opacity: .55; cursor: wait; }
+.assessment-player :is(button,input):focus-visible { outline: 3px solid #79b893; outline-offset: 3px; }
+.assessment-fullscreen { display: block; margin-inline: auto; color: white; background: #064c3b; }
+.assessment-quiz { position: fixed; inset: 0; margin: auto; width: min(38rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); padding: 0; border: 1px solid #cbdccd; border-radius: 1.5rem; color: #173b2c; background: #fff; box-shadow: 0 24px 80px #0005; overflow-y: auto; }
+.assessment-quiz::backdrop { background: rgb(4 25 15 / .65); }
+.assessment-quiz h2 { font-size: clamp(1.2rem, 3vw, 1.6rem); line-height: 1.6; text-wrap: balance; }
+.assessment-eyebrow { font-size: .875rem; color: #4d6556; font-variant-numeric: tabular-nums; }
+.assessment-option { display: flex; align-items: center; gap: .75rem; min-height: 48px; padding: .75rem; border: 1px solid #bfd7c7; border-radius: .75rem; cursor: pointer; }
+.assessment-option:has(input:checked) { background: #edf5e9; border-color: #23834d; }
+.assessment-primary { background: #23834d; color: white; }
+.assessment-quiz [role="status"] { line-height: 1.8; }
+.assessment-quiz [role="alert"] { color: #a11b1b; }
+@media (max-width: 480px) { .assessment-quiz form button { flex: 1 1 100%; } }
+
+.assessment-option input { accent-color: #23834d; }

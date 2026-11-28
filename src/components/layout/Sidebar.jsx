@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   LayoutGrid,
@@ -18,7 +18,7 @@ import Logo from "../common/Logo";
 import NiprasMascotMenu from "../common/NiprasMascotMenu";
 import StudentBadge from "../common/StudentBadge";
 
-const TeacherCharacter = lazy(() => import("../../pages/AITutor/components/TeacherCharacter"));
+import { mascotConfig } from '../../config/mascotConfig';
 
 const navItems = [
   { id: "dashboard", icon: LayoutGrid, path: "/dashboard" },
@@ -170,7 +170,7 @@ export default function Sidebar({ activeItem = "aiTutor", mascotArt }) {
           </ul>
         </nav>
         <div className="app-drawer-account">
-          <NiprasMascotMenu art={mascotArt || <Suspense fallback={null}><TeacherCharacter idleOnly /></Suspense>} enabled={wide || mobileOpen} onOpenChange={setAccountOpen} onNavigate={() => setMobileOpen(false)} />
+          <NiprasMascotMenu art={mascotArt || <img src={mascotConfig.image} alt="" />} enabled={wide || mobileOpen} onOpenChange={setAccountOpen} onNavigate={() => setMobileOpen(false)} />
           <StudentBadge onNavigate={() => setMobileOpen(false)} />
         </div>
       </aside>

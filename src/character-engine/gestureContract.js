@@ -1,0 +1,4 @@
+// Mirrors the standalone backend's structured response schema.
+export const GESTURES = Object.freeze(['GREETING', 'IDLE', 'LISTENING', 'THINKING', 'EXPLAINING', 'POINTING', 'ENCOURAGING', 'CELEBRATING', 'TALKING_LEFT', 'TALKING_RIGHT', 'SWITCHING_HANDS', 'NEUTRAL']);
+export const normalizeGesture = value => ({ gesture: GESTURES.includes(value?.gesture) ? value.gesture : 'EXPLAINING', emotion: ['neutral', 'happy', 'thoughtful', 'supportive'].includes(value?.emotion) ? value.emotion : 'neutral' });
+export const gestureState = gesture => ({ GREETING: 'greeting', IDLE: 'idle', LISTENING: 'listening', THINKING: 'thinking', EXPLAINING: 'explaining', POINTING: 'pointing', ENCOURAGING: 'encouraging', CELEBRATING: 'celebrating', TALKING_LEFT: 'talking_left_hand', TALKING_RIGHT: 'talking_right_hand', SWITCHING_HANDS: 'switching_hands', NEUTRAL: 'idle' })[normalizeGesture({ gesture }).gesture];

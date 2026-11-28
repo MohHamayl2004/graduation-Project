@@ -2,11 +2,12 @@ import { AlertTriangle, BookOpen, CheckCircle2, ListOrdered, Sparkles } from "lu
 import { sourceLabel } from "../chatState";
 import AnswerBody from "./AnswerBody";
 import MathText from "./MathText";
+import { canOfferExplanationActions, explanationActions } from "../teachingActions";
 
 // One tutor answer. The text is rendered as text - never as HTML - with its
 // line breaks kept. While it streams, the sources and the verified result
 // appear first, then the explanation is written in.
-export default function AssistantMessage({ message }) {
+export default function AssistantMessage({ message, isLatest = false, actionsDisabled = false, onAction }) {
   const { content, status, sources, calculation, errorMessage } = message;
   const streaming = status === "streaming";
   const refused = status === "refused";
@@ -30,6 +31,7 @@ export default function AssistantMessage({ message }) {
             ))}
           </div>
         )}
+        {sources.length > 0 && <p className="mb-3 text-xs text-ink-muted">المراجع من نصوص مستخرجة وقد تحتاج إلى مراجعة.</p>}
 
         {calculation?.answer && (
           <div className="mb-3 inline-flex items-center gap-2 rounded-lg border border-success/30 bg-success-tint px-3 py-1.5 text-sm font-semibold text-success">
@@ -74,6 +76,14 @@ export default function AssistantMessage({ message }) {
             <AlertTriangle size={16} aria-hidden="true" />
             {errorMessage || "ما اكتمل الجواب. حاول مرة ثانية."}
           </p>
+        )}
+        {status === "complete" && content && sources.length === 0 && (
+          <p className="mt-3 text-sm text-ink-muted">لم يتوفر مرجع من الكتاب لهذا الجواب.</p>
+        )}
+        {canOfferExplanationActions(message, isLatest) && onAction && (
+          <div className="tutor-explanation-actions" role="group" aria-label="متابعة الشرح">
+            {explanationActions.map(action => <button key={action.id} type="button" disabled={actionsDisabled || action.pending} title={action.pending ? "متاح بعد إضافة التحقق من التمارين" : undefined} onClick={() => onAction(action.prompt)}>{action.label}{action.pending && <span className="ms-1 text-xs">قريبًا</span>}</button>)}
+          </div>
         )}
       </div>
     </div>

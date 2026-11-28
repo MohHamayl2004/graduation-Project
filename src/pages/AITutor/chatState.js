@@ -1,3 +1,4 @@
+import { normalizeGesture } from '../../character-engine/gestureContract.js';
 // The AI Tutor chat as plain data: every change is a pure function, so what
 // the student sees for each stream event is testable without a browser.
 // Contract: docs/contracts/tutor-stream-v1.md
@@ -8,7 +9,7 @@ export const toArabicDigits = (value) => String(value ?? "").replace(/[0-9]/g, (
 // "الدرس ١-٢ · صفحة ١٦–١٧"  /  "دليل الحلول · صفحة ٨"
 export function sourceLabel(source) {
   const pages = [...new Set((source.pages || []).filter((p) => p != null))].sort((a, b) => a - b);
-  const pageText = pages.length === 0 ? "" : pages.length === 1 ? `صفحة ${toArabicDigits(pages[0])}` : `صفحة ${toArabicDigits(pages[0])}–${toArabicDigits(pages.at(-1))}`;
+  const pageText = pages.length === 0 ? "" : pages.length === 1 ? `صفحة ملف PDF ${toArabicDigits(pages[0])}` : `صفحات ملف PDF ${toArabicDigits(pages[0])}–${toArabicDigits(pages.at(-1))}`;
   const where = source.document === "solutions" ? "دليل الحلول" : source.lesson ? `الدرس ${toArabicDigits(source.lesson)}` : "الكتاب";
   return pageText ? `${where} · ${pageText}` : where;
 }
@@ -46,7 +47,7 @@ export function applyStreamEvent(message, event) {
     case "delta":
       return { ...message, content: message.content + (event.text || "") };
     case "done":
-      return { ...message, content: event.answer ?? message.content, status: event.refused ? "refused" : "complete" };
+      return { ...message, ...normalizeGesture(event), content: event.answer ?? message.content, status: event.refused ? "refused" : "complete" };
     case "error":
       return { ...message, status: message.content ? "interrupted" : "failed", errorMessage: event.message || "صار خطأ، حاول مرة ثانية" };
     default:

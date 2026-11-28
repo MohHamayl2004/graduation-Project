@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { mathTemplates } from "../src/pages/AITutor/mathTemplates.js";
 import { renderEquation } from "../src/pages/AITutor/mathContent.js";
+import { mathSegments } from "../src/pages/AITutor/mathContent.js";
+import { streamMessage } from "../src/services/tutorService.js";
 
 const insert = (id) => mathTemplates.find((item) => item.id === id).insert;
 
@@ -25,4 +27,19 @@ test("templates use the textbook's notation", () => {
 test("a limit is written under نهـــا and has slots for the value and the expression", () => {
   assert.match(insert("limit"), /\\limits_\{س\\leftarrow #\?\}/);
   assert.equal(insert("limit").match(/#\?/g).length, 2);
+});
+
+test("Arabic questions retain their equation when sent to the tutor", async () => {
+  const originalFetch = globalThis.fetch;
+  let submitted;
+  globalThis.fetch = async (_url, options) => {
+    submitted = JSON.parse(options.body);
+    return new Response('{"type":"done"}\n', { status: 200 });
+  };
+  try {
+    const question = String.raw`احسب \(\frac{س}{٢}+س^{٣}\)`;
+    await streamMessage("token", "chat", question, { onEvent() {} });
+    assert.equal(submitted.content, question);
+    assert.equal(mathSegments(submitted.content)[1].latex, String.raw`\frac{س}{٢}+س^{٣}`);
+  } finally { globalThis.fetch = originalFetch; }
 });

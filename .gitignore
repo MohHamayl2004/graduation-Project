@@ -39,3 +39,9 @@ Thumbs.db
 Claude outputs/
 
 .tmp-teacher-*
+
+# Isolated agent work and local execution records
+/.worktrees/
+/.agents/runs/
+/.agents/delegation.lock
+/.agents/check-output/

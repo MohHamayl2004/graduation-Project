@@ -5,9 +5,9 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#152A63",
-          hover: "#0F1F4A",
-          tint: "#E8EBF5"
+          DEFAULT: "#16733E",
+          hover: "#115B30",
+          tint: "#E7F4EC"
         },
         accent: {
           DEFAULT: "#1E7A3C",
@@ -17,16 +17,16 @@ export default {
         surface: {
           DEFAULT: "#FAFAF9",
           raised: "#FFFFFF",
-          alt: "#F1F2F6"
+          alt: "#F0F6F2"
         },
         ink: {
-          DEFAULT: "#1B2136",
-          muted: "#5B6478",
-          faint: "#6B7280"
+          DEFAULT: "#182522",
+          muted: "#586E61",
+          faint: "#64766B"
         },
         border: {
-          DEFAULT: "#E2E5EE",
-          strong: "#CBD0DE"
+          DEFAULT: "#DCECE2",
+          strong: "#BFD7C7"
         },
         success: {
           DEFAULT: "#1E7A3C",
@@ -64,9 +64,9 @@ export default {
         xl: "24px"
       },
       boxShadow: {
-        sm: "0 2px 8px rgba(21, 42, 99, 0.06)",
-        md: "0 8px 24px rgba(21, 42, 99, 0.10)",
-        lg: "0 20px 48px rgba(21, 42, 99, 0.16)"
+        sm: "0 2px 8px rgba(6, 76, 59, 0.06)",
+        md: "0 8px 24px rgba(6, 76, 59, 0.10)",
+        lg: "0 20px 48px rgba(6, 76, 59, 0.16)"
       },
       transitionDuration: {
         fast: "150ms",

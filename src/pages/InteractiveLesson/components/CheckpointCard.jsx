@@ -17,7 +17,7 @@ export default function CheckpointCard({ checkpoint, onAnswer, onResume }) {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-surface-raised p-5 shadow-lg sm:p-6" role="dialog" aria-label="سؤال أثناء الدرس">
+    <div className="rounded-2xl border border-border bg-surface-raised p-5 shadow-lg sm:p-6" data-voice-question={checkpoint.question} role="dialog" aria-label="سؤال أثناء الدرس">
       <p className="mb-4 text-lg font-semibold text-ink">
         <MathText text={checkpoint.question} />
       </p>

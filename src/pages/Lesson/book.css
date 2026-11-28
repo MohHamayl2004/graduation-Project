@@ -1,0 +1,41 @@
+.book-screen { display: flex; flex-direction: column; overflow: hidden; background: #f6faf7; color: #173b2d; }
+.book-header { display: flex; align-items: center; gap: 12px; flex: none; min-height: 68px; padding: 9px 20px; border-bottom: 1px solid #dcece2; background: #fff; }
+.book-header h1 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+.book-header span { display: block; color: #64736d; font-size: .75rem; }
+.book-back, .book-toolbar button { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border: 1px solid #dcece2; border-radius: 10px; background: #fff; color: #07513f; }
+.book-main { flex: 1; min-height: 0; overflow-y: auto; padding: 16px max(16px, calc((100% - 1380px) / 2)) 36px; }
+.book-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start; }
+.book-layout-with-activity { grid-template-columns: minmax(0, 1.85fr) minmax(300px, 1fr); }
+.book-reading, .book-activity-panel { min-width: 0; }
+.book-activity-panel { max-height: 74dvh; overflow-y: auto; }
+.book-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.book-pagination, .book-zoom { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 600; }
+.book-pagination small { color: #64736d; font-weight: 400; }
+.book-toolbar button:disabled, .book-footer button:disabled { opacity: .4; cursor: default; }
+.book-save-status { min-height: 20px; margin: 8px 0; color: #64736d; font-size: .75rem; }
+.book-pdf-frame { display: flex; align-items: flex-start; justify-content: safe center; width: 100%; max-height: 78dvh; overflow: auto; padding: 4px; border: 1px solid #dcece2; border-radius: 14px; background: #e9f0eb; }
+.book-pdf-frame canvas { display: block; flex: none; background: white; box-shadow: 0 3px 14px #173b2d1a; }
+.book-pdf-frame a { color: #16733e; text-decoration: underline; }
+.book-activity { padding: 16px; border: 1px solid #dcece2; border-radius: 16px; background: #fff; line-height: 1.7; }
+.book-activity-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.book-activity-heading p { color: #64736d; font-size: .8rem; }
+.book-activity-heading h2 { font-size: 1.1rem; font-weight: 700; }
+.book-activity-heading span { color: #16733e; font-size: .8rem; }
+.book-graph { overflow-x: auto; margin-top: 12px; border: 1px solid #e5eee8; border-radius: 12px; background: #fbfdfb; }
+.book-graph svg { display: block; width: 100%; min-width: 300px; max-height: 280px; }
+.book-axis { stroke: #94a89b; stroke-width: 1; }
+.book-curve { fill: none; stroke: #16733e; stroke-width: 2.5; }
+.book-secant { stroke: #16803d; stroke-width: 2; stroke-dasharray: 5 4; }
+.book-graph circle { fill: #16733e; }.book-graph text { fill: #64736d; font-size: 12px; }
+.book-sliders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 12px; }
+.book-sliders label { font-size: .85rem; }.book-sliders input { display: block; width: 100%; accent-color: #16733e; }
+.book-result { margin-top: 12px; padding: 10px; border-radius: 9px; background: #eff8f2; font-weight: 600; }
+.book-question { margin-top: 18px; }.book-question label { display: block; font-weight: 600; }.book-question div { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.book-question input { width: 140px; min-height: 44px; padding: 8px; border: 1px solid #b7cabe; border-radius: 9px; background: white; }
+.book-question button, .book-ask, .book-footer button { min-height: 44px; padding: 8px 14px; border: 1px solid #07513f; border-radius: 9px; background: #07513f; color: white; font-weight: 600; }
+.book-question button.secondary, .book-ask, .book-footer button { background: white; color: #07513f; }
+.book-question p { margin-top: 8px; font-size: .9rem; }.book-ask { margin-top: 16px; }
+.book-pending { margin: 16px 0; color: #64736d; font-size: .9rem; }
+.book-footer { display: flex; justify-content: space-between; gap: 10px; margin-top: 18px; }
+@media (max-width: 639px) { .book-header { padding-inline: 12px; gap: 8px; }.book-header h1 { font-size: 1rem; }.book-main { padding-inline: 12px; }.book-activity { padding: 14px; }.book-pdf-frame { max-height: 68dvh; } }
+@media (max-width: 900px) { .book-layout-with-activity { grid-template-columns: minmax(0, 1fr); }.book-activity-panel { max-height: none; overflow: visible; } }

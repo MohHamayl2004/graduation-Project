@@ -1,16 +1,20 @@
-import { lesson } from "../../data/mockLesson.js";
+import { lessonBooks } from "../../../shared/lessonBook.js";
 
 // Only published, working content is listed. The interactive lesson is not a video.
 export const subjects = [{
-  id: "math", name: lesson.subject,
+  id: "math", name: "الرياضيات",
   description: "تعلّم المفاهيم الرياضية من خلال الشرح، والرسوم البيانية، والأمثلة التفاعلية من الكتاب.",
   // Lessons NIPRAS made itself: a video that stops for questions as it explains.
   videos: [{
     id: "1-1-stickman", code: "1-1", title: "متوسط التغير — رحلة سامي على المنحنى",
     to: "/interactive/1-1-stickman", poster: "lectures/1-1-stickman/poster.jpg",
     summary: "مثال واحد من الكتاب بأربع دقائق، مع ٦ أسئلة بتوقّف الفيديو بعد كل فكرة."
+  }, {
+    // The lesson video with the talking teacher, who stops to ask questions.
+    id: "lesson-20261117", code: "lesson-20261117", title: "متوسط التغير — شرح المعلّم", to: "/lectures/videos/lesson-20261117",
+    summary: "شاهد الشرح وأجب عن أسئلة المعلّم أثناء المشاهدة."
   }],
-  lessons: [{ code: lesson.code, title: lesson.title, to: `/lesson/${lesson.code}` }]
+  lessons: [...lessonBooks.map(book => ({ code: book.id, title: book.title, to: `/lesson/${book.id}` })), { code: "unit-1", title: "الوحدة الأولى كاملة · دروس وأنشطة وتقييم", to: "/math-unit" }]
 }, {
   id: "physics", name: "الفيزياء",
   description: "اقرأ صفحات كتاب الفيزياء نفسها، واضغط على أي شكل لتشتغل التجربة عليه: دارات، أميترات، قنطرة ويتستون، وقانونا كيرتشوف.",
