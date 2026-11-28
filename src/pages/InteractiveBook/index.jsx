@@ -50,7 +50,7 @@ function ActiveExperiment({ hotspot, page, onClose, cardHost, spread }) {
 // The same printed figure, cut from the page and enlarged, with the same live overlay.
 function ZoomedFigure({ page, rect: [x0, y0, x1, y1], children }) {
   const w = x1 - x0, h = y1 - y0;
-  return <div className="bk-lab-figure" style={{ aspectRatio: `${w} / ${h}`, width: `${Math.min(100, 64 * (w / h))}%`, backgroundImage: `url(${import.meta.env.BASE_URL}${page.image})`,
+  return <div className="bk-lab-figure" style={{ aspectRatio: `${w} / ${h}`, width: `${Math.min(100, 50 * (w / h))}%`, backgroundImage: `url(${import.meta.env.BASE_URL}${page.image})`,
     backgroundSize: `${(581.1 / w) * 100}% auto`, backgroundPosition: `${(x0 / (581.1 - w)) * 100}% ${(y0 / (751.18 - h)) * 100}%` }}>
     <div className="bk-figure bk-figure-zoom">{children}</div>
   </div>;
@@ -164,7 +164,7 @@ export default function InteractiveBook() {
   return <div className="app-screen bk-screen" dir="rtl">
     <div className="mx-auto flex h-full max-w-[1600px]">
       <Sidebar activeItem="lectures" />
-      <main className="bk-main" ref={main}>
+      <main className={`bk-main${spread ? " bk-fit" : ""}`} ref={main}>
         <header className="bk-header">
           <div><h1>{book.title}</h1><p>{book.source}</p></div>
           <button type="button" className="bk-icon-button" onClick={() => { sound.setMuted(!muted); setMuted(!muted); }} aria-pressed={!muted} aria-label={muted ? "تشغيل الأصوات" : "كتم الأصوات"} title={muted ? "تشغيل الأصوات" : "كتم الأصوات"}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button>
