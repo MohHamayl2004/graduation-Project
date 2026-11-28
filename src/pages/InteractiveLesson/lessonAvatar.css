@@ -1,0 +1,21 @@
+/* The video and its companion character side by side in one frame:
+   the video on the left keeps its own size and look; the character on the right. */
+.lesson-frame { display: flex; direction: ltr; width: 100%; background: #000; }
+.lesson-frame-video { position: relative; flex: 1 1 auto; min-width: 0; }
+.lesson-frame.is-fullscreen { height: 100%; align-items: center; }
+.lesson-frame.is-fullscreen .lesson-frame-video { max-height: 100%; }
+.lesson-avatar { display: flex; flex: 0 0 30%; flex-direction: column; min-width: 0; background: linear-gradient(180deg, #0f2a22 0%, #12382b 100%); border-left: 1px solid #ffffff1a; color: #fff; }
+.lesson-frame.is-fullscreen .lesson-avatar { align-self: stretch; }
+.lesson-avatar-stage { position: relative; flex: 1; min-height: 0; }
+.lesson-avatar-stage > [data-character-viewport] { position: absolute; inset: 0; }
+.lesson-avatar-caption { min-height: 3.4em; margin: 0; padding: .55rem .8rem .2rem; font-size: clamp(.8rem, 1.35vw, 1.15rem); font-weight: 700; line-height: 1.6; text-align: center; }
+.lesson-avatar-caption span { color: #ffffff8c; transition: color .12s; }
+.lesson-avatar-caption .is-said { color: #ffffffd9; }
+.lesson-avatar-caption .is-now { color: #4ade80; }
+.lesson-avatar-caption .is-idle { color: #ffffff8c; font-weight: 500; }
+.lesson-avatar-note { margin: 0; padding: 0 .6rem .45rem; font-size: .62rem; text-align: center; color: #ffffff73; }
+@media (max-width: 640px) {
+  .lesson-frame { flex-direction: column; }
+  .lesson-avatar { flex-basis: auto; height: 15rem; border-left: 0; border-top: 1px solid #ffffff1a; }
+}
+.lesson-avatar-gloss { position: absolute; top: .6rem; right: .6rem; padding: .15rem .55rem; border-radius: 999px; background: #22c55e; color: #052e16; font-size: .75rem; font-weight: 800; }

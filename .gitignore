@@ -45,3 +45,6 @@ Claude outputs/
 /.agents/runs/
 /.agents/delegation.lock
 /.agents/check-output/
+
+# MediaPipe model for tools/sign-capture (13 MB, downloaded by the README step)
+tools/sign-capture/models/

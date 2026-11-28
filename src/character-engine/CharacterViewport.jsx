@@ -8,9 +8,13 @@ import { FaceController } from './FaceController.js';
 import { SilhouetteOutline } from './SilhouetteOutline.js';
 import { HandPoseController } from './HandPoseController.js';
 
-export const CharacterViewport = forwardRef(function CharacterViewport({ avatarId = 'male', state = 'idle', framing = 'full', className = '', onReady, onError, onFrame, reducedMotion, outline = true }, forwardedRef) {
+// paused: hold the current pose (a video it follows is paused).
+// timeScale: run the character's clock faster or slower (the video's playback rate).
+// onAfterFrame: called after the controllers each frame (also while paused), to pose on top of them.
+// settleKey: change it (for example on a seek) to let a paused character take its new pose, then hold it.
+export const CharacterViewport = forwardRef(function CharacterViewport({ avatarId = 'male', state = 'idle', framing = 'full', className = '', onReady, onError, onFrame, reducedMotion, outline = true, paused = false, timeScale = 1, onAfterFrame, settleKey }, forwardedRef) {
   const host = useRef(null), runtime = useRef(null), props = useRef(null);
-  props.current = { state, framing, onReady, onError, onFrame, reducedMotion, outline };
+  props.current = { state, framing, onReady, onError, onFrame, reducedMotion, outline, paused, timeScale, onAfterFrame };
   useImperativeHandle(forwardedRef, () => ({
     getControllers: () => runtime.current?.controllers || null,
     setCharacter: id => runtime.current?.load(id),
@@ -21,7 +25,7 @@ export const CharacterViewport = forwardRef(function CharacterViewport({ avatarI
 
   useEffect(() => {
     const element = host.current;
-    let disposed = false, frame, renderer, observer, intersection, current, controllers, visible = true, last = 0, renderedAt = 0, elapsed = 0;
+    let disposed = false, frame, renderer, observer, intersection, current, controllers, visible = true, last = 0, renderedAt = 0, elapsed = 0, settled = 0;
     let selected = null, requested = null, loading = false, error = null, loadError = null;
     const manager = new CharacterManager(), scene = new THREE.Scene();
     const silhouette = new SilhouetteOutline();
@@ -36,6 +40,11 @@ export const CharacterViewport = forwardRef(function CharacterViewport({ avatarI
       props.current.onError?.(reason instanceof Error ? reason : new Error(message));
     };
     const placeCamera = () => {
+      // Interpreter framing: waist up, wide enough that both hands, arms and the face stay in view.
+      if (props.current.framing === 'signer') {
+        camera.position.set(0, 1.2, Math.max(2.6, 2.05 / Math.max(.3, camera.aspect)));
+        camera.lookAt(0, 1.16, 0); camera.updateProjectionMatrix(); return;
+      }
       const portrait = props.current.framing === 'portrait';
       const distance = portrait ? 2.1 : Math.max(3.8, 2.2 / Math.max(.45, camera.aspect));
       camera.position.set(0, portrait ? 1.34 : .94, distance);
@@ -86,7 +95,7 @@ export const CharacterViewport = forwardRef(function CharacterViewport({ avatarI
       controllers.ik.setLookTarget(world, { duration: 2.2 }); controllers.face.setLookTarget(world, { duration: 2.2 });
       controllers.animation.playGesture('point', { side }); return controllers.ik.setHandTarget(side, world, { duration: 2.2 });
     };
-    runtime.current = { load, snapshot, pointAtElement, resize, controllers: null, getControllers: () => controllers, getSnapshot: snapshot, setCharacter: load };
+    runtime.current = { resettle: () => { settled = 0; }, load, snapshot, pointAtElement, resize, controllers: null, getControllers: () => controllers, getSnapshot: snapshot, setCharacter: load };
     const hitRay=new THREE.Raycaster(),hitPoint=new THREE.Vector2();
     runtime.current.hitTest=(x,y)=>{
       if(!renderer||!current)return false;
@@ -112,14 +121,19 @@ export const CharacterViewport = forwardRef(function CharacterViewport({ avatarI
         const delta = Math.min((now - (last || now)) / 1000, .05); last = now;
         const reduced = props.current.reducedMotion ?? motion.matches;
         if (!visible || document.hidden || error || now - renderedAt < (reduced ? 1000 / 30 : 1000 / 60)) return;
-        const frameDelta = Math.min((now - (renderedAt || now)) / 1000, .1); renderedAt = now;
-        if (!reduced) elapsed += frameDelta || delta;
+        // Paused: hold the pose. The engine eases into its stance over time, so it first
+        // gets a moment to settle (a character that has never moved would stand in its rest pose).
+        const freeze = props.current.paused && settled >= 1.2;
+        const frameDelta = freeze ? 0 : Math.min((now - (renderedAt || now)) / 1000, .1) * (props.current.paused ? 1 : Math.max(0, props.current.timeScale || 1)); renderedAt = now;
+        if (controllers && !freeze) settled += frameDelta;
+        if (!reduced && !freeze) elapsed += frameDelta || delta;
         try {
-          if (controllers) {
+          if (controllers && !freeze) {
             controllers.rig.resetPose(); controllers.animation.reducedMotion = reduced; controllers.face.reducedMotion = reduced;
             props.current.onFrame?.(frameDelta, elapsed);
             controllers.animation.update(frameDelta, elapsed); controllers.ik.update(frameDelta); controllers.hands.update(controllers.animation.getTeachingSnapshot()); controllers.face.update(frameDelta, elapsed);
           }
+          if (controllers) props.current.onAfterFrame?.(controllers);
           silhouette.setEnabled(props.current.outline);
           silhouette.render(renderer, scene, camera);
         } catch (reason) { fail(reason); }
@@ -135,6 +149,7 @@ export const CharacterViewport = forwardRef(function CharacterViewport({ avatarI
   }, []);
   useEffect(() => { const runtimeValue = runtime.current; if (runtimeValue && runtimeValue.snapshot().requestedAvatarId !== avatarId) runtimeValue.load(avatarId); }, [avatarId]);
   useEffect(() => { runtime.current?.controllers?.animation.setState(state); }, [state]);
+  useEffect(() => { runtime.current?.resettle?.(); }, [settleKey]);
   useEffect(() => { runtime.current?.resize(); }, [framing]);
   return <span ref={host} className={className} style={{ display: 'block', width: '100%', height: '100%' }} data-character-viewport="true" />;
 });

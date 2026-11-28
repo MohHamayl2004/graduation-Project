@@ -1,0 +1,214 @@
+{
+ "_about": "Which spoken words of the 1-1 lecture each sign stands for, over its first 21 seconds. The signs come from an AI-generated picture sheet (tools/sign-capture/sources/ai-grid-1-1-first-20s.webp) and are trial signs, not verified sign language. Build the track with tools/sign-capture/build_track.mjs.",
+ "source": "صورة مولّدة بالذكاء الاصطناعي — إشارات تجريبية غير معتمدة",
+ "segments": [
+  {
+   "start": 0.231,
+   "end": 0.497,
+   "clip": "this",
+   "gloss": "هذا",
+   "easeIn": true,
+   "easeOut": false
+  },
+  {
+   "start": 0.497,
+   "end": 0.717,
+   "clip": "seen",
+   "gloss": "سامي · 1/4",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 0.717,
+   "end": 0.937,
+   "clip": "alif",
+   "gloss": "سامي · 2/4",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 0.937,
+   "end": 1.157,
+   "clip": "meem",
+   "gloss": "سامي · 3/4",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 1.157,
+   "end": 1.492,
+   "clip": "yaa",
+   "gloss": "سامي · 4/4",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 1.492,
+   "end": 2.156,
+   "clip": "trip",
+   "gloss": "رحلة",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 2.156,
+   "end": 2.488,
+   "clip": "road",
+   "gloss": "طريق",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 2.488,
+   "end": 2.867,
+   "clip": "mountain",
+   "gloss": "جبل",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 2.867,
+   "end": 3.341,
+   "clip": "strange",
+   "gloss": "غريب",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 3.341,
+   "end": 3.815,
+   "clip": "before",
+   "gloss": "قبل",
+   "easeIn": false,
+   "easeOut": true
+  },
+  {
+   "start": 5.015,
+   "end": 5.585,
+   "clip": "ask",
+   "gloss": "سأل",
+   "easeIn": true,
+   "easeOut": false
+  },
+  {
+   "start": 5.585,
+   "end": 6.382,
+   "clip": "teacher",
+   "gloss": "أستاذ",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 6.382,
+   "end": 6.952,
+   "clip": "question",
+   "gloss": "سؤال",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 6.952,
+   "end": 7.522,
+   "clip": "one",
+   "gloss": "واحد",
+   "easeIn": false,
+   "easeOut": true
+  },
+  {
+   "start": 8.574,
+   "end": 9.018,
+   "clip": "rate",
+   "gloss": "معدل",
+   "easeIn": true,
+   "easeOut": false
+  },
+  {
+   "start": 9.018,
+   "end": 9.462,
+   "clip": "change",
+   "gloss": "تغيّر",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 9.462,
+   "end": 10.172,
+   "clip": "height",
+   "gloss": "ارتفاع",
+   "easeIn": false,
+   "easeOut": true
+  },
+  {
+   "start": 12.156,
+   "end": 12.63,
+   "clip": "laugh",
+   "gloss": "ضحك",
+   "easeIn": true,
+   "easeOut": false
+  },
+  {
+   "start": 12.63,
+   "end": 13.222,
+   "clip": "say",
+   "gloss": "قال",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 13.222,
+   "end": 13.815,
+   "clip": "easy",
+   "gloss": "سهل",
+   "easeIn": false,
+   "easeOut": true
+  },
+  {
+   "start": 15.724,
+   "end": 16.376,
+   "clip": "straight",
+   "gloss": "مستقيم",
+   "easeIn": true,
+   "easeOut": true
+  },
+  {
+   "start": 16.842,
+   "end": 17.308,
+   "clip": "how",
+   "gloss": "كيف",
+   "easeIn": true,
+   "easeOut": true
+  },
+  {
+   "start": 18.348,
+   "end": 18.84,
+   "clip": "answer",
+   "gloss": "جواب",
+   "easeIn": true,
+   "easeOut": false
+  },
+  {
+   "start": 18.84,
+   "end": 19.333,
+   "clip": "one",
+   "gloss": "واحد",
+   "easeIn": false,
+   "easeOut": false
+  },
+  {
+   "start": 19.333,
+   "end": 19.924,
+   "clip": "road",
+   "gloss": "طريق",
+   "easeIn": false,
+   "easeOut": true
+  },
+  {
+   "start": 20.318,
+   "end": 20.909,
+   "clip": "down",
+   "gloss": "نزول",
+   "easeIn": true,
+   "easeOut": true
+  }
+ ]
+}

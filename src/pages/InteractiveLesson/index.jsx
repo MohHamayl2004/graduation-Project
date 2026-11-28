@@ -1,4 +1,5 @@
-import { Maximize2, Minimize2 } from "lucide-react";
+import { useState } from "react";
+import { Maximize2, Minimize2, PersonStanding } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import Sidebar from "../../components/layout/Sidebar";
 import StudentBadge from "../../components/common/StudentBadge";
@@ -10,6 +11,13 @@ import { useYouTubeLesson } from "./useYouTubeLesson";
 import { useVideoLesson } from "./useVideoLesson";
 import { useAuth } from "../../context/AuthContext";
 import { recordCheckpoint } from "../../services/progressService";
+import { lessonCaptions, lessonSigns, lessonSignSources } from "../../data/interactive/captions";
+import LessonAvatar from "./LessonAvatar";
+import LessonTutor from "./LessonTutor";
+import "./lessonAvatar.css";
+
+const AVATAR_KEY = "nipras-lesson-avatar";
+const readAvatarSetting = () => { try { return localStorage.getItem(AVATAR_KEY) !== "off"; } catch { return true; } };
 
 // A lesson the student does: the video plays, stops at each checkpoint, and
 // only continues once the question is answered. The video is embedded from
@@ -24,6 +32,11 @@ export default function InteractiveLesson({ lesson: given }) {
   const { state, shell, failed, fullscreen, expanded, toggleFullscreen, answer, resume, restart } = isVideo ? local : youtube;
   const hasVideo = isVideo ? Boolean(lesson.source.src) : Boolean(lesson?.source?.videoId);
   const answeredCount = Object.keys(state.answers).length;
+  // The companion character needs the narration timings; only NIPRAS-made videos have them.
+  const captions = isVideo && id ? lessonCaptions[id] : null;
+  const [avatarOn, setAvatarOn] = useState(readAvatarSetting);
+  const showAvatar = Boolean(captions) && avatarOn;
+  const toggleAvatar = () => setAvatarOn((on) => { try { localStorage.setItem(AVATAR_KEY, on ? "off" : "on"); } catch { /* private mode */ } return !on; });
   const { auth } = useAuth() || {};
   // A lesson from the study catalog sends each first answer to the API, which
   // grades it and adjusts the student's next study plan. Saving must never
@@ -84,7 +97,8 @@ export default function InteractiveLesson({ lesson: given }) {
               </p>
             </div>
           ) : (
-            <div className="mx-auto w-full max-w-[1100px]">
+            <div className="lesson-with-tutor">
+            <div className="min-w-0">
               {/* The question sits ON the video: the student stays where the
                   explanation stopped instead of looking away to a side panel. */}
               <div
@@ -93,7 +107,9 @@ export default function InteractiveLesson({ lesson: given }) {
                 data-expanded-player={expanded || undefined}
                 className={`overflow-hidden bg-black ${expanded ? "fixed inset-0 z-50 flex app-screen w-full items-center justify-center" : fullscreen ? "relative flex app-screen w-full items-center justify-center" : "relative rounded-2xl border border-border"}`}
               >
-                <div className={fullscreen ? "aspect-video max-h-full w-full" : "aspect-video w-full"}>
+                {/* One frame: the video on the left, unchanged, and the companion on the right. */}
+                <div className={`lesson-frame${fullscreen ? " is-fullscreen" : ""}`}>
+                <div className={`lesson-frame-video ${fullscreen ? "aspect-video max-h-full w-full" : "aspect-video w-full"}`}>
                   {isVideo ? (
                     <video
                       ref={local.video}
@@ -111,6 +127,8 @@ export default function InteractiveLesson({ lesson: given }) {
                     <div ref={youtube.mount} className="h-full w-full" />
                   )}
                 </div>
+                {showAvatar && <LessonAvatar videoRef={local.video} cues={captions} track={lessonSigns[id] || []} source={lessonSignSources[id]} />}
+                </div>
 
                 <button
                   type="button"
@@ -120,6 +138,16 @@ export default function InteractiveLesson({ lesson: given }) {
                 >
                   {fullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
                 </button>
+                {captions && <button
+                  type="button"
+                  onClick={toggleAvatar}
+                  aria-pressed={avatarOn}
+                  aria-label={avatarOn ? "إخفاء الشخصية المرافقة" : "إظهار الشخصية المرافقة"}
+                  title={avatarOn ? "إخفاء الشخصية المرافقة" : "إظهار الشخصية المرافقة"}
+                  className={`absolute top-3 left-16 z-20 grid h-11 w-11 place-items-center rounded-lg text-white ${avatarOn ? "bg-primary/80 hover:bg-primary" : "bg-ink/70 hover:bg-ink"}`}
+                >
+                  <PersonStanding size={18} />
+                </button>}
 
                 {(state.current || state.finished) && (
                   <div className="absolute inset-0 flex items-center justify-center bg-ink/70 p-3 backdrop-blur-sm sm:p-6">
@@ -144,9 +172,7 @@ export default function InteractiveLesson({ lesson: given }) {
                 <p className="text-sm text-ink-muted">
                   {answeredCount} من {lesson.checkpoints.length} أسئلة تركيز خلصت. رح أوقف الفيديو عند كل نقطة مهمة.
                 </p>
-                <Link to="/ai-tutor" className="text-sm text-primary underline">
-                  في إشي مش واضح؟ اسأل المعلّم الذكي
-                </Link>
+                <span className="text-sm text-ink-muted">في إشي مش واضح؟ اسأل المعلّم الذكي بالجنب.</span>
               </div>
 
               {isVideo && lesson.source.credits?.length > 0 && (
@@ -154,6 +180,9 @@ export default function InteractiveLesson({ lesson: given }) {
                   {lesson.source.credits.map((credit) => <li key={credit}>{credit}</li>)}
                 </ul>
               )}
+            </div>
+            {/* The AI tutor beside the lesson: questions carry the minute of the video. */}
+            <LessonTutor lesson={lesson} videoRef={isVideo ? local.video : null} />
             </div>
           )}
         </main>

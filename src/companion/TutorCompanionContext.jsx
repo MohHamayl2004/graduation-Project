@@ -17,6 +17,9 @@ import { useVoiceNavigation } from "./useVoiceNavigation.js";
 const FloatingTeacher = lazy(() => import("./FloatingTeacher.jsx"));
 const Context = createContext(null);
 const storageKey = "nipras.companion.settings.v1";
+// Pages that play a lesson video, where the floating teacher hides itself.
+export const onVideoPage = (pathname = "") => /^\/(interactive|lectures\/videos)(\/|$)/.test(pathname);
+
 export const useTutorCompanion = () => useContext(Context);
 export function TutorCompanionProvider({ children }) {
   const { auth } = useAuth(),
@@ -86,7 +89,8 @@ export function TutorCompanionProvider({ children }) {
   return (
     <Context.Provider value={value}>
       {children}
-      {auth?.user && loaded.current && (
+      {/* On a lesson video the companion beside the video takes over: the floating teacher steps aside. */}
+      {auth?.user && loaded.current && !onVideoPage(location.pathname) && (
         <Suspense fallback={null}>
           <FloatingTeacher />
         </Suspense>
