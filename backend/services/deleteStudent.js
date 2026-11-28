@@ -8,6 +8,8 @@ import Analysis from "../models/Analysis.js";
 import Lecture from "../models/Lecture.js";
 import Quiz from "../models/Quiz.js";
 import QuizAttempt from "../models/QuizAttempt.js";
+import LessonResult from "../models/LessonResult.js";
+import QuizResult from "../models/QuizResult.js";
 import Progress from "../models/Progress.js";
 import Material from "../models/Material.js";
 import AdminEvent from "../models/AdminEvent.js";
@@ -21,7 +23,7 @@ export async function deleteStudent(actor, student, input, reason) {
   await Promise.all([
     Membership.deleteMany({ $or: [{ userId: student._id }, { workspaceId: { $in: personal.map((w) => w._id) } }] }),
     Workspace.deleteMany({ ownerId: student._id, type: "PERSONAL" }), Material.deleteMany({ userId: student._id }),
-    ...[StudyPlan, LearningAssessment, AIChat, Analysis, Lecture, Quiz, QuizAttempt, Progress].map((model) => model.deleteMany({ owner: student._id }))
+    ...[StudyPlan, LearningAssessment, AIChat, Analysis, Lecture, Quiz, QuizAttempt, Progress, LessonResult, QuizResult].map((model) => model.deleteMany({ owner: student._id }))
   ]);
   // Financial receipts and the admin audit are retained; study records are removed.
   await AdminEvent.create({ actor: actor._id, student: student._id, action: "delete", reason, details: { deletedEmail: student.email, fullName: student.fullName } });

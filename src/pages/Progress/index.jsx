@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Activity, BookOpen, ClipboardCheck, Clock3, Target, Sparkles, Award, CalendarDays } from "lucide-react";
+import { Activity, BookOpen, ClipboardCheck, Clock3, Target, Sparkles, CalendarDays, PlayCircle, ListChecks } from "lucide-react";
 import Sidebar from "../../components/layout/Sidebar";
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
@@ -20,12 +20,27 @@ function MasteryPanel({ mastery = [] }) {
   </li>)}</ul>;
 }
 
-const metrics = [
-  ["معدل الإنجاز العام", Target, "لا يوجد مقياس مكتمل بعد"],
-  ["الدروس المكتملة", BookOpen, "تتبع إكمال الدروس غير متاح بعد"],
-  ["الاختبارات المكتملة", ClipboardCheck, "تتبع الاختبارات المقيّمة غير متاح بعد"],
-  ["وقت الدراسة", Clock3, "تتبع وقت الدراسة غير متاح بعد"]
+const num = (n) => new Intl.NumberFormat("ar").format(n);
+// The four summary cards: real numbers where the API keeps them, an honest "not yet" elsewhere.
+const metricCards = (m = {}) => [
+  ["معدل الإنجاز العام", Target, null, "لا يوجد مقياس مكتمل بعد"],
+  ["أسئلة الفيديو", PlayCircle, m.videoAnswered ? `${num(Math.round((m.videoCorrect / m.videoAnswered) * 100))}٪` : null,
+    m.videoAnswered ? `${num(m.videoCorrect)} صحيحة من ${num(m.videoAnswered)} من أول محاولة` : "أجب عن الأسئلة اللي بتوقف الفيديو"],
+  ["الاختبارات المكتملة", ClipboardCheck, m.quizAttempts ? num(m.quizAttempts) : null,
+    m.quizAttempts ? `متوسط العلامة ${num(m.quizAverage)}٪` : "ما في اختبارات مكتملة بعد"],
+  ["وقت الدراسة", Clock3, null, "تتبع وقت الدراسة غير متاح بعد"]
 ];
+
+// Each quiz the student finished: attempts, best and latest score.
+function QuizPanel({ quizzes = [] }) {
+  if (!quizzes.length) return <div className="progress-empty"><ListChecks size={25} /><p>حلّ اختبارًا من صفحة الاختبارات لتظهر علامتك هنا.</p><Link to="/quizzes">الاختبارات</Link></div>;
+  return <ul className="progress-mastery">{quizzes.map((q) => <li key={q.quizId}>
+    <div className="progress-mastery-row"><strong>{q.subject ? `${q.subject} · ` : ""}{q.title}</strong><span className={`progress-mastery-level is-${q.last >= 85 ? "strong" : q.last >= 50 ? "steady" : "weak"}`}>آخر علامة {num(q.last)}٪</span></div>
+    <p>{num(q.lastCorrect)} من {num(q.total)} صحيحة · أفضل علامة {num(q.best)}٪ · {num(q.attempts)} {q.attempts > 1 ? "محاولات" : "محاولة"}</p>
+    <div className="progress-mastery-bar" aria-hidden="true"><span style={{ width: `${q.last}%` }} /></div>
+    <p><Link to={`/quizzes?quiz=${q.quizId}`}>أعد الاختبار</Link></p>
+  </li>)}</ul>;
+}
 
 export function ProgressContent({ data, loading, error, days, onDaysChange, onRetry }) {
   const plan = data?.plan;
@@ -35,12 +50,12 @@ export function ProgressContent({ data, loading, error, days, onDaysChange, onRe
       <label className="progress-period">الفترة <select value={days} onChange={(e) => onDaysChange(Number(e.target.value))} aria-label="الفترة الزمنية"><option value={7}>آخر 7 أيام</option><option value={30}>آخر 30 يومًا</option><option value={90}>آخر 90 يومًا</option></select></label>
     </header>
     {loading ? <div className="progress-state" role="status" aria-busy="true">جارٍ تحميل بيانات التقدم…</div> : error ? <div className="progress-state" role="alert"><p>تعذّر تحميل بيانات التقدم: {error}</p><button type="button" onClick={onRetry}>إعادة المحاولة</button></div> : <>
-      <section className="progress-metrics" aria-label="ملخص التقدم">{metrics.map(([label, Icon, explanation]) => <article className="progress-card progress-metric" key={label}><span className="progress-icon"><Icon size={21} /></span><h2>{label}</h2><strong>غير متاح</strong><p>{explanation}</p></article>)}</section>
+      <section className="progress-metrics" aria-label="ملخص التقدم">{metricCards(data?.metrics).map(([label, Icon, value, explanation]) => <article className="progress-card progress-metric" key={label}><span className="progress-icon"><Icon size={21} /></span><h2>{label}</h2><strong>{value ?? "غير متاح"}</strong><p>{explanation}</p></article>)}</section>
       <div className="progress-columns">
         <section className="progress-card progress-panel"><h2>إتقان الدروس</h2><MasteryPanel mastery={data?.mastery} /></section>
         <section className="progress-card progress-panel"><h2>التقدم عبر الوقت</h2><div className="progress-empty"><Activity size={25} /><p>سيظهر نشاطك هنا عند توفر سجل إنجاز موثوق.</p></div></section>
         <section className="progress-card progress-panel"><h2>الخطة الدراسية</h2>{plan ? <div className="progress-plan"><span className="progress-icon"><CalendarDays size={21} /></span><h3>{plan.type === "daily" ? "خطة يومية" : "خطة أسبوعية"} · <bdi>{plan.periodStart}</bdi></h3><p>{plan.scheduledSessions === null ? "لم تُجدول جلسات يومية لهذه الخطة بعد." : `الجلسات في آخر جدول محفوظ: ${new Intl.NumberFormat("ar").format(plan.scheduledSessions)}`}</p><p>تم إعداد الخطة، ولم يبدأ تتبع إنجاز الجلسات بعد.</p><Link to={`/study-plan?plan=${encodeURIComponent(plan.id)}`}>عرض الخطة</Link></div> : <div className="progress-plan"><p>لم تنشئ خطة دراسية بعد.</p><Link to="/study-plan">إنشاء خطة دراسية</Link></div>}</section>
-        <section className="progress-card progress-panel"><h2>الإنجازات</h2><div className="progress-empty"><Award size={25} /><p>ستظهر الإنجازات عندما تتوفر أنشطة تعليمية موثقة.</p></div></section>
+        <section className="progress-card progress-panel"><h2>نتائج الاختبارات</h2><QuizPanel quizzes={data?.quizzes} /></section>
       </div>
       <section className="progress-card progress-activity"><h2>آخر الأنشطة</h2><p>تتبع الأنشطة التعليمية غير متاح بعد.</p></section>
       <section className="progress-strategy"><span className="progress-strategy-icon"><Sparkles size={22} /></span><div><h2>تحديث استراتيجية الدراسة</h2>{weak.length ? <><p>تحتاج تقوية في: {weak.map((m) => m.lessonTitle || m.lessonId).join("، ")}. أعد توليد خطتك لتزيد وقت التدريبات والاختبار في هذه الدروس.</p><p><Link to="/study-plan">الذهاب للخطة الدراسية</Link></p></> : <><p>تتكيّف خطتك الدراسية مع إجاباتك في أسئلة فيديوهات الدروس: تدريب أكثر حيث تحتاج، ومراجعة سريعة لما أتقنته.</p><p>ستتوفر إجراءات الدروس والاختبارات المقترحة عند وجود محتوى وبيانات موثوقة.</p></>}</div></section>

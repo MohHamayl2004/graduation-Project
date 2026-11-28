@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { saveQuizResult } from "../../services/progressService";
 import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, RotateCcw, XCircle } from "lucide-react";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
@@ -31,7 +33,7 @@ function Solution({ question, open }) {
   </div>;
 }
 
-function Summary({ quiz, results, onRestart, onReview }) {
+function Summary({ quiz, results, onRestart, onReview, saved }) {
   const right = quiz.questions.filter((q) => results[q.id]?.correct).length;
   const share = right / quiz.questions.length;
   return <Card padding="lg" className="qz-summary">
@@ -39,6 +41,8 @@ function Summary({ quiz, results, onRestart, onReview }) {
     <div>
       <h2 className="font-display text-2xl font-semibold text-ink">{share === 1 ? "ممتاز! كل إجاباتك صحيحة" : share >= 0.7 ? "شغل حلو، راجع الأخطاء" : "محتاج تراجع متوسط التغير"}</h2>
       <p className="mt-2 text-sm leading-7 text-ink-muted">اضغط على أي سؤال لترجع له وتشوف الحل.</p>
+      {saved === "saved" && <p className="mt-1 text-sm font-semibold text-accent">حُفظت علامتك، وبتلاقيها بصفحة التقدم.</p>}
+      {saved === "failed" && <p className="mt-1 text-sm text-error">ما قدرنا نحفظ العلامة هلأ؛ تأكد من الاتصال وأعد الاختبار.</p>}
       <div className="qz-review">{quiz.questions.map((q, i) => <button key={q.id} type="button" onClick={() => onReview(i)} className={results[q.id]?.correct ? "is-right" : "is-wrong"}>
         {results[q.id]?.correct ? <CheckCircle2 size={15} /> : <XCircle size={15} />}السؤال {i + 1}
       </button>)}</div>
@@ -54,6 +58,16 @@ export default function QuizPlayer({ quiz }) {
   const [results, setResults] = useState({}); // id -> { key, correct }, first check only
   const [showSolution, setShowSolution] = useState({});
   const [done, setDone] = useState(false);
+  const { auth } = useAuth() || {};
+  const [saved, setSaved] = useState(null);
+  const sent = useRef(false);
+  // Once every question has its first answer, send them: the API grades and keeps the result.
+  useEffect(() => {
+    if (sent.current || !auth?.token || Object.keys(results).length < quiz.questions.length) return;
+    sent.current = true;
+    saveQuizResult(auth.token, quiz.id, Object.fromEntries(Object.entries(results).map(([id, r]) => [id, r.key])))
+      .then(() => setSaved("saved")).catch(() => setSaved("failed"));
+  }, [results, auth?.token, quiz]);
   const q = quiz.questions[index];
   const result = results[q.id];
   const total = quiz.questions.length;
@@ -65,13 +79,13 @@ export default function QuizPlayer({ quiz }) {
     if (!correct) setShowSolution((s) => ({ ...s, [q.id]: true }));
   };
   const next = () => (index === total - 1 ? setDone(true) : setIndex(index + 1));
-  const restart = () => { setIndex(0); setPicked({}); setResults({}); setShowSolution({}); setDone(false); };
+  const restart = () => { setIndex(0); setPicked({}); setResults({}); setShowSolution({}); setDone(false); setSaved(null); sent.current = false; };
   const stateOf = (key) => {
     if (!result) return picked[q.id] === key ? "picked" : "idle";
     if (key === result.key) return result.correct ? "right" : "wrong";
     return key === q.answer ? "answer" : "idle";
   };
-  if (done) return <Summary quiz={quiz} results={results} onRestart={restart} onReview={(i) => { setIndex(i); setDone(false); }} />;
+  if (done) return <Summary quiz={quiz} results={results} saved={saved} onRestart={restart} onReview={(i) => { setIndex(i); setDone(false); }} />;
   return <>
     <Card padding="lg">
       <div className="flex flex-wrap items-center justify-between gap-3">

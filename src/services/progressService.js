@@ -9,4 +9,8 @@ export const recordCheckpoint = (token, { interactiveId, checkpointId, choiceId,
   body: JSON.stringify({ interactiveId, checkpointId, choiceId, atSeconds })
 });
 export const getMastery = (token, { signal } = {}) => apiRequest("/progress/mastery", { headers: { Authorization: `Bearer ${token}` }, signal });
-export const progressService = { overview: getProgressOverview, recordCheckpoint, mastery: getMastery };
+// A finished quiz: the API grades it from the quiz file and keeps the result.
+export const saveQuizResult = (token, quizId, answers) => apiRequest("/progress/quiz-results", {
+  method: "POST", headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify({ quizId, answers })
+});
+export const progressService = { overview: getProgressOverview, recordCheckpoint, mastery: getMastery, saveQuizResult };
