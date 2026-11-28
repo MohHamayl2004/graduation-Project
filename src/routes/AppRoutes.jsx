@@ -12,6 +12,7 @@ import Progress from "../pages/Progress";
 import Quizzes from "../pages/Quizzes";
 import AITutor from "../pages/AITutor";
 import Lesson from "../pages/Lesson";
+import SlideLesson from "../pages/Lesson/SlideLesson";
 import InteractiveLesson from "../pages/InteractiveLesson";
 import ProtectedRoute from "./ProtectedRoute";
 import { useAuth } from "../context/AuthContext";
@@ -47,6 +48,7 @@ export default function AppRoutes() {
       <Route path="/lectures/videos/:id" element={privatePage(<LessonVideoPage />)} />
       <Route path="/lesson/:code" element={privatePage(<Lesson />)} />
       <Route path="/lesson" element={privatePage(<Lesson />)} />
+      <Route path="/lesson-slides" element={privatePage(<SlideLesson />)} />
       <Route path="/math-unit" element={privatePage(<Suspense fallback={loadingPage}><MathUnit /></Suspense>)} />
       <Route path="/math-unit/:code" element={privatePage(<Suspense fallback={loadingPage}><MathUnit /></Suspense>)} />
       <Route path="/study-plan" element={privatePage(<StudyPlan />)} />

@@ -21,7 +21,7 @@ test("study-plan resources point at real lessons and real content", () => {
         const url = new URL(r.to, "http://x");
         if (r.kind === "video") { assert.equal(url.pathname.split("/")[1], "interactive"); assert.ok(interactive.includes(url.pathname.split("/")[2]), r.to); assert.ok(fs.existsSync(new URL(`../public/${r.poster}`, import.meta.url)), r.poster); }
         else if (r.kind === "quiz") assert.ok(quizzes.some((q) => q.id === url.searchParams.get("quiz")), r.to);
-        else if (r.kind === "lesson") assert.ok(["/lesson/1-1", "/math-unit"].includes(url.pathname), r.to);
+        else if (r.kind === "lesson") assert.ok(["/lesson/1-1", "/math-unit", "/lesson-slides"].includes(url.pathname), r.to);
         else if (r.kind === "book") {
           const page = physicsUnit2.pages.find((p) => String(p.bookPage) === url.searchParams.get("page"));
           assert.ok(page, `${r.to}: no such book page`);
