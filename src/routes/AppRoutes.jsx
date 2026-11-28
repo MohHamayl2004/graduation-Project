@@ -46,9 +46,12 @@ export default function AppRoutes() {
       <Route path="/dashboard" element={privatePage(<Dashboard />)} />
       <Route path="/lectures" element={privatePage(<Lectures />)} />
       <Route path="/lectures/videos/:id" element={privatePage(<LessonVideoPage />)} />
-      <Route path="/lesson/:code" element={privatePage(<Lesson />)} />
-      <Route path="/lesson" element={privatePage(<Lesson />)} />
-      <Route path="/lesson-slides" element={privatePage(<SlideLesson />)} />
+      {/* The original slide lesson is back at /lesson; the reading book lives at /lesson-book. */}
+      <Route path="/lesson/:code" element={privatePage(<SlideLesson />)} />
+      <Route path="/lesson" element={privatePage(<SlideLesson />)} />
+      <Route path="/lesson-slides" element={<Navigate to="/lesson/1-1" replace />} />
+      <Route path="/lesson-book/:code" element={privatePage(<Lesson />)} />
+      <Route path="/lesson-book" element={privatePage(<Lesson />)} />
       <Route path="/math-unit" element={privatePage(<Suspense fallback={loadingPage}><MathUnit /></Suspense>)} />
       <Route path="/math-unit/:code" element={privatePage(<Suspense fallback={loadingPage}><MathUnit /></Suspense>)} />
       <Route path="/study-plan" element={privatePage(<StudyPlan />)} />

@@ -299,7 +299,7 @@ function LessonView({ lesson, token }) {
         )}
       </footer>
       {lesson.code === "1-1" && (
-        <Link className="unit-book-link" to="/lesson/1-1">
+        <Link className="unit-book-link" to="/lesson-book/1-1">
           فتح الكتاب التفاعلي الأصلي لمتوسط التغير
         </Link>
       )}

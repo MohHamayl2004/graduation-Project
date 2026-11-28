@@ -1,5 +1,5 @@
 // The slide lesson for 1-1 (definition, graph, worked example, checkpoint),
-// kept beside the reading book that now lives at /lesson/:code.
+// back at /lesson/:code; the reading book lives at /lesson-book/:code.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {

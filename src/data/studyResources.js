@@ -13,10 +13,10 @@ export const studyResources = {
       { kind: "video", title: "فيديو: متوسط التغير — رحلة سامي على المنحنى", to: "/interactive/1-1-stickman", poster: "lectures/1-1-stickman/poster.jpg", note: "٤ دقائق، يتوقف لأسئلة بعد كل فكرة" },
       { kind: "lesson", title: "الدرس التفاعلي: متوسط التغير", to: "/lesson/1-1" }
     ],
-    example: [{ kind: "lesson", title: "درس الشرائح: مثال ١ خطوة بخطوة", to: "/lesson-slides" }, { kind: "lesson", title: "الكتاب التفاعلي: أمثلة الدرس", to: "/lesson/1-1" }],
+    example: [{ kind: "lesson", title: "درس الشرائح: مثال ١ خطوة بخطوة", to: "/lesson/1-1" }, { kind: "lesson", title: "الكتاب التفاعلي: أمثلة الدرس", to: "/lesson-book/1-1" }],
     practice: [{ kind: "lesson", title: "الوحدة الأولى كاملة: أنشطة وتمارين متوسط التغير", to: "/math-unit" }],
     quiz: [{ kind: "quiz", title: "اختبار: متوسط التغير — ضع دائرة (١٠ أسئلة)", to: "/quizzes?quiz=rate-of-change" }],
-    summary: [{ kind: "lesson", title: "الكتاب التفاعلي: تعريف متوسط التغير وقانونه", to: "/lesson/1-1" }]
+    summary: [{ kind: "lesson", title: "الكتاب التفاعلي: تعريف متوسط التغير وقانونه", to: "/lesson-book/1-1" }]
   },
   // الفيزياء · التيار الكهربائي · المقاومة والقوة الدافعة الكهربائية
   "physics-u4-l1": {

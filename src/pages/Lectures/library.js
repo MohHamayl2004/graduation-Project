@@ -14,7 +14,7 @@ export const subjects = [{
     id: "lesson-20261117", code: "lesson-20261117", title: "متوسط التغير — شرح المعلّم", to: "/lectures/videos/lesson-20261117",
     summary: "شاهد الشرح وأجب عن أسئلة المعلّم أثناء المشاهدة."
   }],
-  lessons: [...lessonBooks.map(book => ({ code: book.id, title: book.title, to: `/lesson/${book.id}` })), { code: "unit-1", title: "الوحدة الأولى كاملة · دروس وأنشطة وتقييم", to: "/math-unit" }, { code: "1-1-slides", title: "متوسط التغير — درس بالشرائح والرسم التفاعلي", to: "/lesson-slides" }]
+  lessons: [...lessonBooks.map(book => ({ code: book.id, title: book.title, to: `/lesson-book/${book.id}` })), { code: "unit-1", title: "الوحدة الأولى كاملة · دروس وأنشطة وتقييم", to: "/math-unit" }, { code: "1-1-slides", title: "متوسط التغير — درس بالشرائح والرسم التفاعلي", to: "/lesson/1-1" }]
 }, {
   id: "physics", name: "الفيزياء",
   description: "اقرأ صفحات كتاب الفيزياء نفسها، واضغط على أي شكل لتشتغل التجربة عليه: دارات، أميترات، قنطرة ويتستون، وقانونا كيرتشوف.",
